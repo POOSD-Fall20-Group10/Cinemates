@@ -70,7 +70,7 @@ app.post('/API/UserLogin', async (req, res, next) =>
 });
 
 
-app.post('/api/searchcards', async (req, res, next) => 
+app.post('/API/searchcards', async (req, res, next) => 
 {
   // incoming: userId, search
   // outgoing: results[], error
