@@ -51,6 +51,20 @@ app.post('/API/EditUser', async (req, res, next) =>
   res.status(200).json(ret);
 });
 
+app.post('/API/DeleteUser', async (req, res, next) =>
+{
+
+  var error = '';
+
+  const { userID } = req.body;
+
+  const db = client.db();
+  db.collection('users').remove({userID:userID})
+
+  var ret = { error: error };
+  res.status(200).json(ret);
+});
+
 app.post('/API/UserLogin', async (req, res, next) => 
 {
 
