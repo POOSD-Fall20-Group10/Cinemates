@@ -32,8 +32,8 @@ app.post('/API/AddUser', async (req, res, next) =>
 
   const { userID, login, password, firstName, lastName } = req.body;
 
-  //const db = client.db();
-  //db.collection('users').insert({userID:userID,login:login,password:password,firstName:firstName,lastName:lastName})
+  const db = client.db();
+  db.collection('users').insert({userID:userID,login:login,password:password,firstName:firstName,lastName:lastName})
 
   // TEMP FOR LOCAL TESTING.
   //cardList.push( card );
