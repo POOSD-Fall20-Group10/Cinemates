@@ -25,8 +25,6 @@ app.use((req, res, next) =>
 
 app.post('/API/AddUser', async (req, res, next) =>
 {
-  // incoming: userId, color
-  // outgoing: error
 
   var error = '';
 
@@ -35,17 +33,12 @@ app.post('/API/AddUser', async (req, res, next) =>
   const db = client.db();
   db.collection('users').insert({userID:userID,login:login,password:password,firstName:firstName,lastName:lastName})
 
-  // TEMP FOR LOCAL TESTING.
-  //cardList.push( card );
-
   var ret = { error: error };
   res.status(200).json(ret);
 });
 
 app.post('/API/UserLogin', async (req, res, next) => 
 {
-  // incoming: login, password
-  // outgoing: id, firstName, lastName, error
 
  var error = '';
 
