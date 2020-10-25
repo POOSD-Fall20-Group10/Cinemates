@@ -59,7 +59,7 @@ app.post('/API/DeleteUser', async (req, res, next) =>
   const { userID } = req.body;
 
   const db = client.db();
-  db.collection('users').remove({userID:userID})
+  db.collection('users').deleteOne({userID:userID})
 
   var ret = { error: error };
   res.status(200).json(ret);
