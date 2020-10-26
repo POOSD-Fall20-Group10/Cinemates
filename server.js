@@ -90,6 +90,49 @@ app.post('/API/UserLogin', async (req, res, next) =>
   res.status(200).json(ret);
 });
 
+app.post('/API/AddGroup', async (req, res, next) =>
+{
+
+  var error = '';
+
+  const { groupID, name, description, members } = req.body;
+
+  const db = client.db();
+  db.collection('users').insert({groupID:groupID,name:name,description:description,members:members})
+
+  var ret = { error: error };
+  res.status(200).json(ret);
+});
+
+app.post('/API/EditGroup', async (req, res, next) =>
+{
+
+  var error = '';
+
+  const { groupID, name, description, members } = req.body;
+
+  const db = client.db();
+  db.collection('users').update({groupID:groupID},{groupID:groupID,name:name,description:description,members:members})
+
+  var ret = { error: error };
+  res.status(200).json(ret);
+});
+
+app.post('/API/DeleteGroup', async (req, res, next) =>
+{
+
+  var error = '';
+
+  const { groupID } = req.body;
+
+  const db = client.db();
+  db.collection('users').deleteOne({groupID:groupID})
+
+  var ret = { error: error };
+  res.status(200).json(ret);
+});
+
+
 
 app.post('/api/searchcards', async (req, res, next) => 
 {
