@@ -98,7 +98,7 @@ app.post('/API/AddGroup', async (req, res, next) =>
   const { groupID, name, description, members } = req.body;
 
   const db = client.db();
-  db.collection('users').insert({groupID:groupID,name:name,description:description,members:members})
+  db.collection('groups').insert({groupID:groupID,name:name,description:description,members:members})
 
   var ret = { error: error };
   res.status(200).json(ret);
@@ -112,7 +112,7 @@ app.post('/API/EditGroup', async (req, res, next) =>
   const { groupID, name, description, members } = req.body;
 
   const db = client.db();
-  db.collection('users').update({groupID:groupID},{groupID:groupID,name:name,description:description,members:members})
+  db.collection('groups').update({groupID:groupID},{groupID:groupID,name:name,description:description,members:members})
 
   var ret = { error: error };
   res.status(200).json(ret);
@@ -126,7 +126,7 @@ app.post('/API/DeleteGroup', async (req, res, next) =>
   const { groupID } = req.body;
 
   const db = client.db();
-  db.collection('users').deleteOne({groupID:groupID})
+  db.collection('groups').deleteOne({groupID:groupID})
 
   var ret = { error: error };
   res.status(200).json(ret);
