@@ -13,7 +13,7 @@ function App() {
           <LoginPage />
         </Route>
         <Route path="/register" exact>
-          <CardPage />
+          <RegisterPage />
         </Route>
         <Redirect to="/" />
       </Switch>
