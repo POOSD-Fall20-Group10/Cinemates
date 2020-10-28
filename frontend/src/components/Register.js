@@ -48,4 +48,4 @@ const doRegister = async event => 
     );
 };
 
-export default Login;
+export default Register;
