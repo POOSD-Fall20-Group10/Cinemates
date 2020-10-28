@@ -12,6 +12,12 @@ function buildPath(route)
     }
 }
 
+function doRegisterButton()
+{
+    event.preventDefault();
+    window.location.href = '/register';
+}
+
 function Login()
 {
     var loginName;
@@ -43,7 +49,7 @@ const doLogin = async event => 
                 localStorage.setItem('user_data', JSON.stringify(user));
                 alert(JSON.stringify(user));
                 setMessage('');
-                window.location.href = '/cards';
+                // NEEDS RELOCATION TO MAIN PAGE
             }
         }
         catch(e)
@@ -54,18 +60,20 @@ const doLogin = async event => 
     };
 
     return(
-      <div id="loginDiv">
-        <form onSubmit={doLogin}>
-        <span id="inner-title">PLEASE LOG IN</span><br />
-        <input type="text" id="loginName" placeholder="Username"
-          ref={(c) => loginName = c} />
-        <input type="password" id="loginPassword" placeholder="Password"
-          ref={(c) => loginPassword = c} />
-        <input type="submit" id="loginButton" class="buttons" value = "Do It"
-          onClick={doLogin} />
-        </form>
-        <span id="loginResult">{message}</span>
-     </div>
+        <div id="loginDiv">
+            <form onSubmit={doLogin}>
+            <span id="inner-title">PLEASE LOG IN</span><br />
+            <input type="text" id="loginName" placeholder="Username"
+                ref={(c) => loginName = c} />
+            <input type="password" id="loginPassword" placeholder="Password"
+                ref={(c) => loginPassword = c} />
+            <input type="submit" id="loginButton" class="buttons" value = "Do It"
+                onClick={doLogin} />
+            <input type="submit" id="registerButton" class="buttons" value = "Register"
+                onClick={doRegisterButton} />
+            </form>
+            <span id="loginResult">{message}</span>
+        </div>
     );
 };
 
