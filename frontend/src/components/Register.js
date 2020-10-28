@@ -12,6 +12,14 @@ function buildPath(route)
     }
 }
 
+const doGoBackButton = event => 
+{
+    event.preventDefault();
+
+    window.location.href = '/';
+
+};  
+
 function Register()
 {
     var regName;
@@ -29,22 +37,24 @@ const doRegister = async event => 
     };
 
     return(
-      <div id="regDiv">
-        <form onSubmit={doRegister}>
-        <span id="inner-title">Fill Out The Fields</span><br />
-        <input type="text" id="regName" placeholder="Username"
-          ref={(c) => regName = c} />
-        <input type="password" id="regPassword" placeholder="Password"
-          ref={(c) => regPassword = c} />
-        <input type="password" id="regConfirm" placeholder="Confirm Password"
-          ref={(c) => regConfirm = c} />
-        <input type="text" id="regEmail" placeholder="Email"
-          ref={(c) => regPassword = c} />
-        <input type="submit" id="regButton" class="buttons" value = "Register"
-          onClick={doRegister} />
-        </form>
-        <span id="regResult">{message}</span>
-     </div>
+    <div id="regDiv">
+        <form onSubmit={doRegister}>
+            <span id="inner-title">Fill Out The Fields</span><br />
+            <input type="text" id="regName" placeholder="Username"
+                ref={(c) => regName = c} />
+            <input type="password" id="regPassword" placeholder="Password"
+                ref={(c) => regPassword = c} />
+            <input type="password" id="regConfirm" placeholder="Confirm Password"
+                ref={(c) => regConfirm = c} />
+            <input type="text" id="regEmail" placeholder="Email"
+                ref={(c) => regPassword = c} />
+            <input type="submit" id="regButton" class="buttons" value = "Register"
+                onClick={doRegister} />
+            <input type="submit" id="goBackButton" class="buttons" value = "Go Back"
+                onClick={doGoBackButton} />
+        </form>
+        <span id="regResult">{message}</span>
+    </div>
     );
 };
 
