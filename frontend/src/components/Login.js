@@ -14,7 +14,6 @@ function buildPath(route)
 
 function doRegisterButton()
 {
-    event.preventDefault();
     window.location.href = '/register';
 }
 
