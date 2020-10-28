@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-d
 import './App.css';
 
 import LoginPage from './pages/LoginPage';
-import CardPage from './pages/CardPage';
+import RegisterPage from './pages/RegisterPage';
 
 function App() {
   return (
@@ -12,7 +12,7 @@ function App() {
         <Route path="/" exact>
           <LoginPage />
         </Route>
-        <Route path="/cards" exact>
+        <Route path="/register" exact>
           <CardPage />
         </Route>
         <Redirect to="/" />
