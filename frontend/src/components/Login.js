@@ -12,10 +12,13 @@ function buildPath(route)
     }
 }
 
-function doRegisterButton()
+const doRegisterButton = event => 
 {
-    window.location.href = '/register';
-}
+    event.preventDefault();
+
+    window.location.href = '/register';
+
+};   
 
 function Login()
 {
