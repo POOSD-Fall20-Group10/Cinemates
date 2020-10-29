@@ -28,10 +28,10 @@ app.post('/API/AddUser', async (req, res, next) =>
 
   var error = '';
 
-  const { userID, login, password, firstName, lastName } = req.body;
+  const { userID, email, login, password, firstName, lastName } = req.body;
 
   const db = client.db();
-  db.collection('users').insert({userID:userID,login:login,password:password,firstName:firstName,lastName:lastName})
+  db.collection('users').insert({userID:userID,email:email,login:login,password:password,firstName:firstName,lastName:lastName})
 
   var ret = { error: error };
   res.status(200).json(ret);
@@ -42,10 +42,10 @@ app.post('/API/EditUser', async (req, res, next) =>
 
   var error = '';
 
-  const { userID, login, password, firstName, lastName } = req.body;
+  const { userID, email, login, password, firstName, lastName } = req.body;
 
   const db = client.db();
-  db.collection('users').update({userID:userID},{userID:userID,login:login,password:password,firstName:firstName,lastName:lastName})
+  db.collection('users').update({userID:userID},{userID:userID,email:email,login:login,password:password,firstName:firstName,lastName:lastName})
 
   var ret = { error: error };
   res.status(200).json(ret);
