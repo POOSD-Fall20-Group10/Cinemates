@@ -36,25 +36,33 @@ function Register()
     {
         event.preventDefault();
 
-        var obj = {userID:userID,email:regEmail.value,login:regLogin.value,
-            password:regPassword.value,firstName:regFName.value,lastName:regLName.value};
-        var js = JSON.stringify(obj);
+        if(regLogin.value && regFName.value && regLName.value && regPassword.value && regConfirm.value && regEmail.value)
+        {
 
-        try
-        {    
-            const response = await fetch(buildPath('api/AddUser'),
-                {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
+            var obj = {userID:userID,email:regEmail.value,login:regLogin.value,
+                password:regPassword.value,firstName:regFName.value,lastName:regLName.value};
+            var js = JSON.stringify(obj);
 
-            var res = JSON.parse(await response.text());
+            try
+            {    
+                const response = await fetch(buildPath('api/AddUser'),
+                    {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
 
-            setMessage('');
-            window.location.href = '/';
-        }
-        catch(e)
-        {
-            setMessage('Could Not Create User');
-            return;
-        }
+                var res = JSON.parse(await response.text());
+
+                setMessage('');
+                window.location.href = '/';
+            }
+            catch(e)
+            {
+                setMessage('Could Not Create User');
+                return;
+            }
+        }
+        else
+        {
+            setMessage('Please Fill Out All Forms');
+        }
     };
 
     return(
@@ -72,7 +80,7 @@ function Register()
             <input type="password" id="regConfirm" placeholder="Confirm Password"
                 ref={(c) => regConfirm = c} />
             <input type="text" id="regEmail" placeholder="Email"
-                ref={(c) => regPassword = c} />
+                ref={(c) => regEmail = c} />
             <input type="submit" id="regButton" class="buttons" value = "Register"
                 onClick={doRegister} />
             <input type="submit" id="goBackButton" class="buttons" value = "Go Back"
