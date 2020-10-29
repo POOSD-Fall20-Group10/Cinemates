@@ -36,7 +36,7 @@ function Register()
     {
         event.preventDefault();
 
-        var obj = {userID:userID,email:regEmail,login:regLogin,password:password,firstName:regFName,lastName:regLName};
+        var obj = {userID:userID,email:regEmail,login:regLogin,password:regPassword,firstName:regFName,lastName:regLName};
         var js = JSON.stringify(obj);
 
         try
