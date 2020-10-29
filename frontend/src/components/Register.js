@@ -38,26 +38,33 @@ function Register()
 
         if(regLogin.value && regFName.value && regLName.value && regPassword.value && regConfirm.value && regEmail.value)
         {
+            if(regPassword.value == regConfirm.value)
+            {
 
-            var obj = {userID:userID,email:regEmail.value,login:regLogin.value,
-                password:regPassword.value,firstName:regFName.value,lastName:regLName.value};
-            var js = JSON.stringify(obj);
+                var obj = {userID:userID,email:regEmail.value,login:regLogin.value,
+                    password:regPassword.value,firstName:regFName.value,lastName:regLName.value};
+                var js = JSON.stringify(obj);
 
-            try
-            {    
-                const response = await fetch(buildPath('api/AddUser'),
-                    {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
+                try
+                {    
+                    const response = await fetch(buildPath('api/AddUser'),
+                        {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
 
-                var res = JSON.parse(await response.text());
+                    var res = JSON.parse(await response.text());
 
-                setMessage('');
-                window.location.href = '/';
-            }
-            catch(e)
-            {
-                setMessage('Could Not Create User');
-                return;
-            }
+                    setMessage('');
+                    window.location.href = '/';
+                }
+                catch(e)
+                {
+                    setMessage('Could Not Create User');
+                    return;
+                }
+            }
+            else
+            {
+                setMessage('Passwords do not match');
+            }
         }
         else
         {
