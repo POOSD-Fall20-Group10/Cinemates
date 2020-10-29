@@ -49,9 +49,8 @@ const doLogin = async event => 
             {
                 var user = {firstName:res.firstName,lastName:res.lastName,id:res.id}
                 localStorage.setItem('user_data', JSON.stringify(user));
-                alert(JSON.stringify(user));
                 setMessage('');
-                // NEEDS RELOCATION TO MAIN PAGE
+                window.location.href = '/main';
             }
         }
         catch(e)
