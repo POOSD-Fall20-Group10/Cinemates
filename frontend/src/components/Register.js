@@ -28,7 +28,7 @@ function Register()
     var regPassword;
     var regConfirm;
     var regEmail;
-    var userID = 2;
+    var userID = '2';
 
     const [message,setMessage] = useState('');
 
@@ -36,7 +36,8 @@ function Register()
     {
         event.preventDefault();
 
-        var obj = {userID:userID,email:regEmail,login:regLogin,password:regPassword,firstName:regFName,lastName:regLName};
+        var obj = {userID:userID.value,email:regEmail.value,login:regLogin.value,
+            password:regPassword.value,firstName:regFName.value,lastName:regLName.value};
         var js = JSON.stringify(obj);
 
         try
