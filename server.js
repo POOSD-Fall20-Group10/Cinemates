@@ -142,7 +142,7 @@ app.post('/API/AddUserToGroup', async (req, res, next) =>
 
   const db = client.db();
 
-  db.collection('groups').update({_id: new mongo.ObjectID(groupID)},{ $addToSet: {members: {"userID" : mongo.ObjectID(userID), "yesList" : [], "noList" : []}}})
+  db.collection('groups').update({_id: new mongo.ObjectID(groupID)},{ $addToSet: {members: {userID : mongo.ObjectID(userID), yesList : [], noList : []}}});
 
   var ret = { error: error };
   res.status(200).json(ret);
@@ -157,11 +157,33 @@ app.post('/API/DeleteUserFromGroup', async (req, res, next) =>
 
   const db = client.db();
 
-  db.collection('groups').update({_id: new mongo.ObjectID(groupID)},{ $pull: {members: {"userID" : new mongo.ObjectID(userID)}}})
+  db.collection('groups').update({_id: new mongo.ObjectID(groupID)},{ $pull: {members: {"userID" : new mongo.ObjectID(userID)}}});
 
   var ret = { error: error };
   res.status(200).json(ret);
 });
+
+app.post('/API/AddMovieToList', async (req, res, next) =>
+{
+
+  var error = '';
+
+  const { groupID, userID, movieID, liked } = req.body;
+
+  const db = client.db();
+  if(liked){
+    db.collection('groups').update({_id: new mongo.ObjectID(groupID) , "members.userID" : new mongo.ObjectID(userID)},
+      { $addToSet: {"members.$.yesList" : {movieID : new mongo.ObjectID(movieID)}}});
+    }
+    else{
+      db.collection('groups').update({_id: new mongo.ObjectID(groupID) , "members.userID" : new mongo.ObjectID(userID)},
+        { $addToSet: {"members.$.noList" : {movieID : new mongo.ObjectID(movieID)}}});
+    }
+
+  var ret = { error: error };
+  res.status(200).json(ret);
+});
+
 
 
 const MongoClient = mongo.MongoClient;
