@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const mongo = require('mongodb');
 
 const path = require('path');
 const PORT = process.env.PORT || 5000;
@@ -28,10 +29,10 @@ app.post('/API/AddUser', async (req, res, next) =>
 
   var error = '';
 
-  const { userID, email, login, password, firstName, lastName } = req.body;
+  const { email, login, password, firstName, lastName } = req.body;
 
   const db = client.db();
-  db.collection('users').insert({userID:userID,email:email,login:login,password:password,firstName:firstName,lastName:lastName})
+  db.collection('users').insert({email:email,login:login,password:password,firstName:firstName,lastName:lastName})
 
   var ret = { error: error };
   res.status(200).json(ret);
@@ -45,7 +46,7 @@ app.post('/API/EditUser', async (req, res, next) =>
   const { userID, email, login, password, firstName, lastName } = req.body;
 
   const db = client.db();
-  db.collection('users').update({userID:userID},{userID:userID,email:email,login:login,password:password,firstName:firstName,lastName:lastName})
+  db.collection('users').update({_id: new mongo.ObjectID(userID)},{email:email,login:login,password:password,firstName:firstName,lastName:lastName})
 
   var ret = { error: error };
   res.status(200).json(ret);
@@ -59,7 +60,7 @@ app.post('/API/DeleteUser', async (req, res, next) =>
   const { userID } = req.body;
 
   const db = client.db();
-  db.collection('users').deleteOne({userID:userID})
+  db.collection('users').deleteOne({_id: new mongo.ObjectID(userID)})
 
   var ret = { error: error };
   res.status(200).json(ret);
@@ -81,7 +82,7 @@ app.post('/API/UserLogin', async (req, res, next) =>
 
   if( results.length > 0 )
   {
-    id = results[0].userID;
+    id = results[0]._id;
     fn = results[0].firstName;
     ln = results[0].lastName;
   }
@@ -95,10 +96,10 @@ app.post('/API/AddGroup', async (req, res, next) =>
 
   var error = '';
 
-  const { groupID, name, description, members } = req.body;
+  const { name, description, members } = req.body;
 
   const db = client.db();
-  db.collection('groups').insert({groupID:groupID,name:name,description:description,members:members})
+  db.collection('groups').insert({name:name,description:description,members:members})
 
   var ret = { error: error };
   res.status(200).json(ret);
@@ -112,7 +113,7 @@ app.post('/API/EditGroup', async (req, res, next) =>
   const { groupID, name, description, members } = req.body;
 
   const db = client.db();
-  db.collection('groups').update({groupID:groupID},{groupID:groupID,name:name,description:description,members:members})
+  db.collection('groups').update({_id: new mongo.ObjectID(groupID)},{name:name,description:description,members:members})
 
   var ret = { error: error };
   res.status(200).json(ret);
@@ -126,11 +127,12 @@ app.post('/API/DeleteGroup', async (req, res, next) =>
   const { groupID } = req.body;
 
   const db = client.db();
-  db.collection('groups').deleteOne({groupID:groupID})
+  db.collection('groups').deleteOne({_id: new mongo.ObjectID(groupID)})
 
   var ret = { error: error };
   res.status(200).json(ret);
 });
+
 
 const MongoClient = require('mongodb').MongoClient;
 require('dotenv').config();
