@@ -9,7 +9,7 @@ app.set('port', (process.env.PORT || 5000));
 app.use(cors());
 app.use(bodyParser.json());
 
-app.use((req, res, next) => 
+app.use((req, res, next) =>
 {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader(
@@ -65,7 +65,7 @@ app.post('/API/DeleteUser', async (req, res, next) =>
   res.status(200).json(ret);
 });
 
-app.post('/API/UserLogin', async (req, res, next) => 
+app.post('/API/UserLogin', async (req, res, next) =>
 {
 
  var error = '';
@@ -131,33 +131,6 @@ app.post('/API/DeleteGroup', async (req, res, next) =>
   var ret = { error: error };
   res.status(200).json(ret);
 });
-
-
-
-app.post('/api/searchcards', async (req, res, next) => 
-{
-  // incoming: userId, search
-  // outgoing: results[], error
-
-  var error = '';
-
-  const { userId, search } = req.body;
-  var _search = search.toLowerCase().trim();
-  var _ret = [];
-
-  for( var i=0; i<cardList.length; i++ )
-  {
-    var lowerFromList = cardList[i].toLocaleLowerCase();
-    if( lowerFromList.indexOf( _search ) >= 0 )
-    {
-      _ret.push( cardList[i] );
-    }
-  }
-
-  var ret = {results:_ret, error:''};
-  res.status(200).json(ret);
-});
-
 
 const MongoClient = require('mongodb').MongoClient;
 require('dotenv').config();
