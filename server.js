@@ -133,8 +133,38 @@ app.post('/API/DeleteGroup', async (req, res, next) =>
   res.status(200).json(ret);
 });
 
+app.post('/API/AddUserToGroup', async (req, res, next) =>
+{
 
-const MongoClient = require('mongodb').MongoClient;
+  var error = '';
+
+  const { groupID, userID } = req.body;
+
+  const db = client.db();
+
+  db.collection('groups').update({_id: new mongo.ObjectID(groupID)},{ $addToSet: {members: {"userID" : mongo.ObjectID(userID), "yesList" : [], "noList" : []}}})
+
+  var ret = { error: error };
+  res.status(200).json(ret);
+});
+
+app.post('/API/DeleteUserFromGroup', async (req, res, next) =>
+{
+
+  var error = '';
+
+  const { groupID, userID } = req.body;
+
+  const db = client.db();
+
+  db.collection('groups').update({_id: new mongo.ObjectID(groupID)},{ $pull: {members: {"userID" : new mongo.ObjectID(userID)}}})
+
+  var ret = { error: error };
+  res.status(200).json(ret);
+});
+
+
+const MongoClient = mongo.MongoClient;
 require('dotenv').config();
 const url = process.env.MONGODB_URI;
 const client = new MongoClient(url);
