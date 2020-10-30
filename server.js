@@ -93,7 +93,6 @@ app.post('/API/UserLogin', async (req, res, next) =>
 
 app.post('/API/GetUserByID', async (req, res, next) =>
 {
-
  var error = '';
 
   const { userID } = req.body;
@@ -113,6 +112,30 @@ app.post('/API/GetUserByID', async (req, res, next) =>
   }
 
   var ret = { login:login, firstName:fn, lastName:ln, error:''};
+  res.status(200).json(ret);
+});
+
+app.post('/API/GetUserByLogin', async (req, res, next) =>
+{
+ var error = '';
+
+  const { login } = req.body;
+
+  const db = client.db();
+  const results = await db.collection('users').find({login : login}).toArray();
+
+  var id = '';
+  var fn = '';
+  var ln = '';
+
+  if( results.length > 0 )
+  {
+    id = results[0]._id;
+    fn = results[0].firstName;
+    ln = results[0].lastName;
+  }
+
+  var ret = { id:id, firstName:fn, lastName:ln, error:''};
   res.status(200).json(ret);
 });
 
@@ -188,9 +211,23 @@ app.post('/API/DeleteUserFromGroup', async (req, res, next) =>
   res.status(200).json(ret);
 });
 
-app.post('/API/AddMovieToList', async (req, res, next) =>
+app.post('/API/ListGroups', async (req, res, next) =>
 {
 
+ var error = '';
+
+  const { userID } = req.body;
+
+  const db = client.db();
+  const results = await db.collection('groups').find({"members.userID" : new mongo.ObjectID(userID)}).toArray();
+
+  var ret = { groups: results, error:''};
+
+  res.status(200).json(ret);
+});
+
+app.post('/API/AddMovieToList', async (req, res, next) =>
+{
   var error = '';
 
   const { groupID, userID, movieID, liked } = req.body;
@@ -209,20 +246,56 @@ app.post('/API/AddMovieToList', async (req, res, next) =>
   res.status(200).json(ret);
 });
 
-app.post('/API/ListGroups', async (req, res, next) =>
+app.post('/API/GetMovieApprovals', async (req, res, next) =>
 {
+  var error = '';
 
- var error = '';
-
-  const { userID } = req.body;
+  const { groupID } = req.body;
 
   const db = client.db();
-  const results = await db.collection('groups').find({"members.userID" : new mongo.ObjectID(userID)}).toArray();
+  const results = await db.collection('groups').find({_id: new mongo.ObjectID(groupID)}).toArray();
 
-  var ret = { groups: results, error:''};
+  if(results.length > 0){
+    membersList = results[0].members;
+  }
 
+  var yesVotes = new Map();
+  var noVotes = new Map();
+
+  membersList.forEach(function(memberInfo){
+    memberInfo.yesList.forEach(function(movieInfo){
+      if(yesVotes.has(movieInfo.movieID)){
+        yesVotes.set(movieInfo.movieID, yesVotes.get(movieInfo.movieID) + 1);
+      }
+      else{
+        yesVotes.set(movieInfo.movieID, 1);
+      }
+    });
+    memberInfo.noList.forEach(function(movieInfo){
+      if(noVotes.has(movieInfo.movieID)){
+        noVotes.set(movieInfo.movieID, noVotes.get(movieInfo.movieID) + 1);
+      }
+      else{
+        noVotes.set(movieInfo.movieID, 1);
+      }
+    });
+  });
+
+  var moviesList = Array.from(yesVotes.keys()).concat(Array.from(noVotes.keys()).filter((item) => !yesVotes.has(item)));
+  moviesList.sort(function(a,b){
+    if (!yesVotes.has(a) || !noVotes.has(b)){
+      return 1;
+    }
+    if(!yesVotes.has(b) || !noVotes.has(a)){
+      return -1;
+    }
+    return ( (yesVotes.get(a) / noVotes.get(a)) < (yesVotes.get(b) / noVotes.get(b)) );
+  });
+
+  var ret = { movies:moviesList };
   res.status(200).json(ret);
 });
+
 
 app.post('/API/AddFriend', async (req, res, next) =>
 {
@@ -275,6 +348,8 @@ app.post('/API/ListFriends', async (req, res, next) =>
 
   res.status(200).json(ret);
 });
+
+
 
 const MongoClient = mongo.MongoClient;
 require('dotenv').config();
