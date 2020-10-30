@@ -32,7 +32,7 @@ app.post('/API/AddUser', async (req, res, next) =>
   const { email, login, password, firstName, lastName } = req.body;
 
   const db = client.db();
-  db.collection('users').insert({email:email,login:login,password:password,firstName:firstName,lastName:lastName})
+  db.collection('users').insert({email:email,login:login,password:password,firstName:firstName,lastName:lastName, friends: []})
 
   var ret = { error: error };
   res.status(200).json(ret);
@@ -88,6 +88,31 @@ app.post('/API/UserLogin', async (req, res, next) =>
   }
 
   var ret = { id:id, firstName:fn, lastName:ln, error:''};
+  res.status(200).json(ret);
+});
+
+app.post('/API/GetUserByID', async (req, res, next) =>
+{
+
+ var error = '';
+
+  const { userID } = req.body;
+
+  const db = client.db();
+  const results = await db.collection('users').find({_id : new mongo.ObjectID(userID)}).toArray();
+
+  var login = '';
+  var fn = '';
+  var ln = '';
+
+  if( results.length > 0 )
+  {
+    login = results[0].login;
+    fn = results[0].firstName;
+    ln = results[0].lastName;
+  }
+
+  var ret = { login:login, firstName:fn, lastName:ln, error:''};
   res.status(200).json(ret);
 });
 
@@ -184,7 +209,72 @@ app.post('/API/AddMovieToList', async (req, res, next) =>
   res.status(200).json(ret);
 });
 
+app.post('/API/ListGroups', async (req, res, next) =>
+{
 
+ var error = '';
+
+  const { userID } = req.body;
+
+  const db = client.db();
+  const results = await db.collection('groups').find({"members.userID" : new mongo.ObjectID(userID)}).toArray();
+
+  var ret = { groups: results, error:''};
+
+  res.status(200).json(ret);
+});
+
+app.post('/API/AddFriend', async (req, res, next) =>
+{
+
+  var error = '';
+
+  const { user1, user2 } = req.body;
+
+  const db = client.db();
+
+  db.collection('users').update({_id: new mongo.ObjectID(user1)},{ $addToSet: {friends: {userID : mongo.ObjectID(user2)}}});
+    db.collection('users').update({_id: new mongo.ObjectID(user2)},{ $addToSet: {friends: {userID : mongo.ObjectID(user1)}}});
+
+  var ret = { error: error };
+  res.status(200).json(ret);
+});
+
+app.post('/API/DeleteFriend', async (req, res, next) =>
+{
+
+  var error = '';
+
+  const { user1, user2 } = req.body;
+
+  const db = client.db();
+
+  db.collection('users').update({_id: new mongo.ObjectID(user1)},{ $pull: {friends: {userID : mongo.ObjectID(user2)}}});
+    db.collection('users').update({_id: new mongo.ObjectID(user2)},{ $pull: {friends: {userID : mongo.ObjectID(user1)}}});
+
+  var ret = { error: error };
+  res.status(200).json(ret);
+});
+
+app.post('/API/ListFriends', async (req, res, next) =>
+{
+
+ var error = '';
+
+  const { userID } = req.body;
+
+  const db = client.db();
+  const results = await db.collection('users').find({_id : new mongo.ObjectID(userID)}).toArray();
+
+  if( results.length > 0 )
+  {
+    friends = results[0].friends;
+  }
+
+  var ret = { friends: friends, error:''};
+
+  res.status(200).json(ret);
+});
 
 const MongoClient = mongo.MongoClient;
 require('dotenv').config();
