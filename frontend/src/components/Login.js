@@ -1,64 +1,51 @@
 import React, { useState } from 'react';
 const app_name = 'cine-mates'
-function buildPath(route)
-{
-    if (process.env.NODE_ENV === 'production')
-    {
+
+const doRegisterButton = event => {
+    event.preventDefault();
+    window.location.href = '/register';
+};   
+
+function buildPath(route) {
+    if (process.env.NODE_ENV === 'production') {
         return 'https://' + app_name +  '.herokuapp.com/' + route;
-    }
-    else
-    {
+    } else {
         return 'http://localhost:5000/' + route;
     }
 }
 
-const doRegisterButton = event => 
-{
-    event.preventDefault();
-
-    window.location.href = '/register';
-
-};   
-
-function Login()
-{
+function Login() {
     var loginName;
     var loginPassword;
+    const [message, setMessage] = useState('');
 
-    const [message,setMessage] = useState('');
 
-const doLogin = async event => 
-    {
-        event.preventDefault();
-
+    const doLogin = async event => {
+        event.preventDefault();
         var obj = {login:loginName.value,password:loginPassword.value};
         var js = JSON.stringify(obj);
 
-        try
-        {    
-            const response = await fetch(buildPath('api/UserLogin'),
-                {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
+        try {    
+            const response = await fetch(buildPath('api/UserLogin'), {
+                method:'POST',body:js,headers:{
+                    'Content-Type': 'application/json'
+                }
+            });
 
-            var res = JSON.parse(await response.text());
-
-            if( res.id <= 0 )
-            {
-                setMessage('User/Password combination incorrect');
-            }
-            else
-            {
-                var user = {firstName:res.firstName,lastName:res.lastName,id:res.id}
-                localStorage.setItem('user_data', JSON.stringify(user));
-                setMessage('');
-                window.location.href = '/main';
-            }
-        }
-        catch(e)
-        {
-            alert(e.toString());
-            return;
-        }    
-    };
+        var res = JSON.parse(await response.text());
+        if (res.id <= 0) {
+            setMessage('User/Password combination incorrect');
+        } else {
+            var user = {firstName:res.firstName,lastName:res.lastName,id:res.id}
+            localStorage.setItem('user_data', JSON.stringify(user));
+            setMessage('');
+            window.location.href = '/main';
+          }
+        } catch(e) {
+            alert(e.toString());
+            return;
+          }    
+    };
 
     return(
         <div id="loginDiv">
@@ -76,6 +63,6 @@ const doLogin = async event => 
             <span id="loginResult">{message}</span>
         </div>
     );
-};
+}
 
 export default Login;
