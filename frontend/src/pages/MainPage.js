@@ -1,14 +1,14 @@
 import React from 'react';
 
 import Main from '../components/Main';
-import LoggedInName from '../components/LoggedInName';
+import Header from '../components/Header';
 
 const MainPage = () =>
 {
 
     return(
       <div>
-        <LoggedInName />
+        <Header />
         <Main />
       </div>
     );
