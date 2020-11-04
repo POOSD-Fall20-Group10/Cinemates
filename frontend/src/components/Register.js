@@ -1,62 +1,72 @@
 import React, { useState } from 'react';
 const app_name = 'cine-mates'
-function buildPath(route) {
-    if (process.env.NODE_ENV === 'production') {
+function buildPath(route)
+{
+    if (process.env.NODE_ENV === 'production')
+    {
         return 'https://' + app_name +  '.herokuapp.com/' + route;
-    } else {
+    }
+    else
+    {
         return 'http://localhost:5000/' + route;
     }
 }
 
-const doGoBackButton = event => {
+const doGoBackButton = event => 
+{
     event.preventDefault();
+
     window.location.href = '/';
+
 };
 
-function Register(){
+function Register()
+{
     var regLogin;
     var regFName;
     var regLName;
     var regPassword;
     var regConfirm;
     var regEmail;
-    var userID = '2';
 
     const [message,setMessage] = useState('');
-    const doRegister = async event => {
+
+    const doRegister = async event => 
+    {
         event.preventDefault();
-        if (regLogin.value && regFName.value && regLName.value && regPassword.value && regConfirm.value && regEmail.value) {
-            if (regPassword.value == regConfirm.value) {
 
-                var obj = {
-                    userID:userID,
-                    email:regEmail.value,
-                    login:regLogin.value,
-                    password:regPassword.value,
-                    firstName:regFName.value,
-                    lastName:regLName.value
-                };
+        if(regLogin.value && regFName.value && regLName.value && regPassword.value && regConfirm.value && regEmail.value)
+        {
+            if(regPassword.value == regConfirm.value)
+            {
 
+                var obj = {email:regEmail.value,login:regLogin.value,
+                    password:regPassword.value,firstName:regFName.value,lastName:regLName.value};
                 var js = JSON.stringify(obj);
 
-                try {    
-                    const response = await fetch(buildPath('api/AddUser'), {
-                        method:'POST',
-                        body:js,
-                        headers: {'Content-Type': 'application/json'}
-                    });
+                try
+                {    
+                    const response = await fetch(buildPath('api/AddUser'),
+                        {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
 
                     var res = JSON.parse(await response.text());
+
+                    setMessage('');
                     window.location.href = '/';
-                    setMessage('');
-                } catch(e) {
+                }
+                catch(e)
+                {
                     setMessage('Could Not Create User');
                     return;
                 }
-            } else {
+            }
+            else
+            {
                 setMessage('Passwords do not match');
             }
-        } else {
+        }
+        else
+        {
             setMessage('Please Fill Out All Forms');
         }
     };
@@ -85,6 +95,6 @@ function Register(){
         <span id="regResult">{message}</span>
     </div>
     );
-}
+};
 
 export default Register;
