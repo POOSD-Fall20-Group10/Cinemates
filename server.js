@@ -79,15 +79,17 @@ app.post('/API/UserLogin', async (req, res, next) =>
   var id = -1;
   var fn = '';
   var ln = '';
+  var lg = '';
 
   if( results.length > 0 )
   {
     id = results[0]._id;
+    lg = results[0].login;
     fn = results[0].firstName;
     ln = results[0].lastName;
   }
 
-  var ret = { id:id, firstName:fn, lastName:ln, error:''};
+  var ret = { login:lg, id:id, firstName:fn, lastName:ln, error:''};
   res.status(200).json(ret);
 });
 
