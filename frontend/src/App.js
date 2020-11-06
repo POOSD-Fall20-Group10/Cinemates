@@ -11,6 +11,8 @@ import MainPage from './pages/MainPage';
 import Login from "./components/login.component";
 import Register from "./components/register.component";
 
+import logo from './Cinemates.png';
+
 function App() {
   return (
   <Router>
@@ -32,6 +34,10 @@ function App() {
       </nav>
 
       <div className="outer">
+      <div>&nbsp;&nbsp;&nbsp;&nbsp;</div>
+      <div className="container-div">
+        <img src={logo} alt="Cinemates" width="300" height="300"></img>
+      </div>
         <div className="inner">
         <Switch>
         <Route path="/" exact>
