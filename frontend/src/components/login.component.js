@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 
 const app_name = 'cine-mates'
 
@@ -69,4 +69,3 @@ function buildPath(route) {
     }
     
     export default Login;
-    
