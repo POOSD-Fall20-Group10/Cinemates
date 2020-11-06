@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './Login.css';
+
 const app_name = 'cine-mates'
 
 const doRegisterButton = event => {
@@ -19,7 +20,6 @@ function Login() {
     var loginName;
     var loginPassword;
     const [message, setMessage] = useState('');
-
 
     const doLogin = async event => {
         event.preventDefault();
