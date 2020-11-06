@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './Login.css';
 const app_name = 'cine-mates'
 
 const doRegisterButton = event => {
@@ -48,20 +49,29 @@ function Login() {
     };
 
     return(
-        <div id="loginDiv">
-            <form onSubmit={doLogin}>
-            <span id="inner-title">PLEASE LOG IN</span><br />
-            <input type="text" id="loginName" placeholder="Username"
-                ref={(c) => loginName = c} />
-            <input type="password" id="loginPassword" placeholder="Password"
-                ref={(c) => loginPassword = c} />
-            <input type="submit" id="loginButton" class="buttons" value = "Do It"
-                onClick={doLogin} />
-            <input type="submit" id="registerButton" class="buttons" value = "Register"
-                onClick={doRegisterButton} />
-            </form>
-            <span id="loginResult">{message}</span>
-        </div>
+      <div id="loginDiv" className="Login">
+         <form onSubmit={doLogin}>
+          <div className="input-container">
+          <input type="text" id="loginName" placeholder="Username"
+          ref={(c) => loginName = c} />
+          <i class="zmdi zmdi-account zmdi-hc-lg"></i>
+          </div>
+
+          <div className="input-container">
+          <input type="password" id="loginPassword" placeholder="Password"
+          ref={(c) => loginPassword = c} />
+          <i class="zmdi zmdi-lock zmdi-hc-lg"></i>
+          </div>
+
+          <input type="submit" id="loginButton" class="buttons" value = "Login"
+          onClick={doLogin} />
+
+          <input type="submit" id="registerButton" class="buttons" value = "Register"
+          onClick={doRegisterButton} />
+
+         </form>
+        <span id="loginResult">{message}</span>
+      </div>
     );
 }
 
