@@ -13,6 +13,10 @@ function buildPath(route) {
 function Main() {
     return(
     <div id="mainDiv">
+        <div id="moviesDiv">
+        </div>
+        <div id="groupsDiv">
+        </div>
     </div>
     );
 }
