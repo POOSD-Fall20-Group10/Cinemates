@@ -78,15 +78,12 @@ function Header()
         }  
       }
       try {    
-        alert(movies);
               var moviesBody = JSON.stringify({"movies": movies});
               const response2 = await fetch(buildPath('api/UpdateMovies'), {
                   method:'POST',body:moviesBody,headers:{
                       'Content-Type': 'application/json'
                   }
               });
-
-          alert(await response2.text());
           } catch(e) {
               alert(e.toString());
               return;
