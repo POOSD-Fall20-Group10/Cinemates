@@ -6,6 +6,7 @@ function Header()
     var _ud = localStorage.getItem('user_data');
     var ud = JSON.parse(_ud);
     var userId = ud.id;
+    var login = ud.login;
     var firstName = ud.firstName;
     var lastName = ud.lastName;
 
@@ -38,12 +39,16 @@ function Header()
 
     return(
         <div id="headerDiv">
-            <button type="button" id="AccountButton" class="buttons" onClick={openAccount}> {firstName} </button>
+            <button type="button" id="AccountButton" class="buttons" onClick={openAccount}> {login} </button>
             <button type="button" id="GroupSelector" class="buttons" onClick={openGroup}> Group </button>
             <button type="button" id="notificationsButton" class="buttons" onClick={openNotifications}> Notifications </button>
             <button type="button" id="settingsButton" class="buttons" onClick={openSettings}> Settings </button>
             <button type="button" id="logoutButton" class="buttons" onClick={doLogout}> Log Out </button>
+        <div id="moviesDiv">
         </div>
+        <div id="groupsDiv">
+        </div>
+        <>
     );
 };
 
