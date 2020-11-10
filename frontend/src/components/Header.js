@@ -49,6 +49,7 @@ function Header()
     const updateMovies = async event => {
       event.preventDefault();
       var res;
+      var movies = [];
       try {    
       const response = await fetch('https://api.themoviedb.org/3/movie/now_playing?api_key=ce41792ee6b56545a5a67c7e6705976c&language=en-US&page=1&region=US', {
           method:'GET',body:null,headers:{
@@ -61,15 +62,31 @@ function Header()
         alert(e.toString());
         return;
       }  
+      for(var k = 1; k <= res.total_pages; k++){
+        try {    
+        const response = await fetch('https://api.themoviedb.org/3/movie/now_playing?api_key=ce41792ee6b56545a5a67c7e6705976c&language=en-US&page='+k+'&region=US', {
+            method:'GET',body:null,headers:{
+                'Content-Type': 'application/json',
+            }
+        });
+
+         res = JSON.parse(await response.text());
+         movies = movies.concat(res.results);
+        } catch(e) {
+          alert(e.toString());
+          return;
+        }  
+      }
       try {    
-              var movies = JSON.stringify({"movies": res.results});
+        alert(movies);
+              var moviesBody = JSON.stringify({"movies": movies});
               const response2 = await fetch(buildPath('api/UpdateMovies'), {
-                  method:'POST',body:movies,headers:{
+                  method:'POST',body:moviesBody,headers:{
                       'Content-Type': 'application/json'
                   }
               });
 
-          var res2 = JSON.parse(await response2.text());
+          alert(await response2.text());
           } catch(e) {
               alert(e.toString());
               return;
