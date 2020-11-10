@@ -4,6 +4,13 @@ const cors = require('cors');
 const mongo = require('mongodb');
 
 var mongoose = require ("mongoose");
+var userSchema = new mongoose.Schema({
+      name: {
+        first: String,
+        last: { type: String, trim: true }
+      },
+      age: { type: Number, min: 0 }
+    });
 
 const path = require('path');
 const PORT = process.env.PORT || 5000;
