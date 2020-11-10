@@ -44,9 +44,6 @@ function Header()
             <button type="button" id="notificationsButton" class="buttons" onClick={openNotifications}> Notifications </button>
             <button type="button" id="settingsButton" class="buttons" onClick={openSettings}> Settings </button>
             <button type="button" id="logoutButton" class="buttons" onClick={doLogout}> Log Out </button>
-        <div id="moviesDiv">
-        </div>
-        <div id="groupsDiv">
         </div>
     );
 };
