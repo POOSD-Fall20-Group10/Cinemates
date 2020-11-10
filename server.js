@@ -6,33 +6,6 @@ const mongo = require('mongodb');
 const path = require('path');
 const PORT = process.env.PORT || 5000;
 const app = express();
-
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
-const SkateSpotSchema = new Schema({
-   name: {
-      type: String,
-      required: true
-   },
-   address: {
-      type: String,
-   },
-   description: {
-      type: String,
-   },
-   location: {
-      type: {
-         type: String,
-         enum: ['Point'],
-      },
-      coordinates: {
-         type: [Number],
-      }
-   },
-});
-
-module.exports = SkateSpot = mongoose.model("skatespots", SkateSpotSchema);
-
 app.set('port', (process.env.PORT || 5000));
 app.use(cors());
 app.use(bodyParser.json());
