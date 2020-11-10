@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongo = require('mongodb');
 
+var mongoose = require ("mongoose");
 
 const path = require('path');
 const PORT = process.env.PORT || 5000;
