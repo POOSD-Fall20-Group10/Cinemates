@@ -48,7 +48,6 @@ function Header()
         </div>
         <div id="groupsDiv">
         </div>
-        <>
     );
 };
 
