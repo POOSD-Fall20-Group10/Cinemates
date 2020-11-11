@@ -43,10 +43,10 @@ app.post('/API/EditUser', async (req, res, next) =>
 
   var error = '';
 
-  const { userID, email, login, password, firstName, lastName } = req.body;
+  const { userID, email, login, password, firstName, lastName, isVerified} = req.body;
 
   const db = client.db();
-  db.collection('users').update({_id: new mongo.ObjectID(userID)},{email:email,login:login,password:password,firstName:firstName,lastName:lastName})
+  db.collection('users').update({_id: new mongo.ObjectID(userID)},{email:email,login:login,password:password,firstName:firstName,lastName:lastName,isVerified:isVerified})
 
   var ret = { error: error };
   res.status(200).json(ret);
@@ -80,6 +80,7 @@ app.post('/API/UserLogin', async (req, res, next) =>
   var fn = '';
   var ln = '';
   var lg = '';
+  var isver = '';
 
   if( results.length > 0 )
   {
@@ -87,9 +88,10 @@ app.post('/API/UserLogin', async (req, res, next) =>
     lg = results[0].login;
     fn = results[0].firstName;
     ln = results[0].lastName;
+    isver = results[0].isVerified
   }
 
-  var ret = { login:lg, id:id, firstName:fn, lastName:ln, error:''};
+  var ret = { login:lg, id:id, firstName:fn, lastName:ln,isVerified:isver, error:''};
   res.status(200).json(ret);
 });
 
@@ -105,15 +107,17 @@ app.post('/API/GetUserByID', async (req, res, next) =>
   var login = '';
   var fn = '';
   var ln = '';
+  var isver = '';
 
   if( results.length > 0 )
   {
     login = results[0].login;
     fn = results[0].firstName;
     ln = results[0].lastName;
+    isver = results[0].isVerified
   }
 
-  var ret = { login:login, firstName:fn, lastName:ln, error:''};
+  var ret = { login:login, firstName:fn, lastName:ln,isVerified:isver, error:''};
   res.status(200).json(ret);
 });
 
