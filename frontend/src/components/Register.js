@@ -99,12 +99,17 @@ function Register()
                     <label>Password</label>
                     <input type="password" className="form-control" id="regPassword" placeholder="Password" ref={(c) => regPassword = c}/>
                 </div>
+
+                <div className="form-group">
+                    <label>Password</label>
+                    <input type="password" className="form-control" id="regConfirm" placeholder="Confirm Password" ref={(c) => regConfirm = c}/>
+                </div>
                 <button type="submit" className="btn btn-dark btn-lg btn-block" onClick={doRegister}>Register</button>
                 <p className="forgot-password text-right">
                     Already registered <a href="#">log in?</a>
                 </p>
+                <span id="regResult">{message}</span>
             </form>
-            <span id="regResult">{message}</span>
         </div>
     );
 };
