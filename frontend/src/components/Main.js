@@ -109,7 +109,7 @@ const addGroup = async event => {
     var js = JSON.stringify(obj);
 
     try {
-            const response = await fetch(buildPath('api/ListGroups'), {
+            const response = await fetch(buildPath('api/AddGroup'), {
                 method:'POST',body:js,headers:{
                     'Content-Type': 'application/json'
                 }
