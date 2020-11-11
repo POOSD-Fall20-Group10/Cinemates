@@ -375,16 +375,29 @@ app.post('/API/UpdateMovies', async (req, res, next) =>
 app.post('/API/EmailVerification', async (req, res, next) =>
 {
 
-  const sgMail = require('@sendgrid/mail')
   var error = '';
-
-  const { movies } = req.body;
-
-  const db = client.db();
-  db.collection('movies').remove({});
-  movies.forEach(function(movieInfo){
-    db.collection('movies').insert(movieInfo)
-  });
+  
+  const { email } = req.body;
+  
+  const sgMail = require('@sendgrid/mail')
+  sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+  
+  const msg = {
+    to: email, // Change to your recipient
+    from: 'jesse102999@gmail.com', // Change to your verified sender
+    subject: 'Sending with SendGrid is Fun',
+    text: 'and easy to do anywhere, even with Node.js',
+    html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+  }
+  
+  sgMail
+    .send(msg)
+    .then(() => {
+    console.log('Email sent')
+  })
+    .catch((error) => {
+    console.error(error)
+  })
 
   var ret = { error: error };
   res.status(200).json(ret);
