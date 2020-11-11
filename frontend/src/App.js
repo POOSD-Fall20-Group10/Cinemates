@@ -33,7 +33,7 @@ function App() {
       <div className="outer">
       <div>&nbsp;&nbsp;&nbsp;</div>
       <div className="container-div">
-        <img src={logo} alt="Cinemates" width="300" height="300"></img>
+        <img src={logo} alt="Cinemates" width="200" height="200"></img>
       </div>
         <div className="inner">
         <Switch>
