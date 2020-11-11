@@ -382,7 +382,7 @@ app.post('/API/EmailVerification', async (req, res, next) =>
   
   const msg = {
     to: email, // Change to your recipient
-    from: "CineMatesMovies@gmail.com", // Change to your verified sender
+    from: 'CineMatesMovies@gmail.com', // Change to your verified sender
     subject: 'Sending with SendGrid is Fun',
     text: 'and easy to do anywhere, even with Node.js',
     html: '<strong>and easy to do anywhere, even with Node.js</strong>',
