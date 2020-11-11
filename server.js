@@ -374,9 +374,6 @@ app.post('/API/UpdateMovies', async (req, res, next) =>
 
 app.post('/API/EmailVerification', async (req, res, next) =>
 {
-
-  var error = '';
-  
   const { email } = req.body;
   
   const sgMail = require('@sendgrid/mail')
@@ -398,9 +395,6 @@ app.post('/API/EmailVerification', async (req, res, next) =>
     .catch((error) => {
     console.error(error)
   })
-
-  var ret = { error: error };
-  res.status(200).json(ret);
 });
 
 
