@@ -377,10 +377,12 @@ app.post('/API/EmailVerification', async (req, res, next) =>
   const { email } = req.body;
   
   const sgMail = require('@sendgrid/mail')
+  sgMail.setApiKey(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)
+  
   
   const msg = {
     to: email, // Change to your recipient
-    from: CineMatesMovies@gmail.com, // Change to your verified sender
+    from: "CineMatesMovies@gmail.com", // Change to your verified sender
     subject: 'Sending with SendGrid is Fun',
     text: 'and easy to do anywhere, even with Node.js',
     html: '<strong>and easy to do anywhere, even with Node.js</strong>',
