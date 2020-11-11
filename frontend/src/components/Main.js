@@ -14,6 +14,10 @@ var login;
 var groupList;
 var movieList;
 
+//Add Group variables
+var addGroupName;
+var addGroupDescription;
+
 function Main() {
 
     var _ud = localStorage.getItem('user_data');
@@ -22,13 +26,31 @@ function Main() {
     login = ud.login;
 
     return(
-    <div id="mainDiv">
-        <div id="moviesDiv">
-        <button type="button" id="moviesTest" class="buttons" onClick={loadMovies}> Get Movies </button>
+    <div>
+        <div id="mainDiv">
+            <div id="moviesDiv">
+            <button type="button" id="moviesTest" class="buttons" onClick={loadMovies}> Get Movies </button>
+            </div>
+            <div id="groupsDiv">
+                <button type="button" id="GroupTest" class="buttons" onClick={loadGroups}> Get Groups </button>
+            </div>
         </div>
-        <div id="groupsDiv">
-            <button type="button" id="GroupTest" class="buttons" onClick={loadGroups}> Get Groups </button>
-            <button type="button" id="AddGroupTest" class="buttons" onClick={addGroup}> Add Group </button>
+        <div id="tempAddGroupDiv">
+            <form onSubmit={addGroup}>
+                <h3>Add Group</h3>
+                <div className="form-group">
+                    <label>Group Name</label>
+                    <input type="text" className="form-control" id="addGroupName" placeholder="Group Name" ref={(c) => addGroupName = c}/>
+                </div>
+
+                <div className="form-group">
+                    <label>Group Description</label>
+                    <input type="text" className="form-control" id="addGroupDescription" placeholder="Description" ref={(c) => addGroupDescription = c}/>
+                </div>
+
+                <button type="submit" className="btn btn-dark btn-lg btn-block" onClick={addGroup}>Add Group</button>
+
+            </form>
         </div>
     </div>
     );
@@ -83,7 +105,7 @@ const loadMovies = async event => {
 const addGroup = async event => {
     event.preventDefault();
     var membersArray = [userId];
-    var obj = {name:'StyxensGroup',description:'This is Styxens Group',members:membersArray};
+    var obj = {name:addGroupName.value,description:addGroupDescription.value,members:membersArray};
     var js = JSON.stringify(obj);
 
     try {
