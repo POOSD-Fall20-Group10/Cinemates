@@ -377,7 +377,7 @@ app.post('/API/EmailVerification', async (req, res, next) =>
   const { email } = req.body;
   
   const sgMail = require('@sendgrid/mail')
-  sgMail.setApiKey(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)
+  sgMail.setApiKey()
   
   
   const msg = {
