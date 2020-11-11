@@ -372,6 +372,24 @@ app.post('/API/UpdateMovies', async (req, res, next) =>
   res.status(200).json(ret);
 });
 
+app.post('/API/EmailVerification', async (req, res, next) =>
+{
+
+  const sgMail = require('@sendgrid/mail')
+  var error = '';
+
+  const { movies } = req.body;
+
+  const db = client.db();
+  db.collection('movies').remove({});
+  movies.forEach(function(movieInfo){
+    db.collection('movies').insert(movieInfo)
+  });
+
+  var ret = { error: error };
+  res.status(200).json(ret);
+});
+
 
 const MongoClient = mongo.MongoClient;
 require('dotenv').config();
