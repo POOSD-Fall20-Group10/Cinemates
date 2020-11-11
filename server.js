@@ -29,10 +29,10 @@ app.post('/API/AddUser', async (req, res, next) =>
 
   var error = '';
 
-  const { email, login, password, firstName, lastName } = req.body;
+  const { email, login, password, firstName, lastName, isVerified } = req.body;
 
   const db = client.db();
-  db.collection('users').insert({email:email,login:login,password:password,firstName:firstName,lastName:lastName, friends: []})
+  db.collection('users').insert({email:email,login:login,password:password,firstName:firstName,lastName:lastName,isVerified:isVerified, friends: []})
 
   var ret = { error: error };
   res.status(200).json(ret);
