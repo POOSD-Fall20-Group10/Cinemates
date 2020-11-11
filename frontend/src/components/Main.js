@@ -104,7 +104,7 @@ const loadMovies = async event => {
 
 const addGroup = async event => {
     event.preventDefault();
-    var membersArray = [userId];
+    var membersArray = [{"userID" : userId, "yesList":[], "noList":[]}];
     var obj = {name:addGroupName.value,description:addGroupDescription.value,members:membersArray};
     var js = JSON.stringify(obj);
 
