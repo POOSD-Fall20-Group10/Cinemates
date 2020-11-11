@@ -29,10 +29,10 @@ app.post('/API/AddUser', async (req, res, next) =>
 
   var error = '';
 
-  const { email, login, password, firstName, lastName } = req.body;
+  const { email, login, password, firstName, lastName, isVerified } = req.body;
 
   const db = client.db();
-  db.collection('users').insert({email:email,login:login,password:password,firstName:firstName,lastName:lastName, friends: []})
+  db.collection('users').insert({email:email,login:login,password:password,firstName:firstName,lastName:lastName,isVerified:isVerified, friends: []})
 
   var ret = { error: error };
   res.status(200).json(ret);
@@ -43,10 +43,10 @@ app.post('/API/EditUser', async (req, res, next) =>
 
   var error = '';
 
-  const { userID, email, login, password, firstName, lastName } = req.body;
+  const { userID, email, login, password, firstName, lastName, isVerified } = req.body;
 
   const db = client.db();
-  db.collection('users').update({_id: new mongo.ObjectID(userID)},{email:email,login:login,password:password,firstName:firstName,lastName:lastName})
+  db.collection('users').update({_id: new mongo.ObjectID(userID)},{email:email,login:login,password:password,firstName:firstName,lastName:lastName,isVerified:isVerified})
 
   var ret = { error: error };
   res.status(200).json(ret);
@@ -105,15 +105,17 @@ app.post('/API/GetUserByID', async (req, res, next) =>
   var login = '';
   var fn = '';
   var ln = '';
+  var iv = '';
 
   if( results.length > 0 )
   {
     login = results[0].login;
     fn = results[0].firstName;
     ln = results[0].lastName;
+    iv = results[0].isVerified;
   }
 
-  var ret = { login:login, firstName:fn, lastName:ln, error:''};
+  var ret = { login:login, firstName:fn, lastName:ln,isVerified = iv, error:''};
   res.status(200).json(ret);
 });
 
@@ -129,15 +131,17 @@ app.post('/API/GetUserByLogin', async (req, res, next) =>
   var id = '';
   var fn = '';
   var ln = '';
+  var iv = '';
 
   if( results.length > 0 )
   {
     id = results[0]._id;
     fn = results[0].firstName;
     ln = results[0].lastName;
+    iv = results[0].isVerified;
   }
 
-  var ret = { id:id, firstName:fn, lastName:ln, error:''};
+  var ret = { id:id, firstName:fn, lastName:ln,isVerified = iv, error:''};
   res.status(200).json(ret);
 });
 
