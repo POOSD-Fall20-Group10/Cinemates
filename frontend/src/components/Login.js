@@ -35,7 +35,7 @@ function buildPath(route) {
             if (res.id <= 0) {
                 setMessage('User/Password combination incorrect');
             } else {
-                var user = {firstName:res.firstName,lastName:res.lastName,id:res.id}
+                var user = {firstName:res.firstName,lastName:res.lastName,id:res.id,login:res.login}
                 localStorage.setItem('user_data', JSON.stringify(user));
                 setMessage('');
                 window.location.href = '/main';
@@ -67,5 +67,5 @@ function buildPath(route) {
             </div>
         );
     }
-    
+
     export default Login;
