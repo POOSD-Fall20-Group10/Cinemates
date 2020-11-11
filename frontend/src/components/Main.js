@@ -14,6 +14,10 @@ var login;
 var groupList;
 var movieList;
 
+//Add Group variables
+var addGroupName;
+var addGroupDescription;
+
 function Main() {
 
     var _ud = localStorage.getItem('user_data');
@@ -21,20 +25,38 @@ function Main() {
     userId = ud.id;
     login = ud.login;
 
-    return(
-    <div id="mainDiv">
-        <div id="moviesDiv">
-        <button type="button" id="moviesTest" class="buttons" onClick={loadMovies}> Get Movies </button>
+    return(
+    <div>
+        <div id="mainDiv">
+            <div id="moviesDiv">
+            <button type="button" id="moviesTest" class="buttons" onClick={loadMovies}> Get Movies </button>
+            </div>
+            <div id="groupsDiv">
+                <button type="button" id="GroupTest" class="buttons" onClick={loadGroups}> Get Groups </button>
+            </div>
         </div>
-        <div id="groupsDiv">
-            <button type="button" id="GroupTest" class="buttons" onClick={loadGroups}> Get Groups </button>
-            <button type="button" id="AddGroupTest" class="buttons" onClick={addGroup}> Add Group </button>
+        <div id="tempAddGroupDiv">
+            <form onSubmit={addGroup}>
+                <h3>Add Group</h3>
+                <div className="form-group">
+                    <label>Group Name</label>
+                    <input type="text" className="form-control" id="addGroupName" placeholder="Group Name" ref={(c) => addGroupName = c}/>
+                </div>
+
+                <div className="form-group">
+                    <label>Group Description</label>
+                    <input type="text" className="form-control" id="addGroupDescription" placeholder="Description" ref={(c) => addGroupDescription = c}/>
+                </div>
+
+                <button type="submit" className="btn btn-dark btn-lg btn-block" onClick={addGroup}>Add Group</button>
+
+            </form>
         </div>
     </div>
-    );
+    );
 }
 
-const loadGroups = async event => {
+const loadGroups = async event => {
     event.preventDefault();
     var obj = {userId:userId};
     var js = JSON.stringify(obj);
@@ -46,18 +68,18 @@ const loadGroups = async event => {
                 }
             });
 
-            groupList = JSON.parse(await response.text());
+            groupList = JSON.parse(await response.text());
             alert(groupList);
 
-        }
+        }
     catch(e)
     {
         alert(e.toString());
-        return;
+        return;
     }
 };
 
-const loadMovies = async event => {
+const loadMovies = async event => {
     event.preventDefault();
     var obj = {userId:userId};
     var js = JSON.stringify(obj);
@@ -69,21 +91,21 @@ const loadMovies = async event => {
                 }
             });
 
-            movieList = JSON.parse(await response.text());
+            movieList = JSON.parse(await response.text());
             alert(movieList);
 
-        }
+        }
     catch(e)
     {
         alert(e.toString());
-        return;
+        return;
     }
 };
 
-const addGroup = async event => {
+const addGroup = async event => {
     event.preventDefault();
-    var membersArray = [userId];
-    var obj = {name:'StyxensGroup',description:'This is Styxens Group',members:membersArray};
+    var membersArray = [{"userID" : userId, "yesList":[], "noList":[]}];
+    var obj = {name:addGroupName.value,description:addGroupDescription.value,members:membersArray};
     var js = JSON.stringify(obj);
 
     try {
@@ -93,11 +115,11 @@ const addGroup = async event => {
                 }
             });
 
-        }
+        }
     catch(e)
     {
         alert(e.toString());
-        return;
+        return;
     }
 };
 

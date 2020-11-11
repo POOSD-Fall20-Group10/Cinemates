@@ -12,11 +12,11 @@ function buildPath(route)
     }
 }
 
-const doGoBackButton = event => 
+const doGoBackButton = event => 
 {
     event.preventDefault();
 
-    window.location.href = '/';
+    window.location.href = '/';
 
 };
 
@@ -29,11 +29,11 @@ function Register()
     var regConfirm;
     var regEmail;
 
-    const [message,setMessage] = useState('');
+    const [message,setMessage] = useState('');
 
-    const doRegister = async event => 
+    const doRegister = async event => 
     {
-        event.preventDefault();
+        event.preventDefault();
 
         if(regLogin.value && regFName.value && regLName.value && regPassword.value && regConfirm.value && regEmail.value)
         {
@@ -41,24 +41,24 @@ function Register()
             {
 
                 var obj = {email:regEmail.value,login:regLogin.value,
-                    password:regPassword.value,firstName:regFName.value,lastName:regLName.value};
+                    password:regPassword.value,firstName:regFName.value,lastName:regLName.value,isVerified:false};
                 var js = JSON.stringify(obj);
 
-                try
-                {    
-                    const response = await fetch(buildPath('api/AddUser'),
-                        {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
+                try
+                {    
+                    const response = await fetch(buildPath('api/AddUser'),
+                        {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
 
-                    var res = JSON.parse(await response.text());
+                    var res = JSON.parse(await response.text());
 
-                    setMessage('');
+                    setMessage('');
                     window.location.href = '/';
-                }
-                catch(e)
-                {
-                    setMessage('Could Not Create User');
-                    return;
-                }
+                }
+                catch(e)
+                {
+                    setMessage('Could Not Create User');
+                    return;
+                }
             }
             else
             {
@@ -71,7 +71,7 @@ function Register()
         }
     };
 
-    return(
+    return(
     <div id="regDiv">
             <form onSubmit={doRegister}>
                 <h3>Register</h3>
@@ -111,7 +111,7 @@ function Register()
                 <span id="regResult">{message}</span>
             </form>
         </div>
-    );
+    );
 };
 
 export default Register;
