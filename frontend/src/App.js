@@ -8,9 +8,6 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import MainPage from './pages/MainPage';
 
-import Login from "./components/login.component";
-import Register from "./components/register.component";
-
 import logo from './Cinemates.png';
 
 function App() {
@@ -41,10 +38,10 @@ function App() {
         <div className="inner">
         <Switch>
         <Route path="/" exact>
-          <Login />
+          <LoginPage />
         </Route>
         <Route path="/register" exact>
-          <Register />
+          <RegisterPage />
         </Route>
         <Route path="/main" exact>
           <MainPage />
