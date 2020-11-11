@@ -192,7 +192,7 @@ app.post('/API/AddUserToGroup', async (req, res, next) =>
 
   const db = client.db();
 
-  db.collection('groups').update({_id: new mongo.ObjectID(groupID)},{ $addToSet: {members: {userID : mongo.ObjectID(userID), yesList : [], noList : []}}});
+  db.collection('groups').update({_id: new mongo.ObjectID(groupID)},{ $addToSet: {members: {userID : userID, yesList : [], noList : []}}});
 
   var ret = { error: error };
   res.status(200).json(ret);
@@ -207,7 +207,7 @@ app.post('/API/DeleteUserFromGroup', async (req, res, next) =>
 
   const db = client.db();
 
-  db.collection('groups').update({_id: new mongo.ObjectID(groupID)},{ $pull: {members: {"userID" : new mongo.ObjectID(userID)}}});
+  db.collection('groups').update({_id: new mongo.ObjectID(groupID)},{ $pull: {members: {"userID" : userID}}});
 
   var ret = { error: error };
   res.status(200).json(ret);
@@ -221,7 +221,7 @@ app.post('/API/ListGroups', async (req, res, next) =>
   const { userID } = req.body;
 
   const db = client.db();
-  const results = await db.collection('groups').find({"members.userID" : new mongo.ObjectID(userID)}).toArray();
+  const results = await db.collection('groups').find({"members.userID" : userID}).toArray();
 
   var ret = { groups: results, error:''};
 
@@ -236,12 +236,12 @@ app.post('/API/AddMovieToList', async (req, res, next) =>
 
   const db = client.db();
   if(liked){
-    db.collection('groups').update({_id: new mongo.ObjectID(groupID) , "members.userID" : new mongo.ObjectID(userID)},
-      { $addToSet: {"members.$.yesList" : {movieID : new mongo.ObjectID(movieID)}}});
+    db.collection('groups').update({_id: new mongo.ObjectID(groupID) , "members.userID" : userID},
+      { $addToSet: {"members.$.yesList" : {movieID : movieID}}});
     }
     else{
-      db.collection('groups').update({_id: new mongo.ObjectID(groupID) , "members.userID" : new mongo.ObjectID(userID)},
-        { $addToSet: {"members.$.noList" : {movieID : new mongo.ObjectID(movieID)}}});
+      db.collection('groups').update({_id: new mongo.ObjectID(groupID) , "members.userID" : userID},
+        { $addToSet: {"members.$.noList" : {movieID : movieID}}});
     }
 
   var ret = { error: error };
@@ -298,7 +298,6 @@ app.post('/API/GetMovieApprovals', async (req, res, next) =>
   res.status(200).json(ret);
 });
 
-
 app.post('/API/AddFriend', async (req, res, next) =>
 {
 
@@ -308,8 +307,8 @@ app.post('/API/AddFriend', async (req, res, next) =>
 
   const db = client.db();
 
-  db.collection('users').update({_id: new mongo.ObjectID(user1)},{ $addToSet: {friends: {userID : mongo.ObjectID(user2)}}});
-    db.collection('users').update({_id: new mongo.ObjectID(user2)},{ $addToSet: {friends: {userID : mongo.ObjectID(user1)}}});
+  db.collection('users').update({_id: new mongo.ObjectID(user1)},{ $addToSet: {friends: {userID : user2}}});
+    db.collection('users').update({_id: new mongo.ObjectID(user2)},{ $addToSet: {friends: {userID : user1}}});
 
   var ret = { error: error };
   res.status(200).json(ret);
@@ -324,8 +323,8 @@ app.post('/API/DeleteFriend', async (req, res, next) =>
 
   const db = client.db();
 
-  db.collection('users').update({_id: new mongo.ObjectID(user1)},{ $pull: {friends: {userID : mongo.ObjectID(user2)}}});
-    db.collection('users').update({_id: new mongo.ObjectID(user2)},{ $pull: {friends: {userID : mongo.ObjectID(user1)}}});
+  db.collection('users').update({_id: new mongo.ObjectID(user1)},{ $pull: {friends: {userID : user2}}});
+    db.collection('users').update({_id: new mongo.ObjectID(user2)},{ $pull: {friends: {userID : user1}}});
 
   var ret = { error: error };
   res.status(200).json(ret);
