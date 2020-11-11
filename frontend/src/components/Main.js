@@ -25,7 +25,7 @@ function Main() {
     userId = ud.id;
     login = ud.login;
 
-    return(
+    return(
     <div>
         <div id="mainDiv">
             <div id="moviesDiv">
