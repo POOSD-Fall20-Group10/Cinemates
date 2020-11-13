@@ -385,8 +385,8 @@ app.post('/API/EmailVerification', async (req, res, next) =>
     to: email, // Change to your recipient
     from: 'cinematesconfirmation@gmail.com', // Change to your verified sender
     subject: 'Cinemates Email Confirmation',
-    text: 'Here is the confirmation code you need to login to Cinemates.CODE',
-    html: '<p>Here is the confirmation code you need to login to Cinemates.</strong></p><p style="color:blue">CODE</p>',
+    text: 'Here is the confirmation code you need to login to Cinemates.CODEIf you did not request this code, please change your passsword and consider changing your email password as well to ensure your account security.',
+    html: '<p>Here is the confirmation code you need to login to Cinemates.</strong></p><p style="color:blue">CODE</p><p><b>If you did not request this code, please change your passsword and consider changing your email password as well to ensure your account security.</strong></p>',
   }
 
   sgMail
