@@ -302,7 +302,6 @@ app.post('/API/GetMovieApprovals', async (req, res, next) =>
   res.status(200).json(ret);
 });
 
-
 app.post('/API/AddFriend', async (req, res, next) =>
 {
 
@@ -371,6 +370,23 @@ app.post('/API/UpdateMovies', async (req, res, next) =>
   var ret = { error: error };
   res.status(200).json(ret);
 });
+
+app.post('/API/GetMovies', async (req,res,next) =>
+{
+  var error = '';
+
+   const { page } = req.body;
+
+   const db = client.db();
+   const results = await db.collection('movies').find().toArray();
+   var moviesList = results.slice((page-1)*10,page*10);
+
+   var ret = { movies: moviesList, error:''};
+
+   res.status(200).json(ret);
+}
+
+);
 
 app.post('/API/EmailVerification', async (req, res, next) =>
 {
