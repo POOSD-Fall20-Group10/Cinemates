@@ -384,8 +384,8 @@ app.post('/API/EmailVerification', async (req, res, next) =>
   const msg = {
     to: email, // Change to your recipient
     from: 'cinematesconfirmation@gmail.com', // Change to your verified sender
-    subject: 'Sending with SendGrid is Fun',
-    text: 'and easy to do anywhere, even with Node.js',
+    subject: 'Cinemates Email Confirmation',
+    text: 'Please confirm you email for https://cine-mates.herokuapp.com/.',
     html: '<strong>and easy to do anywhere, even with Node.js</strong>',
   }
 
