@@ -117,6 +117,6 @@ function Header()
             <button type="button" id="updateMovieButton" class="buttons" onClick={updateMovies}>Update Movies</button>
         </div>
     );
-};
+}
 
 export default Header;
