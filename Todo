@@ -1,2 +1,12 @@
 Frontend:
 Restrict page access by userID
+Register 2 columns for fields
+Move Header out of App.js
+Create headers for each page specifically
+Create groups array
+Organize Groups array onto page
+Create movies array
+Organized movie array onto page
+Create group selector in movies section
+
+Email Verification:
