@@ -29,10 +29,10 @@ app.post('/API/AddUser', async (req, res, next) =>
 
   var error = '';
 
-  const { email, login, password, firstName, lastName, isVerified } = req.body;
+  const { email, login, password, firstName, lastName, isVerified, vCode, pCode } = req.body;
 
   const db = client.db();
-  db.collection('users').insert({email:email,login:login,password:password,firstName:firstName,lastName:lastName,isVerified:isVerified, friends: []})
+  db.collection('users').insert({email:email,login:login,password:password,firstName:firstName,lastName:lastName,isVerified:isVerified,vCode:vCode,pCode:pCode, friends: []})
 
   var ret = { error: error };
   res.status(200).json(ret);
@@ -43,10 +43,10 @@ app.post('/API/EditUser', async (req, res, next) =>
 
   var error = '';
 
-  const { userID, email, login, password, firstName, lastName, isVerified} = req.body;
+  const { userID, email, login, password, firstName, lastName, isVerified, vCode, pCode} = req.body;
 
   const db = client.db();
-  db.collection('users').update({_id: new mongo.ObjectID(userID)},{email:email,login:login,password:password,firstName:firstName,lastName:lastName,isVerified:isVerified})
+  db.collection('users').update({_id: new mongo.ObjectID(userID)},{email:email,login:login,password:password,firstName:firstName,lastName:lastName,isVerified:isVerified,vCode:vCode,pCode:pCode})
 
   var ret = { error: error };
   res.status(200).json(ret);
@@ -81,6 +81,8 @@ app.post('/API/UserLogin', async (req, res, next) =>
   var ln = '';
   var lg = '';
   var isver = '';
+  var vc = '';
+  var pc = '';
 
   if( results.length > 0 )
   {
@@ -88,10 +90,12 @@ app.post('/API/UserLogin', async (req, res, next) =>
     lg = results[0].login;
     fn = results[0].firstName;
     ln = results[0].lastName;
-    isver = results[0].isVerified
+    isver = results[0].isVerified;
+    vc = results[0].vCode;
+    pc = results[0].pCode;
   }
 
-  var ret = { login:lg, id:id, firstName:fn, lastName:ln,isVerified:isver, error:''};
+  var ret = { login:lg, id:id, firstName:fn, lastName:ln,isVerified:isver,vCode:vc,pCode:pc, error:''};
   res.status(200).json(ret);
 });
 
@@ -108,16 +112,20 @@ app.post('/API/GetUserByID', async (req, res, next) =>
   var fn = '';
   var ln = '';
   var isver = '';
+  var vc = '';
+  var pc = '';
 
   if( results.length > 0 )
   {
     login = results[0].login;
     fn = results[0].firstName;
     ln = results[0].lastName;
-    isver = results[0].isVerified
+    isver = results[0].isVerified;
+    vc = results[0].vCode;
+    pc = results[0].pCode;
   }
 
-  var ret = { login:login, firstName:fn, lastName:ln,isVerified:isver, error:''};
+  var ret = { login:login, firstName:fn, lastName:ln,isVerified:isver,vCode:vc,pCode:pc, error:''};
   res.status(200).json(ret);
 });
 
@@ -130,18 +138,24 @@ app.post('/API/GetUserByLogin', async (req, res, next) =>
   const db = client.db();
   const results = await db.collection('users').find({login : login}).toArray();
 
-  var id = '';
+  var login = '';
   var fn = '';
   var ln = '';
+  var isver = '';
+  var vc = '';
+  var pc = '';
 
   if( results.length > 0 )
   {
-    id = results[0]._id;
+    login = results[0].login;
     fn = results[0].firstName;
     ln = results[0].lastName;
+    isver = results[0].isVerified;
+    vc = results[0].vCode;
+    pc = results[0].pCode;
   }
 
-  var ret = { id:id, firstName:fn, lastName:ln, error:''};
+  var ret = { login:login, firstName:fn, lastName:ln,isVerified:isver,vCode:vc,pCode:pc, error:''};
   res.status(200).json(ret);
 });
 
