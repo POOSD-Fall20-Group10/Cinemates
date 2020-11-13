@@ -379,7 +379,7 @@ app.post('/API/EmailVerification', async (req, res, next) =>
   const sgMail = require('@sendgrid/mail')
   require('dotenv').config();
   const apiKey = process.env.SENDGRID_API_KEY;
-  sgMail.setApiKey(apiKey);
+  sgMail.setApiKey(process.env.apiKey);
 
   const msg = {
     to: email, // Change to your recipient
