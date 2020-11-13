@@ -8,6 +8,8 @@ import './App.css';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import MainPage from './pages/MainPage';
+import GroupPage from './pages/GroupPage';
+import AccountPage from './pages/AccountPage';
 
 import logo from './Cinemates.png';
 
@@ -46,6 +48,12 @@ function App() {
         </Route>
         <Route path="/main" exact>
           <MainPage />
+        </Route>
+        <Route path="/group" exact>
+          <GroupPage />
+        </Route>
+        <Route path="/account" exact>
+          <AccountPage />
         </Route>
         <Redirect to="/" />
       </Switch>
