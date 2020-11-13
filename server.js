@@ -401,8 +401,8 @@ app.post('/API/EmailVerification', async (req, res, next) =>
     to: email, // Change to your recipient
     from: 'cinematesconfirmation@gmail.com', // Change to your verified sender
     subject: 'Cinemates Email Confirmation',
-    text: '',
-    html: '<p style="color:black">Here is the confirmation code you need to login to Cinemates.</strong></p><body><p style="color:blue" id="a"><script>document.getElementById('a').innerHTML = code;</script></body><p style="color:black"><b>If you did not request this code</b>, please change your Cinemates passsword and consider changing your email password as well to ensure your account security.</strong></p>',
+    text: 'Here is the confirmation code you need to login to Cinemates.CODEIf you did not request this code, please change your Cinemates passsword and consider changing your email password as well to ensure your account security.',
+    html: '<p style="color:black">Here is the confirmation code you need to login to Cinemates.</strong></p><p style="color:blue">'+code+'</p><p style="color:black"><b>If you did not request this code</b>, please change your Cinemates passsword and consider changing your email password as well to ensure your account security.</strong></p>',
   }
 
   sgMail
@@ -417,6 +417,7 @@ app.post('/API/EmailVerification', async (req, res, next) =>
   var ret = { error: err  };
   res.status(200).json(ret);
 });
+
 const MongoClient = mongo.MongoClient;
 require('dotenv').config();
 const url = process.env.MONGODB_URI;
