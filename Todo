@@ -10,3 +10,6 @@ Organized movie array onto page
 Create group selector in movies section
 
 Email Verification:
+
+API:
+Add chat API. Takes in date/time, login, and message
