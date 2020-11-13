@@ -58,7 +58,7 @@ function Main() {
 
 const loadGroups = async event => {
     event.preventDefault();
-    var obj = {userId:userId};
+    var obj = {userID:userId};
     var js = JSON.stringify(obj);
 
     try {
