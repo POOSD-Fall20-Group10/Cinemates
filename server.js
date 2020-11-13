@@ -386,7 +386,7 @@ app.post('/API/EmailVerification', async (req, res, next) =>
     from: 'cinematesconfirmation@gmail.com', // Change to your verified sender
     subject: 'Cinemates Email Confirmation',
     text: 'Please confirm you email for https://cine-mates.herokuapp.com/.',
-    html: '<strong>Please confirm you email for https://cine-mates.herokuapp.com/.</strong>',
+    html: '<strong>Please confirm your email for https://cine-mates.herokuapp.com/.</strong>',
   }
 
   sgMail
