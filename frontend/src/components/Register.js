@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 const app_name = 'cine-mates'
 function buildPath(route)
 {
