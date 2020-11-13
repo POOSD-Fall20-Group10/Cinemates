@@ -418,6 +418,36 @@ app.post('/API/EmailVerification', async (req, res, next) =>
   res.status(200).json(ret);
 });
 
+app.post('/API/PasswordReset', async (req, res, next) =>
+{
+  var err = '';
+  const { email, code } = req.body;
+  const sgMail = require('@sendgrid/mail')
+  require('dotenv').config();
+  const apiKey = process.env.SENDGRID_API_KEY;
+  sgMail.setApiKey(apiKey);
+
+  const msg = {
+    to: email, // Change to your recipient
+    from: 'cinematesconfirmation@gmail.com', // Change to your verified sender
+    subject: 'Cinemates Password Reset',
+    text: 'Here is the password reset code you need to reset your password on Cinemates.CODEIf you did not request this code, please change your Cinemates passsword and consider changing your email password as well to ensure your account security.',
+    html: '<p style="color:black">Here is the password reset code you need to reset your password on Cinemates.</strong></p><p style="color:blue">'+code+'</p><p style="color:black"><b>If you did not request this code</b>, please change your Cinemates passsword and consider changing your email password as well to ensure your account security.</strong></p>',
+  }
+
+  sgMail
+    .send(msg)
+    .then(() => {
+    console.log('Email sent')
+  })
+    .catch((error) => {
+      err = error;
+    console.error(error)
+  })
+  var ret = { error: err  };
+  res.status(200).json(ret);
+});
+
 const MongoClient = mongo.MongoClient;
 require('dotenv').config();
 const url = process.env.MONGODB_URI;
