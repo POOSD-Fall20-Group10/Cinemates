@@ -141,15 +141,21 @@ app.post('/API/GetUserByLogin', async (req, res, next) =>
   var id = '';
   var fn = '';
   var ln = '';
+  var isver = '';
+  var vcode = '';
+  var pcode = '';
 
   if( results.length > 0 )
   {
     id = results[0]._id;
     fn = results[0].firstName;
     ln = results[0].lastName;
+    isver = results[0].isVerified;
+    vcode = results[0].vCode;
+    pcode = results[0].pCode;
   }
 
-  var ret = { id:id, firstName:fn, lastName:ln, error:''};
+  var ret = { id:id, firstName:fn, lastName:ln,isVerified:isver,vCode:vcode,pCode:pcode, error:''};
   res.status(200).json(ret);
 });
 
