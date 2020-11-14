@@ -35,6 +35,8 @@ function Main() {
                 <button type="button" id="GroupTest" class="buttons" onClick={loadGroups}> Get Groups </button>
             </div>
         </div>
+        <div id="groupListDiv">
+        </div>
         <div id="tempAddGroupDiv">
             <form onSubmit={addGroup}>
                 <h3>Add Group</h3>
@@ -56,6 +58,21 @@ function Main() {
     );
 }
 
+function createGroupList()
+{
+    var i;
+    var div = document.getElementById("groupListDiv");
+    div.innerHTML = "Group List";
+
+
+    for(i = 0; i < groupList.groups.length; i++)
+    {
+        var temp = document.createElement("button");
+        temp.innerHTML = groupList.groups[i].name;
+        div.appendChild(temp);
+    }
+}
+
 const loadGroups = async event => {
     event.preventDefault();
     var obj = {userID:userId};
@@ -69,8 +86,7 @@ const loadGroups = async event => {
             });
 
             groupList = JSON.parse(await response.text());
-            alert(groupList);
-
+            createGroupList();
         }
     catch(e)
     {
