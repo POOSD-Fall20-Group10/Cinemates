@@ -43,10 +43,10 @@ app.post('/API/EditUser', async (req, res, next) =>
 
   var error = '';
 
-  const { userID, email, login, password, firstName, lastName, isVerified} = req.body;
+  const { userID, email, login, password, firstName, lastName, isVerified, vCode, pCode} = req.body;
 
   const db = client.db();
-  db.collection('users').update({_id: new mongo.ObjectID(userID)},{email:email,login:login,password:password,firstName:firstName,lastName:lastName,isVerified:isVerified})
+  db.collection('users').update({_id: new mongo.ObjectID(userID)},{email:email,login:login,password:password,firstName:firstName,lastName:lastName,isVerified:isVerified,vCode:vCode, pCode:pCode})
 
   var ret = { error: error };
   res.status(200).json(ret);
