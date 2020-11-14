@@ -81,6 +81,8 @@ app.post('/API/UserLogin', async (req, res, next) =>
   var ln = '';
   var lg = '';
   var isver = '';
+  var vcode = '';
+  var pcode = '';
 
   if( results.length > 0 )
   {
@@ -88,10 +90,12 @@ app.post('/API/UserLogin', async (req, res, next) =>
     lg = results[0].login;
     fn = results[0].firstName;
     ln = results[0].lastName;
-    isver = results[0].isVerified
+    isver = results[0].isVerified;
+    vcode = results[0].vCode;
+    pcode = results[0].pCode;
   }
 
-  var ret = { login:lg, id:id, firstName:fn, lastName:ln,isVerified:isver, error:''};
+  var ret = { login:lg, id:id, firstName:fn, lastName:ln,isVerified:isver,vCode:vcode,pCode:pcode, error:''};
   res.status(200).json(ret);
 });
 
