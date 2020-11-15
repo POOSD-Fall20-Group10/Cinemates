@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import '../bootstrap.min.css';
 const app_name = 'cine-mates'
 function buildPath(route)
 {
@@ -91,32 +92,32 @@ function Register()
             </nav>
             <form onSubmit={doRegister}>
                 <h3>Register</h3>
-                <div className="form-group">
+                <div className="form-group col-xs-10 col-sm-4 col-md-4 col-lg-4">
                     <label>Username</label>
                     <input type="text" className="form-control" id="regLogin" placeholder="Username" ref={(c) => regLogin = c}/>
                 </div>
 
-                <div className="form-group">
+                <div className="form-group col-xs-10 col-sm-4 col-md-4 col-lg-4">
                     <label>First name</label>
                     <input type="text" className="form-control" id="regFName" placeholder="First Name" ref={(c) => regFName = c}/>
                 </div>
 
-                <div className="form-group">
+                <div className="form-group col-xs-10 col-sm-4 col-md-4 col-lg-4">
                     <label>Last name</label>
                     <input type="text" className="form-control" id="regLName" placeholder="Last Name" ref={(c) => regLName = c}/>
                 </div>
 
-                <div className="form-group">
+                <div className="form-group col-xs-10 col-sm-4 col-md-4 col-lg-4">
                     <label>Email</label>
                     <input type="email" className="form-control" id="regEmail" placeholder="Email" ref={(c) => regEmail = c}/>
                 </div>
 
-                <div className="form-group">
+                <div className="form-group col-xs-10 col-sm-4 col-md-4 col-lg-4">
                     <label>Password</label>
                     <input type="password" className="form-control" id="regPassword" placeholder="Password" ref={(c) => regPassword = c}/>
                 </div>
 
-                <div className="form-group">
+                <div className="form-group col-xs-10 col-sm-4 col-md-4 col-lg-4">
                     <label>Password</label>
                     <input type="password" className="form-control" id="regConfirm" placeholder="Confirm Password" ref={(c) => regConfirm = c}/>
                 </div>
