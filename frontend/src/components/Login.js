@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from 'react-router-dom';
+import LoginHeader from './LoginHeader';
 const app_name = 'cine-mates'
 
 const doRegisterButton = event => {
@@ -48,24 +48,8 @@ function buildPath(route) {
 
          return (
             <div>
-                <nav className="navbar navbar-expand-lg navbar-light fixed-top">
-                <div className="container">
-                <Link className="navbar-brand" to={"/"}>Login</Link>
-                <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
-                    <ul className="navbar-nav ml-auto">
-                    <li className="nav-item">
-                        <Link className="nav-link" to={"/"}>Login</Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link className="nav-link" to={"/register"}>Sign up</Link>
-                    </li>
-                    </ul>
-                </div>
-                </div>
-                </nav>
+                <LoginHeader></LoginHeader>
                 <form onSubmit={doLogin}>
-                    <h3>Login</h3>
-
                     <div className="form-group">
                         <label>Username</label>
                         <input type="text" className="form-control" id="loginName" placeholder="Enter username" ref={(c) => loginName = c}/>
@@ -76,7 +60,7 @@ function buildPath(route) {
                         <input type="password" className="form-control" id="loginPassword" placeholder="Enter password" ref={(c) => loginPassword = c}/>
                     </div>
 
-                    <button type="submit" className="btn btn-dark btn-lg btn-block" id="loginButton" onClick={doLogin}>Sign in</button>
+                    <button type="submit" className="btn btn-dark btn-lg btn-block" id="loginButton" onClick={doLogin}>Sign In</button>
                 </form>
                 <span id="loginResult">{message}</span>
             </div>

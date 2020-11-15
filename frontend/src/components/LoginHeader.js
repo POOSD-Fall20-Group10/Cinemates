@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-function RegisterHeader() {
+function LoginHeader() {
     return(
         <div>
         <nav className="navbar navbar-expand-lg navbar-light fixed-top">
@@ -23,4 +23,4 @@ function RegisterHeader() {
     );
 }
 
-export default RegisterHeader;
+export default LoginHeader;
