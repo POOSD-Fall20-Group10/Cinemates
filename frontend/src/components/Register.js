@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { Helmet } from "react-helmet";
+import RegisterHeader from "./RegisterHeader";
 import '../bootstrap.min.css';
 const app_name = 'cine-mates'
 function buildPath(route)
@@ -82,21 +82,7 @@ function Register()
         <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
         </Helmet>
     <div id="regDiv">
-            <nav className="navbar navbar-expand-lg navbar-light fixed-top">
-            <div className="container">
-            <Link className="navbar-brand" to={"/"}>Login</Link>
-            <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
-                <ul className="navbar-nav ml-auto">
-                <li className="nav-item">
-                    <Link className="nav-link" to={"/"}>Login</Link>
-                </li>
-                <li className="nav-item">
-                    <Link className="nav-link" to={"/register"}>Sign up</Link>
-                </li>
-                </ul>
-            </div>
-            </div>
-            </nav>
+            <RegisterHeader></RegisterHeader>
             <form onSubmit={doRegister}>
                 <h3>Register</h3>
                 <div className="form-group col-xs-10 col-sm-4 col-md-4 col-lg-4">
