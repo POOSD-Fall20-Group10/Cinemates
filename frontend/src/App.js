@@ -44,7 +44,7 @@ function App() {
         </div>
       </div>
     </div>
-    <div>&nbsp;&nbsp;&nbsp;</div>
+    <div>&nbsp;</div>
     </Router>
   );
 }

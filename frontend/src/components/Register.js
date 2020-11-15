@@ -95,6 +95,7 @@ function Register()
                         <input type="password" className="form-control" id="regConfirm" placeholder="Confirm Password" ref={(c) => regConfirm = c}/>
                     </div>
                 </div>
+                <div>&nbsp;</div>
                 <button type="submit" className="btn btn-dark btn-lg btn-block" onClick={doRegister}>Register</button>
                 <p className="forgot-password text-right">
                     Already registered <a href="#">log in?</a>
@@ -102,7 +103,6 @@ function Register()
                 <span id="regResult">{message}</span>
             </form>
             </div>
-            <div>&nbsp;</div>
         </div>
     );
 }
