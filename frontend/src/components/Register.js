@@ -76,44 +76,66 @@ function Register()
     <div id="regDiv">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
             <form onSubmit={doRegister}>
-                <h3>Register</h3>
-                <div className="form-group col-xs-10 col-sm-4 col-md-4 col-lg-4 ">
-                    <label>Username</label>
-                    <input type="text" className="form-control" id="regLogin" placeholder="Username" ref={(c) => regLogin = c}/>
-                </div>
-
-                <div className="form-group col-xs-10 col-sm-4 col-md-4 col-lg-4">
-                    <label>First name</label>
+            <div class="row">
+            <div class="col-6">
+                <div class="form-group row">
+                    <label for="fname" class="col-sm-6 col-form-label">First Name</label>
+                    <div class="col-sm-6">
                     <input type="text" className="form-control" id="regFName" placeholder="First Name" ref={(c) => regFName = c}/>
+                    </div>
                 </div>
 
-                <div className="form-group col-xs-10 col-sm-4 col-md-4 col-lg-4">
-                    <label>Last name</label>
+                <div class="form-group row">
+                    <label for="lname" class="col-sm-6 col-form-label">Last Name</label>
+                    <div class="col-sm-6">
                     <input type="text" className="form-control" id="regLName" placeholder="Last Name" ref={(c) => regLName = c}/>
+                    </div>
                 </div>
 
-                <div className="form-group col-xs-10 col-sm-4 col-md-4 col-lg-4">
-                    <label>Email</label>
+              
+                <div class="form-group row">
+                    <label for="lname" class="col-sm-6 col-form-label">Username</label>
+                    <div class="col-sm-6">
+                    <input type="text" className="form-control" id="regLogin" placeholder="Username" ref={(c) => regLogin = c}/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6">
+                <div class="form-group row">
+                    <label for="email" class="col-sm-6 col-form-label">Email</label>
+                    <div class="col-sm-6">
                     <input type="email" className="form-control" id="regEmail" placeholder="Email" ref={(c) => regEmail = c}/>
+                    </div>
                 </div>
 
-                <div className="form-group col-xs-10 col-sm-4 col-md-4 col-lg-4">
-                    <label>Password</label>
+                <div class="form-group row">
+                    <label for="password" class="col-sm-6 col-form-label">Password</label>
+                    <div class="col-sm-6">
                     <input type="password" className="form-control" id="regPassword" placeholder="Password" ref={(c) => regPassword = c}/>
+                    </div>
                 </div>
 
-                <div className="form-group col-xs-10 col-sm-4 col-md-4 col-lg-4">
-                    <label>Password</label>
+                <div class="form-group row">
+                    <label for="password2" class="col-sm-6 col-form-label">Confirm Password</label>
+                    <div class="col-sm-6">
                     <input type="password" className="form-control" id="regConfirm" placeholder="Confirm Password" ref={(c) => regConfirm = c}/>
+                    </div>
                 </div>
-                <button type="submit" className="btn btn-dark btn-lg btn-block" onClick={doRegister}>Register</button>
+            </div>
+
+            </div>
+            <button type="submit" className="btn btn-dark btn-lg btn-block" onClick={doRegister}>Register</button>
                 <p className="forgot-password text-right">
                     Already registered <a href="#">log in?</a>
                 </p>
                 <span id="regResult">{message}</span>
             </form>
+            </div>
         </div>
-        </div>
+
+
+        
     );
 };
 
