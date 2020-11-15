@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Helmet } from "react-helmet";
 import '../bootstrap.min.css';
 const app_name = 'cine-mates'
 function buildPath(route)
@@ -74,6 +75,12 @@ function Register()
     };
 
     return(
+    <div>
+        <Helmet>
+        <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"/>
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+        <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+        </Helmet>
     <div id="regDiv">
             <nav className="navbar navbar-expand-lg navbar-light fixed-top">
             <div className="container">
@@ -127,6 +134,7 @@ function Register()
                 </p>
                 <span id="regResult">{message}</span>
             </form>
+        </div>
         </div>
     );
 };
