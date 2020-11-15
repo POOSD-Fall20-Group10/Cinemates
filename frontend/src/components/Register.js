@@ -1,7 +1,4 @@
 import React, { useState } from 'react';
-import { Helmet } from "react-helmet";
-import RegisterHeader from "./RegisterHeader";
-import '../register.css';
 const app_name = 'cine-mates'
 function buildPath(route)
 {
@@ -75,9 +72,8 @@ function Register()
     };
 
     return(
-    <div><div><RegisterHeader></RegisterHeader></div>
     <div>
-    <div id="regDiv" className="formClass">
+    <div id="regDiv">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
             <form onSubmit={doRegister}>
                 <h3>Register</h3>
@@ -116,7 +112,6 @@ function Register()
                 </p>
                 <span id="regResult">{message}</span>
             </form>
-        </div>
         </div>
         </div>
     );

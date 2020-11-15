@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import Register from './Register';
 
 function RegisterHeader() {
     return(
@@ -18,6 +19,7 @@ function RegisterHeader() {
             </div>
             </div>
         </nav>
+        <Register></Register>
         </div>
 
     );
