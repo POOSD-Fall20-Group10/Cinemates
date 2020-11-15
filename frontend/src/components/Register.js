@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import RegisterHeader from './RegisterHeader';
 const app_name = 'cine-mates'
 function buildPath(route)
 {
@@ -73,6 +74,7 @@ function Register()
 
     return(
     <div>
+    <RegisterHeader></RegisterHeader>
     <div id="regDiv">
             <form onSubmit={doRegister}>
                 <div class="row">
@@ -100,11 +102,9 @@ function Register()
                 <span id="regResult">{message}</span>
             </form>
             </div>
+            <div>&nbsp;</div>
         </div>
-
-
-        
     );
-};
+}
 
 export default Register;
