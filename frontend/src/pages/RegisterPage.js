@@ -1,7 +1,7 @@
 import React from 'react';
 
 import PageTitle from '../components/PageTitle';
-import Register from '../components/Register';
+import RegisterHeader from '../components/RegisterHeader';
 
 const RegisterPage = () =>
 {
@@ -9,7 +9,7 @@ const RegisterPage = () =>
     return(
       <div>
         <PageTitle />
-        <Register />
+        <RegisterHeader />
       </div>
     );
 };

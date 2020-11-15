@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom';
+import Register from './Register';
 
 function RegisterHeader() {
     return(
+        <div>
         <nav className="navbar navbar-expand-lg navbar-light fixed-top">
             <div className="container">
             <Link className="navbar-brand" to={"/"}>Login</Link>
@@ -17,6 +19,9 @@ function RegisterHeader() {
             </div>
             </div>
         </nav>
+        <div><Register></Register></div>
+        </div>
+
     );
 }
 

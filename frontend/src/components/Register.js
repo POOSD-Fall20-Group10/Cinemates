@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Helmet } from "react-helmet";
-import RegisterHeader from "./RegisterHeader";
 import '../bootstrap.min.css';
 const app_name = 'cine-mates'
 function buildPath(route)
@@ -82,7 +81,6 @@ function Register()
         <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
         </Helmet>
     <div id="regDiv">
-            <RegisterHeader></RegisterHeader>
             <form onSubmit={doRegister}>
                 <h3>Register</h3>
                 <div className="form-group col-xs-10 col-sm-4 col-md-4 col-lg-4">
