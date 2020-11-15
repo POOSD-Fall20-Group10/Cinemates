@@ -35,6 +35,8 @@ function Main() {
                 <button type="button" id="GroupTest" class="buttons" onClick={loadGroups}> Get Groups </button>
             </div>
         </div>
+        <div id="movieListDiv">
+        </div>
         <div id="groupListDiv">
         </div>
         <div id="tempAddGroupDiv">
@@ -56,6 +58,21 @@ function Main() {
         </div>
     </div>
     );
+}
+
+function createMovieList()
+{
+    var i;
+    var div = document.getElementById("movieListDiv");
+    div.innerHTML = "Movie List";
+
+
+    for(i = 0; i < movieList.movies.length; i++)
+    {
+        var temp = document.createElement("button");
+        temp.innerHTML = movieList.movies[i].title;
+        div.appendChild(temp);
+    }
 }
 
 function createGroupList()
@@ -97,19 +114,18 @@ const loadGroups = async event => {
 
 const loadMovies = async event => {
     event.preventDefault();
-    var obj = {userId:userId};
+    var obj = {page:1};
     var js = JSON.stringify(obj);
 
     try {
-            const response = await fetch(buildPath('api/ListGroups'), {
+            const response = await fetch(buildPath('api/GetMovies'), {
                 method:'POST',body:js,headers:{
                     'Content-Type': 'application/json'
                 }
             });
 
             movieList = JSON.parse(await response.text());
-            alert(movieList);
-
+            createMovieList();
         }
     catch(e)
     {
