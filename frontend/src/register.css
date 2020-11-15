@@ -1,0 +1,3 @@
+.formClass {
+    @include 'style.css';
+}

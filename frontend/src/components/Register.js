@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Helmet } from "react-helmet";
 import RegisterHeader from "./RegisterHeader";
+import '../register.css';
 const app_name = 'cine-mates'
 function buildPath(route)
 {
@@ -74,16 +75,13 @@ function Register()
     };
 
     return(
-        <div><div><RegisterHeader></RegisterHeader></div>
+    <div><div><RegisterHeader></RegisterHeader></div>
     <div>
-        <Helmet>
-        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-            <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-        </Helmet>
-    <div id="regDiv">
+    <div id="regDiv" className="formClass">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
             <form onSubmit={doRegister}>
                 <h3>Register</h3>
-                <div className="form-group col-xs-10 col-sm-4 col-md-4 col-lg-4">
+                <div className="form-group col-xs-10 col-sm-4 col-md-4 col-lg-4 ">
                     <label>Username</label>
                     <input type="text" className="form-control" id="regLogin" placeholder="Username" ref={(c) => regLogin = c}/>
                 </div>
