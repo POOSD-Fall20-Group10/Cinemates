@@ -1,6 +1,6 @@
 Frontend:   
 Restrict page access by userID   
-Register 2 columns for fields   
+~~Register 2 columns for fields~~   
 ~~Move Header out of App.js~~   
 Create headers for each page specifically   
 
