@@ -74,58 +74,26 @@ function Register()
     return(
     <div>
     <div id="regDiv">
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
             <form onSubmit={doRegister}>
-            <div class="row">
-            <div class="col-6">
-                <div class="form-group row">
-                    <label for="fname" class="col-sm-6 col-form-label">First Name</label>
-                    <div class="col-sm-6">
-                    <input type="text" className="form-control" id="regFName" placeholder="First Name" ref={(c) => regFName = c}/>
+                <div class="row">
+                    <div class="col">
+                        <label for="fname">First Name</label> 
+                        <input type="text" className="form-control" id="regFName" placeholder="First Name" ref={(c) => regFName = c}/>
+                        <label for="lname">Last Name</label> 
+                        <input type="text" className="form-control" id="regLName" placeholder="Last Name" ref={(c) => regLName = c}/>
+                        <label for="uname">Username</label> 
+                        <input type="text" className="form-control" id="regLogin" placeholder="Username" ref={(c) => regLogin = c}/>
+                    </div>
+                    <div class="col">
+                        <label for="email">Email</label> 
+                        <input type="email" className="form-control" id="regEmail" placeholder="Email" ref={(c) => regEmail = c}/>
+                        <label for="password">Password</label> 
+                        <input type="password" className="form-control" id="regPassword" placeholder="Password" ref={(c) => regPassword = c}/>
+                        <label for="password2">Confirm Password</label> 
+                        <input type="password" className="form-control" id="regConfirm" placeholder="Confirm Password" ref={(c) => regConfirm = c}/>
                     </div>
                 </div>
-
-                <div class="form-group row">
-                    <label for="lname" class="col-sm-6 col-form-label">Last Name</label>
-                    <div class="col-sm-6">
-                    <input type="text" className="form-control" id="regLName" placeholder="Last Name" ref={(c) => regLName = c}/>
-                    </div>
-                </div>
-
-              
-                <div class="form-group row">
-                    <label for="lname" class="col-sm-6 col-form-label">Username</label>
-                    <div class="col-sm-6">
-                    <input type="text" className="form-control" id="regLogin" placeholder="Username" ref={(c) => regLogin = c}/>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-6">
-                <div class="form-group row">
-                    <label for="email" class="col-sm-6 col-form-label">Email</label>
-                    <div class="col-sm-6">
-                    <input type="email" className="form-control" id="regEmail" placeholder="Email" ref={(c) => regEmail = c}/>
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <label for="password" class="col-sm-6 col-form-label">Password</label>
-                    <div class="col-sm-6">
-                    <input type="password" className="form-control" id="regPassword" placeholder="Password" ref={(c) => regPassword = c}/>
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <label for="password2" class="col-sm-6 col-form-label">Confirm Password</label>
-                    <div class="col-sm-6">
-                    <input type="password" className="form-control" id="regConfirm" placeholder="Confirm Password" ref={(c) => regConfirm = c}/>
-                    </div>
-                </div>
-            </div>
-
-            </div>
-            <button type="submit" className="btn btn-dark btn-lg btn-block" onClick={doRegister}>Register</button>
+                <button type="submit" className="btn btn-dark btn-lg btn-block" onClick={doRegister}>Register</button>
                 <p className="forgot-password text-right">
                     Already registered <a href="#">log in?</a>
                 </p>
