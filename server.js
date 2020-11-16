@@ -67,13 +67,13 @@ app.post('/API/AddUser', async (req, res, next) =>
   const { email, login, password, firstName, lastName } = req.body;
   const db = client.db();
   db.collection('users').insertOne({email:email,login:login,password:password,firstName:firstName,
-    lastName:lastName,isVerified:false,vCode:null,pCode:null, friends: []}, async (error, result) => {
+    lastName:lastName,isVerified:false,vToken:null,pCode:null, friends: []}, async (error, result) => {
       if(error){
         err = error;
       }
       else{
         const vToken = jwt.sign(result.ops[0],jwtKey);
-        db.collection('users').update({_id : new mongo.ObjectID(result.ops[0]._id)}, {$set: {vCode: vToken}});
+        db.collection('users').update({_id : new mongo.ObjectID(result.ops[0]._id)}, {$set: {vToken: vToken}});
        err = await SendEmailVerification(email, vToken);
       }
     });
@@ -87,11 +87,11 @@ app.post('/API/EditUser', async (req, res, next) =>
 
   var error = '';
 
-  const { userID, email, login, password, firstName, lastName, isVerified, vCode, pCode} = req.body;
+  const { userID, email, login, password, firstName, lastName, isVerified} = req.body;
 
   const db = client.db();
   db.collection('users').update({_id: new mongo.ObjectID(userID)},{email:email,login:login,password:password,
-    firstName:firstName,lastName:lastName,isVerified:isVerified,vCode:vCode, pCode:pCode})
+    firstName:firstName,lastName:lastName,isVerified:isVerified})
 
   var ret = { error: error };
   res.status(200).json(ret);
@@ -126,8 +126,6 @@ app.post('/API/UserLogin', async (req, res, next) =>
   var ln = '';
   var lg = '';
   var isver = '';
-  var vcode = '';
-  var pcode = '';
 
   if( results.length > 0 )
   {
@@ -136,11 +134,9 @@ app.post('/API/UserLogin', async (req, res, next) =>
     fn = results[0].firstName;
     ln = results[0].lastName;
     isver = results[0].isVerified;
-    vcode = results[0].vCode;
-    pcode = results[0].pCode;
   }
 
-  var ret = { login:lg, id:id, firstName:fn, lastName:ln,isVerified:isver,vCode:vcode,pCode:pcode, error:''};
+  var ret = { login:lg, id:id, firstName:fn, lastName:ln,isVerified:isver, error:''};
   res.status(200).json(ret);
 });
 
@@ -157,8 +153,6 @@ app.post('/API/GetUserByID', async (req, res, next) =>
   var fn = '';
   var ln = '';
   var isver = '';
-  var vcode = '';
-  var pcode = '';
 
   if( results.length > 0 )
   {
@@ -166,11 +160,9 @@ app.post('/API/GetUserByID', async (req, res, next) =>
     fn = results[0].firstName;
     ln = results[0].lastName;
     isver = results[0].isVerified;
-    vcode = results[0].vCode;
-    pcode = results[0].pCode;
   }
 
-  var ret = { login:login, firstName:fn, lastName:ln,isVerified:isver,vCode:vcode,pCode:pcode, error:''};
+  var ret = { login:login, firstName:fn, lastName:ln,isVerified:isver,error:''};
   res.status(200).json(ret);
 });
 
@@ -187,8 +179,6 @@ app.post('/API/GetUserByLogin', async (req, res, next) =>
   var fn = '';
   var ln = '';
   var isver = '';
-  var vcode = '';
-  var pcode = '';
 
   if( results.length > 0 )
   {
@@ -196,11 +186,9 @@ app.post('/API/GetUserByLogin', async (req, res, next) =>
     fn = results[0].firstName;
     ln = results[0].lastName;
     isver = results[0].isVerified;
-    vcode = results[0].vCode;
-    pcode = results[0].pCode;
   }
 
-  var ret = { id:id, firstName:fn, lastName:ln,isVerified:isver,vCode:vcode,pCode:pcode, error:''};
+  var ret = { id:id, firstName:fn, lastName:ln,isVerified:isver, error:''};
   res.status(200).json(ret);
 });
 
@@ -469,23 +457,15 @@ async function SendEmailVerification(email, token){
   return err;
 }
 
-app.post('/API/EmailVerification', async (req, res, next) =>
-{
-  /*
-  var err = '';
-  const { email, code } = req.body;
-  require('dotenv').config();
-  const apiKey = process.env.SENDGRID_API_KEY;
-  sgMail.setApiKey(apiKey);
-
+async function SendPasswordReset(email, token){
+  err = '';
+  var linkURL = 'http://localhost:5000/Reset?token='+token;
   const msg = {
     to: email, // Change to your recipient
     from: 'cinematesconfirmation@gmail.com', // Change to your verified sender
-    subject: 'Cinemates Email Confirmation',
-    text: 'Here is the confirmation code you need to login to Cinemates.CODEIf you did not request this code, please change your Cinemates passsword and consider changing your email password as well to ensure your account security.',
-    html: '<p style="color:black">Here is the confirmation code you need to login to Cinemates.</strong></p><p style="color:blue">'+code+'</p><p style="color:black"><b>If you did not request this code</b>, please change your Cinemates passsword and consider changing your email password as well to ensure your account security.</strong></p>',
+    subject: 'Cinemates Password Reset',
+    html: '<p style="color:black">Please click the following link to reset your password</strong></p><a href= "'+linkURL+'">'+linkURL+'</a><p style="color:black"><b>If you did not request this</b>, no action is needed.</strong></p>',
   }
-
   sgMail
     .send(msg)
     .then(() => {
@@ -495,15 +475,29 @@ app.post('/API/EmailVerification', async (req, res, next) =>
       err = error;
     console.error(error)
   })
-  */
-  const { email, code } = req.body;
-  var err = await SendEmailVerification(email, code);
+  return err;
+}
+app.post('/API/EmailVerification', async (req, res, next) =>
+{
+  var err = '';
+  const { email } = req.body;
+  const db = client.db();
+  const results = await db.collection('users').find({email: email, isVerified: false}).toArray();
+  if(results.length == 0){
+    err = "No unverified email found";
+  }
+  else {
+    const vToken = jwt.sign(results[0], jwtKey);
+    db.collection('users').update({_id: new mongo.ObjectID(results[0]._id)}, {$set: {vToken: vToken}});
+    err = await SendEmailVerification(email, vToken);
+  }
   var ret = { error: err  };
   res.status(200).json(ret);
 });
 
 app.post('/API/PasswordReset', async (req, res, next) =>
 {
+  /*
   var err = '';
   const { email, code } = req.body;
   const sgMail = require('@sendgrid/mail')
@@ -528,6 +522,9 @@ app.post('/API/PasswordReset', async (req, res, next) =>
       err = error;
     console.error(error)
   })
+  */
+  const {email, code} = req.body;
+  var err = await SendPasswordReset(email,code);
   var ret = { error: err  };
   res.status(200).json(ret);
 });
@@ -536,7 +533,7 @@ app.get("/Verify/", async (req, res) =>
 {
   const token = req.query.token;
   const db = client.db();
-  const results = await db.collection('users').find({vCode : token}).toArray();
+  const results = await db.collection('users').find({vToken : token}).toArray();
 
   if(results.length == 0){
     res.status(200).json({success: false, message: "Token not matched"});
