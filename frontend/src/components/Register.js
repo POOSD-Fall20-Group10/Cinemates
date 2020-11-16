@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import RegisterHeader from './RegisterHeader';
-const app_name = 'cine-mates'
+const app_name = 'cine-mates';
+const CryptoJS = require('crypto-js');
 function buildPath(route)
 {
     if (process.env.NODE_ENV === 'production')
@@ -13,7 +14,7 @@ function buildPath(route)
     }
 }
 
-const doGoBackButton = event => 
+const doGoBackButton = event =>
 {
     event.preventDefault();
 
@@ -32,7 +33,7 @@ function Register()
 
     const [message,setMessage] = useState('');
 
-    const doRegister = async event => 
+    const doRegister = async event =>
     {
         event.preventDefault();
 
@@ -42,11 +43,11 @@ function Register()
             {
 
                 var obj = {email:regEmail.value,login:regLogin.value,
-                    password:CryptoJS.MD5(regPassword.value),firstName:regFName.value,lastName:regLName.value,isVerified:true};
+                    password: CryptoJS.MD5(regPassword.value),firstName:regFName.value,lastName:regLName.value,isVerified:true};
                 var js = JSON.stringify(obj);
 
                 try
-                {    
+                {
                     const response = await fetch(buildPath('api/AddUser'),
                         {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
 
@@ -79,19 +80,19 @@ function Register()
             <form onSubmit={doRegister}>
                 <div class="row">
                     <div class="col">
-                        <label for="fname">First Name</label> 
+                        <label for="fname">First Name</label>
                         <input type="text" className="form-control" id="regFName" placeholder="First Name" ref={(c) => regFName = c}/>
-                        <label for="lname">Last Name</label> 
+                        <label for="lname">Last Name</label>
                         <input type="text" className="form-control" id="regLName" placeholder="Last Name" ref={(c) => regLName = c}/>
-                        <label for="uname">Username</label> 
+                        <label for="uname">Username</label>
                         <input type="text" className="form-control" id="regLogin" placeholder="Username" ref={(c) => regLogin = c}/>
                     </div>
                     <div class="col">
-                        <label for="email">Email</label> 
+                        <label for="email">Email</label>
                         <input type="email" className="form-control" id="regEmail" placeholder="Email" ref={(c) => regEmail = c}/>
-                        <label for="password">Password</label> 
+                        <label for="password">Password</label>
                         <input type="password" className="form-control" id="regPassword" placeholder="Password" ref={(c) => regPassword = c}/>
-                        <label for="password2">Confirm Password</label> 
+                        <label for="password2">Confirm Password</label>
                         <input type="password" className="form-control" id="regConfirm" placeholder="Confirm Password" ref={(c) => regConfirm = c}/>
                     </div>
                 </div>

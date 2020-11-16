@@ -15,7 +15,6 @@ sgMail.setApiKey(sendgridKey);
 
 const MongoClient = mongo.MongoClient;
 
-
 const client = new MongoClient(mongoURL);
 client.connect();
 
@@ -25,6 +24,9 @@ app.set('port', (process.env.PORT || 5000));
 app.use(cors());
 app.use(express.json({limit: '50mb'}));
 app.use(express.urlencoded({limit: '50mb'}));
+
+// session token will expire after 30 minutes if not refreshed
+const sessionLength = 1800000;
 
 app.use((req, res, next) =>
 {
@@ -72,7 +74,7 @@ app.post('/API/AddUser', async (req, res, next) =>
         err = error;
       }
       else{
-        const vToken = jwt.sign(result.ops[0],jwtKey);
+        const vToken = jwt.sign(result.ops[0], jwtKey);
         db.collection('users').update({_id : new mongo.ObjectID(result.ops[0]._id)}, {$set: {vToken: vToken}});
        err = await SendEmailVerification(email, vToken);
       }
@@ -86,14 +88,24 @@ app.post('/API/EditUser', async (req, res, next) =>
 {
 
   var error = '';
-
-  const { userID, email, login, password, firstName, lastName, isVerified} = req.body;
-
-  const db = client.db();
-  db.collection('users').update({_id: new mongo.ObjectID(userID)},{email:email,login:login,password:password,
-    firstName:firstName,lastName:lastName,isVerified:isVerified})
-
-  var ret = { error: error };
+  const { token, email, login, password, firstName, lastName } = req.body;
+  if(! token){
+    error = "No token provided";
+  }
+  else{
+    jwt.verify(token, jwtKey, (err,decoded)=>
+      {
+        if(err){
+          error = err;
+        }
+        else{
+            const db = client.db();
+            db.collection('users').update({_id: new mongo.ObjectID(decoded._id)},{email:email,login:login,password:password,
+              firstName:firstName,lastName:lastName})
+        }
+      });
+  }
+ var ret = { error: error };
   res.status(200).json(ret);
 });
 
@@ -121,22 +133,28 @@ app.post('/API/UserLogin', async (req, res, next) =>
   const db = client.db();
   const results = await db.collection('users').find({login:login,password:password}).toArray();
 
-  var id = -1;
   var fn = '';
   var ln = '';
   var lg = '';
   var isver = '';
+  var token;
 
   if( results.length > 0 )
   {
-    id = results[0]._id;
     lg = results[0].login;
     fn = results[0].firstName;
     ln = results[0].lastName;
     isver = results[0].isVerified;
+    email = results[0].email;
+    token = jwt.sign(results[0], jwtKey, {
+      expiresIn: sessionLength
+    });
+    console.log(token);
   }
-
-  var ret = { login:lg, id:id, firstName:fn, lastName:ln,isVerified:isver, error:''};
+  else{
+    error = "User not found";
+  }
+  var ret = { token: token, login:lg, firstName:fn, lastName:ln, email: email, isVerified: isver, error:error};
   res.status(200).json(ret);
 });
 
@@ -268,12 +286,23 @@ app.post('/API/ListGroups', async (req, res, next) =>
 {
 
  var error = '';
-
-  const { userID } = req.body;
-
-  const db = client.db();
-  const results = await db.collection('groups').find({"members.userID" : userID}).toArray();
-
+ var results = [];
+  const { token } = req.body;
+  if(! token){
+    error = "No token provided";
+  }
+  else{
+    jwt.verify(token, jwtKey, async (err,decoded)=>
+      {
+        if(err){
+          error = err;
+        }
+        else{
+          const db = client.db();
+          results = await db.collection('groups').find({"members.userID" : decoded._id}).toArray();
+        }
+      });
+    }
   var ret = { groups: results, error:''};
 
   res.status(200).json(ret);
@@ -283,7 +312,7 @@ app.post('/API/AddMovieToList', async (req, res, next) =>
 {
   var error = '';
 
-  const { groupID, userID, movieID, liked } = req.body;
+  const { token, groupID, userID, movieID, liked } = req.body;
 
   const db = client.db();
   if(liked){
@@ -354,13 +383,23 @@ app.post('/API/AddFriend', async (req, res, next) =>
 
   var error = '';
 
-  const { user1, user2 } = req.body;
-
-  const db = client.db();
-
-  db.collection('users').update({_id: new mongo.ObjectID(user1)},{ $addToSet: {friends: {userID : user2}}});
-    db.collection('users').update({_id: new mongo.ObjectID(user2)},{ $addToSet: {friends: {userID : user1}}});
-
+  const { token, user1, user2 } = req.body;
+  if(! token){
+    error = "No token provided";
+  }
+  else{
+    jwt.verify(token, jwtKey, async (err,decoded)=>
+      {
+        if(err){
+          error = err;
+        }
+        else{
+          const db = client.db();
+          db.collection('users').update({_id: new mongo.ObjectID(user1)},{ $addToSet: {friends: {userID : user2}}});
+          db.collection('users').update({_id: new mongo.ObjectID(user2)},{ $addToSet: {friends: {userID : user1}}});
+        }
+      });
+    }
   var ret = { error: error };
   res.status(200).json(ret);
 });
@@ -370,34 +409,53 @@ app.post('/API/DeleteFriend', async (req, res, next) =>
 
   var error = '';
 
-  const { user1, user2 } = req.body;
-
-  const db = client.db();
-
-  db.collection('users').update({_id: new mongo.ObjectID(user1)},{ $pull: {friends: {userID : user2}}});
-    db.collection('users').update({_id: new mongo.ObjectID(user2)},{ $pull: {friends: {userID : user1}}});
-
+  const { token, user1, user2 } = req.body;
+  if(! token){
+    error = "No token provided";
+  }
+  else{
+    jwt.verify(token, jwtKey, async (err,decoded)=>
+      {
+        if(err){
+          error = err;
+        }
+        else{
+          const db = client.db();
+          db.collection('users').update({_id: new mongo.ObjectID(user1)},{ $pull: {friends: {userID : user2}}});
+          db.collection('users').update({_id: new mongo.ObjectID(user2)},{ $pull: {friends: {userID : user1}}});
+        }
+      });
+    }
   var ret = { error: error };
   res.status(200).json(ret);
 });
 
 app.post('/API/ListFriends', async (req, res, next) =>
 {
-
  var error = '';
-
-  const { userID } = req.body;
-
-  const db = client.db();
-  const results = await db.collection('users').find({_id : new mongo.ObjectID(userID)}).toArray();
-
-  if( results.length > 0 )
-  {
-    friends = results[0].friends;
+ var friends = [];
+  const { token } = req.body;
+  if(! token){
+    error = "No token provided";
   }
+  else{
+    jwt.verify(token, jwtKey, async (err,decoded)=>
+      {
+        if(err){
+          error = err;
+        }
+        else{
+          const db = client.db();
+          const results = await db.collection('users').find({_id : new mongo.ObjectID(userID)}).toArray();
 
+          if( results.length > 0 )
+          {
+            friends = results[0].friends;
+          }
+        }
+      });
+    }
   var ret = { friends: friends, error:''};
-
   res.status(200).json(ret);
 });
 
@@ -434,7 +492,6 @@ app.post('/API/GetMovies', async (req,res,next) =>
 }
 
 );
-
 
 async function SendEmailVerification(email, token){
   err = '';
