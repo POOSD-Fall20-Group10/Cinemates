@@ -10,7 +10,7 @@ function buildPath(route) {
     }
 }
 
-function Header()
+function MainHeader()
 {
 
     var _ud = localStorage.getItem('user_data');
@@ -103,4 +103,4 @@ function Header()
     );
 }
 
-export default Header;
+export default MainHeader;
