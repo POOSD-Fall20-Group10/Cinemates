@@ -3,6 +3,22 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongo = require('mongodb');
 const path = require('path');
+const jwt = require('jsonwebtoken');
+const sgMail = require('@sendgrid/mail');
+require('dotenv').config();
+
+const jwtKey = process.env.JWT_KEY;
+const sendgridKey = process.env.SENDGRID_API_KEY;
+const mongoURL = process.env.MONGODB_URI;
+
+sgMail.setApiKey(sendgridKey);
+
+const MongoClient = mongo.MongoClient;
+
+
+const client = new MongoClient(mongoURL);
+client.connect();
+
 const PORT = process.env.PORT || 5000;
 const app = express();
 app.set('port', (process.env.PORT || 5000));
@@ -24,17 +40,45 @@ app.use((req, res, next) =>
   next();
 });
 
+app.listen(PORT, () => {
+  console.log(`Server listening on port ${PORT}.`);
+});
+
+//////////////////////////////////////////////////
+// For Heroku deployment
+
+// Server static assets if in production
+if (process.env.NODE_ENV === 'production')
+{
+  // Set static folder
+  app.use(express.static('frontend/build'));
+
+  app.get('*', (req, res) =>
+ {
+    res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
+  });
+}
+
 app.post('/API/AddUser', async (req, res, next) =>
 {
 
-  var error = '';
+  var err = '';
 
-  const { email, login, password, firstName, lastName, isVerified, vCode, pCode } = req.body;
-
+  const { email, login, password, firstName, lastName } = req.body;
   const db = client.db();
-  db.collection('users').insert({email:email,login:login,password:password,firstName:firstName,lastName:lastName,isVerified:isVerified,vCode:vCode,pCode:pCode, friends: []})
+  db.collection('users').insertOne({email:email,login:login,password:password,firstName:firstName,
+    lastName:lastName,isVerified:false,vCode:null,pCode:null, friends: []}, async (error, result) => {
+      if(error){
+        err = error;
+      }
+      else{
+        const vToken = jwt.sign(result.ops[0],jwtKey);
+        db.collection('users').update({_id : new mongo.ObjectID(result.ops[0]._id)}, {$set: {vCode: vToken}});
+       err = await SendEmailVerification(email, vToken);
+      }
+    });
 
-  var ret = { error: error };
+  var ret = { error: err };
   res.status(200).json(ret);
 });
 
@@ -46,7 +90,8 @@ app.post('/API/EditUser', async (req, res, next) =>
   const { userID, email, login, password, firstName, lastName, isVerified, vCode, pCode} = req.body;
 
   const db = client.db();
-  db.collection('users').update({_id: new mongo.ObjectID(userID)},{email:email,login:login,password:password,firstName:firstName,lastName:lastName,isVerified:isVerified,vCode:vCode, pCode:pCode})
+  db.collection('users').update({_id: new mongo.ObjectID(userID)},{email:email,login:login,password:password,
+    firstName:firstName,lastName:lastName,isVerified:isVerified,vCode:vCode, pCode:pCode})
 
   var ret = { error: error };
   res.status(200).json(ret);
@@ -402,11 +447,33 @@ app.post('/API/GetMovies', async (req,res,next) =>
 
 );
 
+
+async function SendEmailVerification(email, token){
+  err = '';
+  var linkURL = 'http://localhost:5000/Verify?token='+token;
+  const msg = {
+    to: email, // Change to your recipient
+    from: 'cinematesconfirmation@gmail.com', // Change to your verified sender
+    subject: 'Cinemates Email Confirmation',
+    html: '<p style="color:black">Please click the following link to verify your email with Cinemates</strong></p><a href= "'+linkURL+'">'+linkURL+'</a><p style="color:black"><b>If you did not request this</b>, please change your Cinemates passsword and consider changing your email password as well to ensure your account security.</strong></p>',
+  }
+  sgMail
+    .send(msg)
+    .then(() => {
+    console.log('Email sent')
+  })
+    .catch((error) => {
+      err = error;
+    console.error(error)
+  })
+  return err;
+}
+
 app.post('/API/EmailVerification', async (req, res, next) =>
 {
+  /*
   var err = '';
   const { email, code } = req.body;
-  const sgMail = require('@sendgrid/mail')
   require('dotenv').config();
   const apiKey = process.env.SENDGRID_API_KEY;
   sgMail.setApiKey(apiKey);
@@ -428,6 +495,9 @@ app.post('/API/EmailVerification', async (req, res, next) =>
       err = error;
     console.error(error)
   })
+  */
+  const { email, code } = req.body;
+  var err = await SendEmailVerification(email, code);
   var ret = { error: err  };
   res.status(200).json(ret);
 });
@@ -462,27 +532,35 @@ app.post('/API/PasswordReset', async (req, res, next) =>
   res.status(200).json(ret);
 });
 
-const MongoClient = mongo.MongoClient;
-require('dotenv').config();
-const url = process.env.MONGODB_URI;
-const client = new MongoClient(url);
-client.connect();
-
-app.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT}.`);
-});
-
-//////////////////////////////////////////////////
-// For Heroku deployment
-
-// Server static assets if in production
-if (process.env.NODE_ENV === 'production')
+app.get("/Verify/", async (req, res) =>
 {
-  // Set static folder
-  app.use(express.static('frontend/build'));
+  const token = req.query.token;
+  const db = client.db();
+  const results = await db.collection('users').find({vCode : token}).toArray();
 
-  app.get('*', (req, res) =>
- {
-    res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
-  });
-}
+  if(results.length == 0){
+    res.status(200).json({success: false, message: "Token not matched"});
+  }
+  else{
+    jwt.verify(token, jwtKey, (err, decoded) =>
+    {
+      if (err) {
+        res.status(200).json({ success: false, message: "Failed to verify token" });
+      }
+      else {
+        var found = false;
+        results.forEach(function(userInfo){
+          if(userInfo._id == decoded._id ){
+            found = true;
+            db.collection('users').update({_id: new mongo.ObjectID(userInfo._id)},{$set: {isVerified: true, vToken: null}});
+            res.status(200).json({success: true, message: "User verified"});
+          }
+        });
+        //this case really shouldn't be possible but ya never know
+        if(! found){
+          res.status(200).json({success: false, message: "User ID not matched"});
+        }
+      }
+    });
+  }
+});
