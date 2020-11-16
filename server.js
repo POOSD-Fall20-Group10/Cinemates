@@ -114,10 +114,22 @@ app.post('/API/DeleteUser', async (req, res, next) =>
 
   var error = '';
 
-  const { userID } = req.body;
-
-  const db = client.db();
-  db.collection('users').deleteOne({_id: new mongo.ObjectID(userID)})
+  const { token } = req.body;
+  if(! token){
+    error = "No token provided";
+  }
+  else{
+    jwt.verify(token, jwtKey, (err,decoded)=>
+      {
+        if(err){
+          error = err;
+        }
+        else{
+          const db = client.db();
+          db.collection('users').deleteOne({_id: new mongo.ObjectID(decoded._id)})
+        }
+      });
+    }
 
   var ret = { error: error };
   res.status(200).json(ret);
@@ -141,6 +153,7 @@ app.post('/API/UserLogin', async (req, res, next) =>
 
   if( results.length > 0 )
   {
+    userID = results[0]._id;
     lg = results[0].login;
     fn = results[0].firstName;
     ln = results[0].lastName;
@@ -154,7 +167,7 @@ app.post('/API/UserLogin', async (req, res, next) =>
   else{
     error = "User not found";
   }
-  var ret = { token: token, login:lg, firstName:fn, lastName:ln, email: email, isVerified: isver, error:error};
+  var ret = { token: token, userID: userID, login:lg, firstName:fn, lastName:ln, email: email, isVerified: isver, error:error};
   res.status(200).json(ret);
 });
 
@@ -215,11 +228,22 @@ app.post('/API/AddGroup', async (req, res, next) =>
 
   var error = '';
 
-  const { name, description, members } = req.body;
-
-  const db = client.db();
-  db.collection('groups').insert({name:name,description:description,members:members})
-
+  const { token, name, description, members } = req.body;
+  if(! token){
+    error = "No token provided";
+  }
+  else{
+    jwt.verify(token, jwtKey, (err,decoded)=>
+      {
+        if(err){
+          error = err;
+        }
+        else{
+        const db = client.db();
+        db.collection('groups').insert({name:name,description:description,members:members})
+      }
+    });
+  }
   var ret = { error: error };
   res.status(200).json(ret);
 });
@@ -229,11 +253,22 @@ app.post('/API/EditGroup', async (req, res, next) =>
 
   var error = '';
 
-  const { groupID, name, description, members } = req.body;
-
-  const db = client.db();
-  db.collection('groups').update({_id: new mongo.ObjectID(groupID)},{name:name,description:description,members:members})
-
+  const { token, groupID, name, description, members } = req.body;
+  if(! token){
+    error = "No token provided";
+  }
+  else{
+    jwt.verify(token, jwtKey, (err,decoded)=>
+      {
+        if(err){
+          error = err;
+        }
+        else{
+        const db = client.db();
+        db.collection('groups').update({_id: new mongo.ObjectID(groupID)},{name:name,description:description,members:members})
+      }
+    });
+  }
   var ret = { error: error };
   res.status(200).json(ret);
 });
@@ -243,10 +278,22 @@ app.post('/API/DeleteGroup', async (req, res, next) =>
 
   var error = '';
 
-  const { groupID } = req.body;
-
-  const db = client.db();
-  db.collection('groups').deleteOne({_id: new mongo.ObjectID(groupID)})
+  const { token, groupID } = req.body;
+  if(! token){
+    error = "No token provided";
+  }
+  else{
+    jwt.verify(token, jwtKey, (err,decoded)=>
+      {
+        if(err){
+          error = err;
+        }
+        else{
+          const db = client.db();
+          db.collection('groups').deleteOne({_id: new mongo.ObjectID(groupID)})
+        }
+      });
+    }
 
   var ret = { error: error };
   res.status(200).json(ret);
@@ -257,12 +304,23 @@ app.post('/API/AddUserToGroup', async (req, res, next) =>
 
   var error = '';
 
-  const { groupID, userID } = req.body;
+  const { token, groupID, userID } = req.body;
 
-  const db = client.db();
-
-  db.collection('groups').update({_id: new mongo.ObjectID(groupID)},{ $addToSet: {members: {userID : userID, yesList : [], noList : []}}});
-
+  if(! token){
+    error = "No token provided";
+  }
+  else{
+    jwt.verify(token, jwtKey, (err,decoded)=>
+      {
+        if(err){
+          error = err;
+        }
+        else{
+          const db = client.db();
+          db.collection('groups').update({_id: new mongo.ObjectID(groupID)},{ $addToSet: {members: {userID : userID, yesList : [], noList : []}}});
+        }
+      });
+    }
   var ret = { error: error };
   res.status(200).json(ret);
 });
@@ -272,12 +330,22 @@ app.post('/API/DeleteUserFromGroup', async (req, res, next) =>
 
   var error = '';
 
-  const { groupID, userID } = req.body;
-
-  const db = client.db();
-
-  db.collection('groups').update({_id: new mongo.ObjectID(groupID)},{ $pull: {members: {"userID" : userID}}});
-
+  const { token, groupID, userID } = req.body;
+  if(! token){
+    error = "No token provided";
+  }
+  else{
+    jwt.verify(token, jwtKey, (err,decoded)=>
+      {
+        if(err){
+          error = err;
+        }
+        else{
+          const db = client.db();
+          db.collection('groups').update({_id: new mongo.ObjectID(groupID)},{ $pull: {members: {"userID" : userID}}});
+        }
+      });
+    }
   var ret = { error: error };
   res.status(200).json(ret);
 });
