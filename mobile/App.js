@@ -1,15 +1,33 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
+import { NavigationContainer, StackActions } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
-import Header from './src/components/Header';
-import Background from './src/components/Background';
 import RegisterScreen from './src/screens/RegisterScreen';
+import TestScreen from './src/screens/TestScreen';
+
+
+const CinematesStack = createStackNavigator();
 
 const App = () => {
   return (
-    <View>
-      <RegisterScreen />
-    </View>
+    <NavigationContainer>
+      <CinematesStack.Navigator>
+
+        <CinematesStack.Screen
+          name = "Register"
+          component = { RegisterScreen }
+          options = {{ title: 'Register ', headerTitleAlign: 'center' }}
+        />
+
+        <CinematesStack.Screen
+          name = "Test"
+          component = { TestScreen }
+          options = {{title: 'Test', headerTitleAlign: 'center'}}
+        />
+        
+      </CinematesStack.Navigator>
+    </NavigationContainer>
   );
 };
 

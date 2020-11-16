@@ -8,26 +8,17 @@ import {
 } from 'react-native';
 
 const MainButton = props => {
-
-}
+    <View>
+    <Button style={styles.button_container}/>
+    </View>
+};
 
 const styles = StyleSheet.create({
     button_container: {
-        
-    },
-        header: {
-            width: '100%',
-            height: 90,
-            paddingTop: 36,
-            color: 'white',
-            alignItems: 'center',
-            justifyContent: 'center'
-        },
-        
-        headerTitle: {
-            color: 'black',
-            fontSize: 18
-        }
+        marginTop: 20,
+        marginBottom: -30,
+        color: 'light-gray'
+    }
 });
 
 export default MainButton;

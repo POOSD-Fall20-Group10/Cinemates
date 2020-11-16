@@ -1,18 +1,16 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import Header from '../components/Header';
 
-const Background = props => {
+const Background = ({children}) => {
     return (
-        <Header title='Register'/>,
-
         <LinearGradient
             colors={['#f64f59', '#c471ed', '#12c2e9']}
             style={styles.container}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
         >
+            <SafeAreaView style={styles.container}>{children}</SafeAreaView>
         </LinearGradient>
     );
 };
@@ -20,8 +18,6 @@ const Background = props => {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      alignItems: 'center',
-      justifyContent: 'center',
     }
 });
 
