@@ -69,7 +69,7 @@ app.post('/API/AddUser', async (req, res, next) =>
   const { email, login, password, firstName, lastName } = req.body;
   const db = client.db();
   db.collection('users').insertOne({email:email,login:login,password:password,firstName:firstName,
-    lastName:lastName,isVerified:true,vToken:null,pCode:null, friends: []}, async (error, result) => {
+    lastName:lastName,isVerified:false,vToken:null,pCode:null, friends: []}, async (error, result) => {
       if(error){
         err = error;
       }
