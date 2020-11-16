@@ -6,7 +6,8 @@ import {
     Button,
     TextInput,
     Image,
-    KeyboardAvoidingView 
+    KeyboardAvoidingView, 
+    Platform
 } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -68,8 +69,11 @@ const RegisterScreen = ({ navigation }) => {
 
     return (
         <Background>
+                <KeyboardAvoidingView
+                    behavior={Platform.OS === 'android' ? "height" : "padding"}
+                    style={{ flex : 1 }}    
+                >
             <View style={styles.screen}>
-                <KeyboardAvoidingView behavior="padding">
                 <Image source={logo} style={styles.logo} />
                 <Card style={styles.inputContainer}>
                     <Text>First Name</Text>
@@ -89,8 +93,8 @@ const RegisterScreen = ({ navigation }) => {
                     </View>
                     <Text id="regResult">{message}</Text>
                 </Card>
-                    </KeyboardAvoidingView>
             </View>
+                    </KeyboardAvoidingView>
         </Background>
     )
 };

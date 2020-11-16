@@ -4,7 +4,7 @@ import { NavigationContainer, StackActions } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import RegisterScreen from './src/screens/RegisterScreen';
-import TestScreen from './src/screens/TestScreen';
+import LoginScreen from './src/screens/LoginScreen';
 
 
 const CinematesStack = createStackNavigator();
@@ -14,18 +14,18 @@ const App = () => {
     <NavigationContainer>
       <CinematesStack.Navigator>
 
-        <CinematesStack.Screen
-          name = "Register"
-          component = { RegisterScreen }
-          options = {{ title: 'Register ', headerTitleAlign: 'center' }}
+      <CinematesStack.Screen
+          name = "Login"
+          component = { LoginScreen }
+          options = {{ title: 'Login', headerTitleAlign: 'center' }}
         />
 
         <CinematesStack.Screen
-          name = "Test"
-          component = { TestScreen }
-          options = {{title: 'Test', headerTitleAlign: 'center'}}
+          name = "Register"
+          component = { RegisterScreen }
+          options = {{ title: 'Register', headerTitleAlign: 'center' }}
         />
-        
+
       </CinematesStack.Navigator>
     </NavigationContainer>
   );
