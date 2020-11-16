@@ -11,6 +11,7 @@ function buildPath(route) {
 
 var userId;
 var login;
+
 var groupList;
 var movieList;
 
@@ -60,41 +61,46 @@ function Main() {
     );
 }
 
+// Takes what is in movieList and adds them the to page
 function createMovieList()
 {
     var i;
-    var div = document.getElementById("movieListDiv");
-    div.innerHTML = "Movie List";
+    var div = document.getElementById("movieListDiv"); // The div being modified
+    div.innerHTML = "Movie List"; // Header
 
 
     for(i = 0; i < movieList.movies.length; i++)
     {
-        var temp = document.createElement("button");
-        temp.innerHTML = movieList.movies[i].title;
-        div.appendChild(temp);
+        var temp = document.createElement("button"); // Creates new button
+        temp.innerHTML = movieList.movies[i].title; // Adds movie title to button
+        div.appendChild(temp); // Adds button the div
     }
 }
 
+// Takes what is in groupList and adds them the to page
 function createGroupList()
 {
     var i;
-    var div = document.getElementById("groupListDiv");
-    div.innerHTML = "Group List";
+    var div = document.getElementById("groupListDiv"); // The div being modified
+    div.innerHTML = "Group List"; // Header
 
 
     for(i = 0; i < groupList.groups.length; i++)
     {
-        var temp = document.createElement("button");
-        temp.innerHTML = groupList.groups[i].name;
-        div.appendChild(temp);
+        var temp = document.createElement("button"); // Creates new button
+        temp.innerHTML = groupList.groups[i].name; // Adds group name to button
+        div.appendChild(temp); // Adds button the div
     }
 }
 
+// Makes API call to retrieve all groups that the user {userId} belongs to.
+//Then calls createGroupList()
 const loadGroups = async event => {
     event.preventDefault();
     var obj = {userID:userId};
     var js = JSON.stringify(obj);
 
+    //API call
     try {
             const response = await fetch(buildPath('api/ListGroups'), {
                 method:'POST',body:js,headers:{
@@ -102,7 +108,7 @@ const loadGroups = async event => {
                 }
             });
 
-            groupList = JSON.parse(await response.text());
+            groupList = JSON.parse(await response.text()); // Adds response to groupList
             createGroupList();
         }
     catch(e)
@@ -112,11 +118,14 @@ const loadGroups = async event => {
     }
 };
 
+// Makes API call to retrieve all movies
+//Then calls createMovieList()
 const loadMovies = async event => {
     event.preventDefault();
     var obj = {page:1};
     var js = JSON.stringify(obj);
 
+    // API call
     try {
             const response = await fetch(buildPath('api/GetMovies'), {
                 method:'POST',body:js,headers:{
@@ -124,7 +133,7 @@ const loadMovies = async event => {
                 }
             });
 
-            movieList = JSON.parse(await response.text());
+            movieList = JSON.parse(await response.text()); // Adds response to movieList
             createMovieList();
         }
     catch(e)
@@ -134,12 +143,15 @@ const loadMovies = async event => {
     }
 };
 
+// Makes an AddGroup API call to create a new group with addGroupName and addGroupDescription
+// Only member in the group is the current user
 const addGroup = async event => {
     event.preventDefault();
-    var membersArray = [{"userID" : userId, "yesList":[], "noList":[]}];
+    var membersArray = [{"userID" : userId, "yesList":[], "noList":[]}]; // current user
     var obj = {name:addGroupName.value,description:addGroupDescription.value,members:membersArray};
     var js = JSON.stringify(obj);
 
+    //API call
     try {
             const response = await fetch(buildPath('api/AddGroup'), {
                 method:'POST',body:js,headers:{
