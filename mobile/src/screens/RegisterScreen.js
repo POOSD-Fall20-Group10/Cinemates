@@ -16,57 +16,7 @@ import Background from '../components/Background';
 import logo from '../assets/Cinemates.png';
 import Card from '../components/Card';
 
-const app_name = 'cine-mates';
-
-
-function buildPath(route) {
-    if (process.env.NODE_ENV === 'production') {
-        return 'https://' + app_name +  '.herokuapp.com/' + route;
-    } else {
-        return 'http://10.0.2.2:5000/' + route;
-    }
-}
-
 const RegisterScreen = ({ navigation }) => {
-    var regLogin;
-    var regFName;
-    var regLName;
-    var regPassword;
-    var regConfirm;
-    var regEmail;
-    const [message,setMessage] = useState('');
-
-    const doRegister = async event => {
-        event.preventDefault();
-
-        if(regLogin.value && regFName.value && regLName.value && regPassword.value && regConfirm.value && regEmail.value) {
-            if(regPassword.value == regConfirm.value){
-                var obj = {email:regEmail.value, login:regLogin.value,
-                    password:regPassword.value, firstName:regFName.value, lastName:regLName.value, isVerified:false};
-                var js = JSON.stringify(obj);
-
-                try {    
-                    const response = await fetch(buildPath('api/AddUser'),
-                        {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
-
-                    var res = JSON.parse(await response.text());
-
-                    setMessage('');
-                    window.location.href = '/';
-                }
-                catch(e) {
-                    setMessage('Could Not Create User');
-                    return;
-                }
-            } else {
-                setMessage('Passwords do not match');
-            }
-        } else {
-            setMessage('Please Fill Out All Forms');
-        }
-    };
-
-
     return (
         <Background>
                 <KeyboardAvoidingView
@@ -75,24 +25,28 @@ const RegisterScreen = ({ navigation }) => {
                 >
             <View style={styles.screen}>
                 <Image source={logo} style={styles.logo} />
+                <View style={{justifyContent: 'space-between', }}>
                 <Card style={styles.inputContainer}>
-                    <Text>First Name</Text>
-                    <TextInput style={styles.textInput} placeholder="i.e. John" underlineColorAndroid={'black'}/>
-                    <Text>Last Name</Text>
-                    <TextInput style={styles.textInput} placeholder="i.e. Doe" underlineColorAndroid={'black'}/>
-                    <Text>Username</Text>
-                    <TextInput style={styles.textInput} placeholder="i.e. johndoe123" underlineColorAndroid={'black'}/>
-                    <Text>Email</Text>
-                    <TextInput style={styles.textInput} placeholder="i.e. johndoe@gmail.com" underlineColorAndroid={'black'}/>
-                    <Text>Password</Text>
-                    <TextInput style={styles.textInput} underlineColorAndroid={'black'}/>
-                    <Text>Confirm Password</Text>
-                    <TextInput style={styles.textInput} underlineColorAndroid={'black'}/>
-                    <View style={styles.buttonContainer}>
-                        <Button title="Register" onPress={() => doRegister}/>
+
+                    <TextInput style={styles.textInput} placeholder="First Name" />
+                    <TextInput style={styles.textInput} placeholder="Last Name" />
+                    <TextInput style={styles.textInput} placeholder="Username" />
+                    <TextInput style={styles.textInput} placeholder="Email" />
+                    <TextInput style={styles.textInput} placeholder="Password" />
+                    <TextInput style={styles.textInput} placeholder="Confirm Password" />
+                    <Button title="Register" onPress={() => {}}/>
+                    <View style={{flexDirection: 'row'}}>
+                        <Text>Already have an account?</Text>
+                        <Button 
+                            title="Login" 
+                            onPress={() => 
+                                navigation.reset ({
+                                index: 0,
+                                routes: [{name: 'Login'}]
+                            })}/>
                     </View>
-                    <Text id="regResult">{message}</Text>
                 </Card>
+                </View>
             </View>
                     </KeyboardAvoidingView>
         </Background>
@@ -118,8 +72,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     textInput: {
-        alignSelf: 'stretch'
-        
+        alignSelf: 'stretch',
+        borderColor: 'black',
+        borderWidth: 1,
+        borderRadius: 5,
+        height: 39,
+        alignItems: 'center',
+        marginVertical: 3
     }
 });
 

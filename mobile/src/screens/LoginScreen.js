@@ -18,23 +18,24 @@ import Card from '../components/Card';
 const LoginScreen = ({ navigation }) => {
     return (
         <Background>
-                <KeyboardAvoidingView
-                    behavior={Platform.OS === 'android' ? "height" : "padding"}
-                    style={{ flex : 1 }}    
-                >
             <View style={styles.screen}>
                 <Image source={logo} style={styles.logo} />
                 <Card style={styles.inputContainer}>
-                    <Text>Username</Text>
-                    <TextInput style={styles.textInput} placeholder="i.e. johndoe123" underlineColorAndroid={'black'}/>
-                    <Text>Password</Text>
-                    <TextInput style={styles.textInput} underlineColorAndroid={'black'}/>
-                    <View style={styles.buttonContainer}>
-                        <Button title="Login" onPress={() => doRegister}/>
+                    <TextInput style={styles.textInput} placeholder="Username" />
+                    <TextInput style={styles.textInput} placeholder="Password"/>
+                    <Button title="Login" onPress={() => navigation.navigate('Main')}/>
+                    <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                        <Text>Don't have an account?</Text>
+                        <Button 
+                            title="Register" 
+                            onPress={() => 
+                                navigation.reset ({
+                                index: 0,
+                                routes: [{name: 'Register'}]
+                            })}/>
                     </View>
                 </Card>
             </View>
-                    </KeyboardAvoidingView>
         </Background>
     )
 };
@@ -56,10 +57,18 @@ const styles = StyleSheet.create({
         width: 300,
         maxWidth: '80%',
         alignItems: 'center',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        padding: 20
     },
     textInput: {
-        alignSelf: 'stretch'
-        
+        alignSelf: 'stretch',
+        borderColor: 'black',
+        borderWidth: 1,
+        borderRadius: 5,
+        height: 39,
+        alignItems: 'center',
+        marginVertical: 3
     }
 });
 
