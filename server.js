@@ -477,6 +477,7 @@ async function SendPasswordReset(email, token){
   })
   return err;
 }
+
 app.post('/API/EmailVerification', async (req, res, next) =>
 {
   var err = '';
@@ -497,34 +498,18 @@ app.post('/API/EmailVerification', async (req, res, next) =>
 
 app.post('/API/PasswordReset', async (req, res, next) =>
 {
-  /*
   var err = '';
-  const { email, code } = req.body;
-  const sgMail = require('@sendgrid/mail')
-  require('dotenv').config();
-  const apiKey = process.env.SENDGRID_API_KEY;
-  sgMail.setApiKey(apiKey);
-
-  const msg = {
-    to: email, // Change to your recipient
-    from: 'cinematesconfirmation@gmail.com', // Change to your verified sender
-    subject: 'Cinemates Password Reset',
-    text: 'Here is the password reset code you need to reset your password on Cinemates.CODEIf you did not request this code, please change your Cinemates passsword and consider changing your email password as well to ensure your account security.',
-    html: '<p style="color:black">Here is the password reset code you need to reset your password on Cinemates.</strong></p><p style="color:blue">'+code+'</p><p style="color:black"><b>If you did not request this code</b>, please change your Cinemates passsword and consider changing your email password as well to ensure your account security.</strong></p>',
+  const {email} = req.body;
+  const db = client.db();
+  const results = await db.collection('users').find({email: email}).toArray();
+  if(results.length == 0){
+    err = "Email not found";
   }
-
-  sgMail
-    .send(msg)
-    .then(() => {
-    console.log('Email sent')
-  })
-    .catch((error) => {
-      err = error;
-    console.error(error)
-  })
-  */
-  const {email, code} = req.body;
-  var err = await SendPasswordReset(email,code);
+  else{
+    const pToken = jwt.sign(results[0],jwtKey);
+    db.collection('users').update({_id: new mongo.ObjectID(results[0]._id)}, {$set: {pToken: pToken}});
+    err = await SendPasswordReset(email, pToken);
+  }
   var ret = { error: err  };
   res.status(200).json(ret);
 });
@@ -550,6 +535,39 @@ app.get("/Verify/", async (req, res) =>
           if(userInfo._id == decoded._id ){
             found = true;
             db.collection('users').update({_id: new mongo.ObjectID(userInfo._id)},{$set: {isVerified: true, vToken: null}});
+            res.status(200).json({success: true, message: "User verified"});
+          }
+        });
+        //this case really shouldn't be possible but ya never know
+        if(! found){
+          res.status(200).json({success: false, message: "User ID not matched"});
+        }
+      }
+    });
+  }
+});
+
+app.get("/Reset/", async (req, res) =>
+{
+  const token = req.query.token;
+  const db = client.db();
+  const results = await db.collection('users').find({pToken : token}).toArray();
+
+  if(results.length == 0){
+    res.status(200).json({success: false, message: "Token not matched"});
+  }
+  else{
+    jwt.verify(token, jwtKey, (err, decoded) =>
+    {
+      if (err) {
+        res.status(200).json({ success: false, message: "Failed to verify token" });
+      }
+      else {
+        var found = false;
+        results.forEach(function(userInfo){
+          if(userInfo._id == decoded._id ){
+            found = true;
+            db.collection('users').update({_id: new mongo.ObjectID(userInfo._id)},{$set: {isVerified: true, pToken: null}});
             res.status(200).json({success: true, message: "User verified"});
           }
         });
