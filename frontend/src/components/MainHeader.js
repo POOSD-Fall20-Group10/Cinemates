@@ -102,7 +102,11 @@ function MainHeader()
                     <button type="button" id="AccountButton" class="buttons" onClick={openAccount}> {login} </button>
                 </li>
                 <li className="nav-item">
-                <button type="button" id="GroupSelector" class="buttons" onClick={openGroup}> Group </button>
+                <select name="groups" id="GroupSelector" onchange="openGroup();">
+                    <option value="dog">Group 1</option>
+                    <option value="cat">Group 2</option>
+                    <option value="hamster">Group 3</option>
+                </select>
                 </li>
                 <li className="nav-item">
                     <button type="button" id="notificationsButton" class="buttons" onClick={openNotifications}> Notifications </button>
