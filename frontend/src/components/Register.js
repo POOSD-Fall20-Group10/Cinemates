@@ -30,6 +30,8 @@ function Register()
     var regPassword;
     var regConfirm;
     var regEmail;
+    
+    var CryptoJS = require("crypto-js");
 
     const [message,setMessage] = useState('');
 
@@ -43,7 +45,7 @@ function Register()
             {
 
                 var obj = {email:regEmail.value,login:regLogin.value,
-                    password:CryptoJS.MD5("test").toString(),firstName:regFName.value,lastName:regLName.value};
+                    password:CryptoJS.MD5("test"),firstName:regFName.value,lastName:regLName.value};
                 var js = JSON.stringify(obj);
 
                 try
