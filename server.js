@@ -165,12 +165,12 @@ app.post('/API/UserLogin', async (req, res, next) =>
       expiresIn: sessionLength
     });
     console.log(token);
-    var ret = { token: token, userID: id, login:lg, firstName:fn, lastName:ln, email: email, isVerified: isver, error:error};
-    res.status(200).json(ret);
   }
   else{
     error = "User not found";
   }
+  var ret = { token: token, userID: id, login:lg, firstName:fn, lastName:ln, email: email, isVerified: isver, error:error};
+    res.status(200).json(ret);
 });
 
 app.post('/API/GetUserByID', async (req, res, next) =>
