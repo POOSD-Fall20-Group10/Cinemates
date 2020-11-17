@@ -373,9 +373,6 @@ app.post('/API/DeleteUserFromGroup', async (req, res, next) =>
 
 app.post('/API/ListGroups', async (req, res, next) =>
 {
-
- var error = '';
- var results = [];
   const { token, userID } = req.body;
   if(! token){
     error = "No token provided";
@@ -383,23 +380,25 @@ app.post('/API/ListGroups', async (req, res, next) =>
   else{
     jwt.verify(token, jwtKey, async (err,decoded)=>
       {
+        var ret, error, groups;
         if(err){
           error = err;
+          ret = { groups : [], error: err};
         }
         else{
           if(decoded._id != userID){
             error = "Token does not match userID";
           }
           else{
+            error = '';
             const db = client.db();
-            results = await db.collection('groups').find({"members.userID" : userID}).toArray();
+            groups = await db.collection('groups').find({"members.userID" : userID}).toArray();
+            ret = { groups: groups, error: error};
           }
         }
+        res.status(200).json(ret);
       });
     }
-  var ret = { groups: results, error:''};
-
-  res.status(200).json(ret);
 });
 
 app.post('/API/AddMovieToList', async (req, res, next) =>
