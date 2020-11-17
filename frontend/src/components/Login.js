@@ -18,7 +18,7 @@ function buildPath(route) {
         var loginName;
         var loginPassword;
         const [message, setMessage] = useState('');
-        
+
         var CryptoJS = require("crypto-js");
 
         const doLogin = async event => {
@@ -34,8 +34,9 @@ function buildPath(route) {
                 });
 
             var res = JSON.parse(await response.text());
-            if (res.id <= 0) {
-                setMessage('User/Password combination incorrect');
+            alert(JSON.stringify(res));
+            if (res.error) {
+                setMessage(res.error);
             } else {
                 var user = {firstName:res.firstName,lastName:res.lastName,id:res.id,login:res.login}
                 localStorage.setItem('user_data', JSON.stringify(user));

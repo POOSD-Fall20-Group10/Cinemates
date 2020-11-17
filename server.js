@@ -169,7 +169,7 @@ app.post('/API/UserLogin', async (req, res, next) =>
   else{
     error = "User not found";
   }
-  var ret = { token: token, userID: id, login:lg, firstName:fn, lastName:ln, email: email, isVerified: isver, error:error};
+  var ret = { token: token, id: id, login:lg, firstName:fn, lastName:ln, email: email, isVerified: isver, error:error};
     res.status(200).json(ret);
 });
 
