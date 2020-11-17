@@ -205,7 +205,7 @@ app.post('/API/GetUserByID', async (req, res, next) =>
     isver = results[0].isVerified;
   }
 
-  var ret = { login:login, firstName:fn, lastName:ln,isVerified:isver,error:''};
+  var ret = { login:login, firstName:fn, lastName:ln,isVerified:isver,error:error};
   res.status(200).json(ret);
 });
 
@@ -231,7 +231,7 @@ app.post('/API/GetUserByLogin', async (req, res, next) =>
     isver = results[0].isVerified;
   }
 
-  var ret = { id:id, firstName:fn, lastName:ln,isVerified:isver, error:''};
+  var ret = { id:id, firstName:fn, lastName:ln,isVerified:isver, error:error};
   res.status(200).json(ret);
 });
 
@@ -380,10 +380,10 @@ app.post('/API/ListGroups', async (req, res, next) =>
   else{
     jwt.verify(token, jwtKey, async (err,decoded)=>
       {
-        var ret, error, groups;
+        var error = '';
+        var groups = [];
         if(err){
           error = err;
-          ret = { groups : [], error: err};
         }
         else{
           if(decoded._id != userID){
@@ -393,9 +393,9 @@ app.post('/API/ListGroups', async (req, res, next) =>
             error = '';
             const db = client.db();
             groups = await db.collection('groups').find({"members.userID" : userID}).toArray();
-            ret = { groups: groups, error: error};
           }
         }
+        var ret = {groups : groups, error: error};
         res.status(200).json(ret);
       });
     }
@@ -541,8 +541,6 @@ app.post('/API/DeleteFriend', async (req, res, next) =>
 
 app.post('/API/ListFriends', async (req, res, next) =>
 {
- var error = '';
- var friends = [];
   const { token, userID } = req.body;
   if(! token){
     error = "No token provided";
@@ -550,6 +548,8 @@ app.post('/API/ListFriends', async (req, res, next) =>
   else{
     jwt.verify(token, jwtKey, async (err,decoded)=>
       {
+        var error = '';
+        var friends = [];
         if(err){
           error = err;
         }
@@ -567,10 +567,10 @@ app.post('/API/ListFriends', async (req, res, next) =>
             }
           }
         }
+        var ret = { friends: friends, error: error};
+        res.status(200).json(ret);
       });
     }
-  var ret = { friends: friends, error:''};
-  res.status(200).json(ret);
 });
 
 app.post('/API/UpdateMovies', async (req, res, next) =>
@@ -600,7 +600,7 @@ app.post('/API/GetMovies', async (req,res,next) =>
    const results = await db.collection('movies').find().toArray();
    //var moviesList = results.slice((page-1)*10,page*10);
 
-   var ret = { movies: results, error:''};
+   var ret = { movies: results, error:error};
 
    res.status(200).json(ret);
 }
