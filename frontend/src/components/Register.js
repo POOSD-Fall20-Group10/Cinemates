@@ -45,7 +45,7 @@ function Register()
             {
 
                 var obj = {email:regEmail.value,login:regLogin.value,
-                    password:CryptoJS.MD5(regPassword.toString),firstName:regFName.value,lastName:regLName.value};
+                    password:CryptoJS.MD5(regPassword.value).toString(),firstName:regFName.value,lastName:regLName.value};
                 var js = JSON.stringify(obj);
 
                 try
