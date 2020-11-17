@@ -11,6 +11,7 @@ function buildPath(route) {
 
 var userId;
 var login;
+var token;
 
 var groupList;
 var movieList;
@@ -25,6 +26,7 @@ function Main() {
     var ud = JSON.parse(_ud);
     userId = ud.id;
     login = ud.login;
+    token = ud.token;
 
     return(
     <div>
@@ -97,7 +99,7 @@ function createGroupList()
 //Then calls createGroupList()
 const loadGroups = async event => {
     event.preventDefault();
-    var obj = {userID:userId};
+    var obj = {token:token,userID:userId};
     var js = JSON.stringify(obj);
 
     //API call
@@ -148,7 +150,7 @@ const loadMovies = async event => {
 const addGroup = async event => {
     event.preventDefault();
     var membersArray = [{"userID" : userId, "yesList":[], "noList":[]}]; // current user
-    var obj = {name:addGroupName.value,description:addGroupDescription.value,members:membersArray};
+    var obj = {token:token,name:addGroupName.value,description:addGroupDescription.value,members:membersArray};
     var js = JSON.stringify(obj);
 
     //API call
