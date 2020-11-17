@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import { 
-    View, 
-    StyleSheet, 
+import {
+    Alert,
+    View,
+    StyleSheet,
     Text,
     Button,
     TextInput,
     Image,
-    KeyboardAvoidingView, 
+    KeyboardAvoidingView,
     Platform
 } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
@@ -17,29 +18,64 @@ import logo from '../assets/Cinemates.png';
 import Card from '../components/Card';
 
 const RegisterScreen = ({ navigation }) => {
+
+  const[fname, setfname] = useState('')
+  const[lname, setlname] = useState('')
+  const[username, setusername] = useState('')
+  const[email, setemail] = useState('')
+  const[password, setpassword] = useState('')
+  const[password2, setpassword2] = useState('')
+  const url = 'https://cine-mates.herokuapp.com/API/AddUser'
+
+const doRegister = () => {
+  //set variables
+  setfname('')
+  setlname('')
+  setusername('')
+  setemail('')
+  setpassword('')
+  setpassword2('')
+
+  //json object construction
+  var obj = {
+    firstName: fname,
+    lastName: lname,
+    login: username,
+    email: email,
+    password: password,
+    password2: password2,
+  };
+
+  var objstr = JSON.stringify(obj)
+
+    Alert.alert(objstr)
+}
+
+
+
     return (
         <Background>
                 <KeyboardAvoidingView
                     behavior={Platform.OS === 'android' ? "height" : "padding"}
-                    style={{ flex : 1 }}    
+                    style={{ flex : 1 }}
                 >
             <View style={styles.screen}>
                 <Image source={logo} style={styles.logo} />
                 <View style={{justifyContent: 'space-between', }}>
                 <Card style={styles.inputContainer}>
 
-                    <TextInput style={styles.textInput} placeholder="First Name" />
-                    <TextInput style={styles.textInput} placeholder="Last Name" />
-                    <TextInput style={styles.textInput} placeholder="Username" />
-                    <TextInput style={styles.textInput} placeholder="Email" />
-                    <TextInput style={styles.textInput} placeholder="Password" />
-                    <TextInput style={styles.textInput} placeholder="Confirm Password" />
-                    <Button title="Register" onPress={() => {}}/>
+                    <TextInput style={styles.textInput} placeholder="First Name" onChangeText={(val) => setfname(val)}/>
+                    <TextInput style={styles.textInput} placeholder="Last Name" onChangeText={(val) => setlname(val)}/>
+                    <TextInput style={styles.textInput} placeholder="Username" onChangeText={(val) => setusername(val)}/>
+                    <TextInput style={styles.textInput} placeholder="Email" onChangeText={(val) => setemail(val)}/>
+                    <TextInput style={styles.textInput} placeholder="Password" onChangeText={(val) => setpassword(val)}/>
+                    <TextInput style={styles.textInput} placeholder="Confirm Password" onChangeText={(val) => setpassword2(val)}/>
+                    <Button title="Register" onPress={() => doRegister()}/>
                     <View style={{flexDirection: 'row'}}>
                         <Text>Already have an account?</Text>
-                        <Button 
-                            title="Login" 
-                            onPress={() => 
+                        <Button
+                            title="Login"
+                            onPress={() =>
                                 navigation.reset ({
                                 index: 0,
                                 routes: [{name: 'Login'}]
