@@ -149,11 +149,13 @@ app.post('/API/UserLogin', async (req, res, next) =>
   var ln = '';
   var lg = '';
   var isver = '';
+  var email = '';
+  var id = '';
   var token;
 
   if( results.length > 0 )
   {
-    userID = results[0]._id;
+    id = results[0]._id;
     lg = results[0].login;
     fn = results[0].firstName;
     ln = results[0].lastName;
