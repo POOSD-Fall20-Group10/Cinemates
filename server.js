@@ -167,7 +167,7 @@ app.post('/API/UserLogin', async (req, res, next) =>
     console.log(token);
   }
   else{
-    error = "User not found";
+    error = "Username or password incorrect";
   }
   var ret = { token: token, id: id, login:lg, firstName:fn, lastName:ln, email: email, isVerified: isver, error:error};
     res.status(200).json(ret);

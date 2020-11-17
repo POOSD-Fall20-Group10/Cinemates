@@ -34,7 +34,6 @@ function buildPath(route) {
                 });
 
             var res = JSON.parse(await response.text());
-            alert(JSON.stringify(res));
             if (res.error) {
                 setMessage(res.error);
             } else {
