@@ -93,12 +93,33 @@ function MainHeader()
 
     return(
         <div id="headerDiv">
-            <button type="button" id="AccountButton" class="buttons" onClick={openAccount}> {login} </button>
-            <button type="button" id="GroupSelector" class="buttons" onClick={openGroup}> Group </button>
-            <button type="button" id="notificationsButton" class="buttons" onClick={openNotifications}> Notifications </button>
-            <button type="button" id="settingsButton" class="buttons" onClick={openSettings}> Settings </button>
-            <button type="button" id="logoutButton" class="buttons" onClick={doLogout}> Log Out </button>
-            <button type="button" id="updateMovieButton" class="buttons" onClick={updateMovies}>Update Movies</button>
+        <nav className="navbar navbar-expand-lg navbar-light fixed-top">
+            <div className="container">
+            <Link className="navbar-brand" to={"/"}>Cinemates</Link>
+            <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
+                <ul className="navbar-nav ml-auto">
+                <li className="nav-item">
+                    <button type="button" id="AccountButton" class="buttons" onClick={openAccount}> {login} </button>
+                </li>
+                <li className="nav-item">
+                <button type="button" id="GroupSelector" class="buttons" onClick={openGroup}> Group </button>
+                </li>
+                <li className="nav-item">
+                    <button type="button" id="notificationsButton" class="buttons" onClick={openNotifications}> Notifications </button>
+                </li>
+                <li className="nav-item">
+                    <button type="button" id="settingsButton" class="buttons" onClick={openSettings}> Settings </button>
+                </li>
+                <li className="nav-item">
+                    <button type="button" id="logoutButton" class="buttons" onClick={doLogout}> Log Out </button>
+                </li>
+                <li className="nav-item">
+                    <button type="button" id="updateMovieButton" class="buttons" onClick={updateMovies}>Update Movies</button>
+                </li>
+                </ul>
+            </div>
+            </div>
+        </nav>
         </div>
     );
 }

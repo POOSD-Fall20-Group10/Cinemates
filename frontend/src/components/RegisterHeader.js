@@ -19,7 +19,6 @@ function RegisterHeader() {
             </div>
         </nav>
         </div>
-
     );
 }
 
