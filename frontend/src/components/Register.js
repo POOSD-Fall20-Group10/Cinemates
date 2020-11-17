@@ -43,7 +43,7 @@ function Register()
             {
 
                 var obj = {email:regEmail.value,login:regLogin.value,
-                    password:'test',firstName:regFName.value,lastName:regLName.value};
+                    password:"test2",firstName:regFName.value,lastName:regLName.value};
                 var js = JSON.stringify(obj);
 
                 try
