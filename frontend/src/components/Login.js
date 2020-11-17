@@ -18,10 +18,12 @@ function buildPath(route) {
         var loginName;
         var loginPassword;
         const [message, setMessage] = useState('');
+        
+        var CryptoJS = require("crypto-js");
 
         const doLogin = async event => {
             event.preventDefault();
-            var obj = {login:loginName.value,password:loginPassword.value};
+            var obj = {login:loginName.value,password:CryptoJS.MD5(loginPassword.value).toString()};
             var js = JSON.stringify(obj);
 
             try {    
