@@ -88,7 +88,7 @@ app.post('/API/EditUser', async (req, res, next) =>
 {
 
   var error = '';
-  const { token, email, login, password, firstName, lastName } = req.body;
+  const { token, userID, email, login, password, firstName, lastName } = req.body;
   if(! token){
     error = "No token provided";
   }
@@ -99,9 +99,14 @@ app.post('/API/EditUser', async (req, res, next) =>
           error = err;
         }
         else{
+          if(decoded._id != userID){
+            error = "Token does not match userID";
+          }
+          else{
             const db = client.db();
-            db.collection('users').update({_id: new mongo.ObjectID(decoded._id)},{email:email,login:login,password:password,
+            db.collection('users').update({_id: new mongo.ObjectID(userID)},{email:email,login:login,password:password,
               firstName:firstName,lastName:lastName})
+          }
         }
       });
   }
@@ -114,7 +119,7 @@ app.post('/API/DeleteUser', async (req, res, next) =>
 
   var error = '';
 
-  const { token } = req.body;
+  const { token, userID } = req.body;
   if(! token){
     error = "No token provided";
   }
@@ -125,8 +130,13 @@ app.post('/API/DeleteUser', async (req, res, next) =>
           error = err;
         }
         else{
-          const db = client.db();
-          db.collection('users').deleteOne({_id: new mongo.ObjectID(decoded._id)})
+          if(decoded._id != userID){
+            error = "Token does not match userID";
+          }
+          else{
+            const db = client.db();
+            db.collection('users').deleteOne({_id: new mongo.ObjectID(userID)});
+          }
         }
       });
     }
@@ -318,8 +328,13 @@ app.post('/API/AddUserToGroup', async (req, res, next) =>
           error = err;
         }
         else{
-          const db = client.db();
-          db.collection('groups').update({_id: new mongo.ObjectID(groupID)},{ $addToSet: {members: {userID : userID, yesList : [], noList : []}}});
+          if(decoded._id != userID){
+            error = "Token does not match userID";
+          }
+          else{
+            const db = client.db();
+            db.collection('groups').update({_id: new mongo.ObjectID(groupID)},{ $addToSet: {members: {userID : userID, yesList : [], noList : []}}});
+          }
         }
       });
     }
@@ -329,7 +344,6 @@ app.post('/API/AddUserToGroup', async (req, res, next) =>
 
 app.post('/API/DeleteUserFromGroup', async (req, res, next) =>
 {
-
   var error = '';
 
   const { token, groupID, userID } = req.body;
@@ -343,8 +357,13 @@ app.post('/API/DeleteUserFromGroup', async (req, res, next) =>
           error = err;
         }
         else{
+          if(decoded._id != userID){
+            error = "Token does not match userID";
+          }
+          else{
           const db = client.db();
           db.collection('groups').update({_id: new mongo.ObjectID(groupID)},{ $pull: {members: {"userID" : userID}}});
+          }
         }
       });
     }
@@ -357,7 +376,7 @@ app.post('/API/ListGroups', async (req, res, next) =>
 
  var error = '';
  var results = [];
-  const { token } = req.body;
+  const { token, userID } = req.body;
   if(! token){
     error = "No token provided";
   }
@@ -368,8 +387,13 @@ app.post('/API/ListGroups', async (req, res, next) =>
           error = err;
         }
         else{
-          const db = client.db();
-          results = await db.collection('groups').find({"members.userID" : decoded._id}).toArray();
+          if(decoded._id != userID){
+            error = "Token does not match userID";
+          }
+          else{
+            const db = client.db();
+            results = await db.collection('groups').find({"members.userID" : userID}).toArray();
+          }
         }
       });
     }
@@ -383,17 +407,33 @@ app.post('/API/AddMovieToList', async (req, res, next) =>
   var error = '';
 
   const { token, groupID, userID, movieID, liked } = req.body;
-
-  const db = client.db();
-  if(liked){
-    db.collection('groups').update({_id: new mongo.ObjectID(groupID) , "members.userID" : userID},
-      { $addToSet: {"members.$.yesList" : {movieID : movieID}}});
-    }
-    else{
-      db.collection('groups').update({_id: new mongo.ObjectID(groupID) , "members.userID" : userID},
-        { $addToSet: {"members.$.noList" : {movieID : movieID}}});
-    }
-
+  if(! token){
+    error = "No token provided";
+  }
+  else{
+    jwt.verify(token, jwtKey, async (err,decoded)=>
+      {
+        if(err){
+          error = err;
+        }
+        else{
+          if(decoded._id != userID){
+            error = "Token does not match userID";
+          }
+          else{
+            const db = client.db();
+            if(liked){
+              db.collection('groups').update({_id: new mongo.ObjectID(groupID) , "members.userID" : userID},
+                { $addToSet: {"members.$.yesList" : {movieID : movieID}}});
+              }
+              else{
+                db.collection('groups').update({_id: new mongo.ObjectID(groupID) , "members.userID" : userID},
+                  { $addToSet: {"members.$.noList" : {movieID : movieID}}});
+              }
+            }
+          }
+        });
+      }
   var ret = { error: error };
   res.status(200).json(ret);
 });
@@ -504,7 +544,7 @@ app.post('/API/ListFriends', async (req, res, next) =>
 {
  var error = '';
  var friends = [];
-  const { token } = req.body;
+  const { token, userID } = req.body;
   if(! token){
     error = "No token provided";
   }
@@ -515,12 +555,17 @@ app.post('/API/ListFriends', async (req, res, next) =>
           error = err;
         }
         else{
-          const db = client.db();
-          const results = await db.collection('users').find({_id : new mongo.ObjectID(userID)}).toArray();
+          if(decoded._id != userID){
+            error = "Token does not match userID";
+          }
+          else{
+            const db = client.db();
+            const results = await db.collection('users').find({_id : new mongo.ObjectID(userID)}).toArray();
 
-          if( results.length > 0 )
-          {
-            friends = results[0].friends;
+            if( results.length > 0 )
+            {
+              friends = results[0].friends;
+            }
           }
         }
       });
