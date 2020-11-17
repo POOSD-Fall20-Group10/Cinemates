@@ -1,4 +1,6 @@
-import React/*, { useState }*/ from 'react';
+import React from 'react';
+import MainHeader from './MainHeader';
+
 const app_name = 'cine-mates'
 function buildPath(route) {
     if (process.env.NODE_ENV === 'production') {
@@ -136,6 +138,7 @@ function Main() {
 
     return(
     <div>
+        <MainHeader></MainHeader>
         <div id="mainDiv">
             <div id="moviesDiv">
             <button type="button" id="moviesTest" class="buttons" onClick={loadMovies}> Get Movies </button>
