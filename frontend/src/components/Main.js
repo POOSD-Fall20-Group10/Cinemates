@@ -137,38 +137,38 @@ function Main() {
     token = ud.token;
 
     return(
-    <div>
-        <MainHeader></MainHeader>
-        <div id="mainDiv">
-            <div id="moviesDiv">
-            <button type="button" id="moviesTest" class="buttons" onClick={loadMovies}> Get Movies </button>
-            </div>
-            <div id="groupsDiv">
-                <button type="button" id="GroupTest" class="buttons" onClick={loadGroups}> Get Groups </button>
-            </div>
-        </div>
-        <div id="movieListDiv">
-        </div>
-        <div id="groupListDiv">
-        </div>
-        <div id="tempAddGroupDiv">
-            <form onSubmit={addGroup}>
-                <h3>Add Group</h3>
-                <div className="form-group">
-                    <label>Group Name</label>
-                    <input type="text" className="form-control" id="addGroupName" placeholder="Group Name" ref={(c) => addGroupName = c}/>
+        <div>
+            <MainHeader></MainHeader>
+            <div id="mainDiv">
+                <div id="moviesDiv">
+                <button type="button" id="moviesTest" class="buttons" onClick={loadMovies}> Get Movies </button>
                 </div>
-
-                <div className="form-group">
-                    <label>Group Description</label>
-                    <input type="text" className="form-control" id="addGroupDescription" placeholder="Description" ref={(c) => addGroupDescription = c}/>
+                <div id="groupsDiv">
+                    <button type="button" id="GroupTest" class="buttons" onClick={loadGroups}> Get Groups </button>
                 </div>
+            </div>
+            <div id="movieListDiv">
+            </div>
+            <div id="groupListDiv">
+            </div>
+            <div id="tempAddGroupDiv">
+                <form onSubmit={addGroup}>
+                    <h3>Add Group</h3>
+                    <div className="form-group">
+                        <label>Group Name</label>
+                        <input type="text" className="form-control" id="addGroupName" placeholder="Group Name" ref={(c) => addGroupName = c}/>
+                    </div>
 
-                <button type="submit" className="btn btn-dark btn-lg btn-block" onClick={addGroup}>Add Group</button>
+                    <div className="form-group">
+                        <label>Group Description</label>
+                        <input type="text" className="form-control" id="addGroupDescription" placeholder="Description" ref={(c) => addGroupDescription = c}/>
+                    </div>
 
-            </form>
+                    <button type="submit" className="btn btn-dark btn-lg btn-block" onClick={addGroup}>Add Group</button>
+
+                </form>
+            </div>
         </div>
-    </div>
     );
 }
 

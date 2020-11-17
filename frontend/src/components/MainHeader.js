@@ -107,6 +107,7 @@ function MainHeader()
                     <option value="cat">Group 2</option>
                     <option value="hamster">Group 3</option>
                 </select>
+                <div>&nbsp;</div>
                 </li>
                 <li className="nav-item">
                     <button type="button" id="notificationsButton" class="buttons" onClick={openNotifications}> Notifications </button>

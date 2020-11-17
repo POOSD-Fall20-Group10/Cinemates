@@ -76,37 +76,37 @@ function Register()
     };
 
     return(
-    <div>
-    <RegisterHeader></RegisterHeader>
-    <div id="regDiv">
-            <form onSubmit={doRegister}>
-                <div class="row">
-                    <div class="col">
-                        <label for="fname">First Name</label>
-                        <input type="text" className="form-control" id="regFName" placeholder="First Name" ref={(c) => regFName = c}/>
-                        <label for="lname">Last Name</label>
-                        <input type="text" className="form-control" id="regLName" placeholder="Last Name" ref={(c) => regLName = c}/>
-                        <label for="uname">Username</label>
-                        <input type="text" className="form-control" id="regLogin" placeholder="Username" ref={(c) => regLogin = c}/>
+        <div>
+        <RegisterHeader></RegisterHeader>
+        <div id="regDiv">
+                <form onSubmit={doRegister}>
+                    <div class="row">
+                        <div class="col">
+                            <label for="fname">First Name</label>
+                            <input type="text" className="form-control" id="regFName" placeholder="First Name" ref={(c) => regFName = c}/>
+                            <label for="lname">Last Name</label>
+                            <input type="text" className="form-control" id="regLName" placeholder="Last Name" ref={(c) => regLName = c}/>
+                            <label for="uname">Username</label>
+                            <input type="text" className="form-control" id="regLogin" placeholder="Username" ref={(c) => regLogin = c}/>
+                        </div>
+                        <div class="col">
+                            <label for="email">Email</label>
+                            <input type="email" className="form-control" id="regEmail" placeholder="Email" ref={(c) => regEmail = c}/>
+                            <label for="password">Password</label>
+                            <input type="password" className="form-control" id="regPassword" placeholder="Password" ref={(c) => regPassword = c}/>
+                            <label for="password2">Confirm Password</label>
+                            <input type="password" className="form-control" id="regConfirm" placeholder="Confirm Password" ref={(c) => regConfirm = c}/>
+                        </div>
                     </div>
-                    <div class="col">
-                        <label for="email">Email</label>
-                        <input type="email" className="form-control" id="regEmail" placeholder="Email" ref={(c) => regEmail = c}/>
-                        <label for="password">Password</label>
-                        <input type="password" className="form-control" id="regPassword" placeholder="Password" ref={(c) => regPassword = c}/>
-                        <label for="password2">Confirm Password</label>
-                        <input type="password" className="form-control" id="regConfirm" placeholder="Confirm Password" ref={(c) => regConfirm = c}/>
-                    </div>
+                    <div>&nbsp;</div>
+                    <button type="submit" className="btn btn-dark btn-lg btn-block" onClick={doRegister}>Register</button>
+                    <p className="forgot-password text-right">
+                        Already registered? <a href="#">log in</a>
+                    </p>
+                    <span id="regResult">{message}</span>
+                </form>
                 </div>
-                <div>&nbsp;</div>
-                <button type="submit" className="btn btn-dark btn-lg btn-block" onClick={doRegister}>Register</button>
-                <p className="forgot-password text-right">
-                    Already registered? <a href="#">log in</a>
-                </p>
-                <span id="regResult">{message}</span>
-            </form>
             </div>
-        </div>
     );
 }
 
