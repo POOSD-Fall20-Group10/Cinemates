@@ -1,13 +1,5 @@
 import React, { useState } from 'react';
-import {
-    Alert,
-    View,
-    StyleSheet,
-    Text,
-    Button,
-    TextInput,
-    Image
-} from 'react-native';
+import { Alert, View, StyleSheet, Text, Button, TextInput, Image, KeyboardAvoidingView, Platform } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 
 import Background from '../components/Background';
@@ -16,42 +8,39 @@ import Card from '../components/Card';
 
 const LoginScreen = ({ navigation }) => {
 
+const url = 'https://cine-mates.herokuapp.com/API/UserLogin'
 const[username, setName] = useState('')
 const[password, setPass] = useState('')
-const url = 'https://cine-mates.herokuapp.com/API/UserLogin'
 
+//login Api call
 async function sendtoserver(param) {
-    try {
-      let response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: param
-      });
-      let responseJson = await response.json()
-  
-      //correct password
-      if(responseJson.error == ''){
-        Alert.alert("Username + Password work")
-      }
-      //incorrect password
-      else if (responseJson.error == 'Username or password incorrect') {
-        Alert.alert(responseJson.error)
-      }
-  
-    } catch (e) {
-      Alert.alert(e)
+  try {
+    let response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: param
+    });
+    let responseJson = await response.json()
+
+    //correct password
+    if(responseJson.error == ''){
+      Alert.alert("goodshit my g")
     }
+    //incorrect password
+    else if (responseJson.error == 'Username or password incorrect') {
+      Alert.alert(responseJson.error)
+    }
+
+  } catch (e) {
+    Alert.alert(e)
   }
-  
+}
 
+//set username and password to send to api call function
 const doLogin = () => {
-  //set variables
-  setName('')
-  setPass('')
-
   //json object construction
   var obj = {
     login: username,
@@ -60,9 +49,7 @@ const doLogin = () => {
 
   var objstr = JSON.stringify(obj)
 
-    Alert.alert(objstr)
-
-    sendtoserver(objstr)
+  sendtoserver(objstr)
 }
 
     return (
