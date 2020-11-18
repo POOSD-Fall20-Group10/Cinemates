@@ -17,41 +17,34 @@ function Account() {
 
     curAccount = localStorage.getItem('current_account');
 
-    const fetchAccount = async event => {
-        event.preventDefault();
-        var obj = {userID:curAccount};
-        var js = JSON.stringify(obj);
+    var obj = {userID:curAccount};
+    var js = JSON.stringify(obj);
 
-        //API call
-        try {
-                const response = await fetch(buildPath('api/GetUserByID'), {
-                    method:'POST',body:js,headers:{
-                        'Content-Type': 'application/json'
-                    }
-                });
+    var xhr = new XMLHttpRequest();
+	xhr.open("POST", buildPath('api/GetUserByID'), false);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+    try {
+            xhr.send(js);
 
-                curAccountInfo = JSON.parse(await response.text()); // Response text
-                var div = document.getElementById("accountNameDiv"); // Account name Div
-                div.innerHTML = curAccountInfo.login; // Adds Account name to div
-                div = document.getElementById("accountFirstLast"); // Account F/L name Div
-                div.innerHTML = curAccountInfo.firstName + " " + curAccountInfo.lastName; // Adds F/L name to div
-            }
-        catch(e)
-        {
-            alert(e.toString());
-            return;
+            curAccountInfo = JSON.parse(xhr.responseText); // Response text
+            var name = curAccountInfo.firstName + " " + curAccountInfo.lastName;
         }
-    };
+    catch(e)
+    {
+        alert(e.toString());
+        return;
+    }
 
     return(
         <div>
             <div id="Account">
                 <h1 id="title">Account</h1>
-                <button type="submit" className="btn btn-dark btn-lg btn-block" onClick={fetchAccount}>FetchAccount</button>
             </div>
-            <div id="accountNameDiv">
+            <div id="accountNameDiv" >
+                <h1 id="title">{curAccountInfo.login}</h1>
             </div>
             <div id="accountFirstLast">
+                <h1 id="title">{name}</h1>
             </div>
         </div>
    );
