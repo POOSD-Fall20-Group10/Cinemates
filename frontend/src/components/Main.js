@@ -1,5 +1,6 @@
 import React from 'react';
 import MainHeader from './MainHeader';
+import Gallery from './Gallery';
 
 const app_name = 'cine-mates'
 function buildPath(route) {
@@ -139,6 +140,7 @@ function Main() {
     return(
         <div>
             <MainHeader></MainHeader>
+            <Gallery></Gallery>
             <div id="mainDiv">
                 <div id="moviesDiv">
                 <button type="button" id="moviesTest" class="buttons" onClick={loadMovies}> Get Movies </button>
@@ -152,6 +154,7 @@ function Main() {
             <div id="groupListDiv">
             </div>
             <div id="tempAddGroupDiv">
+            <div class="container">
                 <form onSubmit={addGroup}>
                     <h3>Add Group</h3>
                     <div className="form-group">
@@ -165,9 +168,9 @@ function Main() {
                     </div>
 
                     <button type="submit" className="btn btn-dark btn-lg btn-block" onClick={addGroup}>Add Group</button>
-
                 </form>
             </div>
+        </div>
         </div>
     );
 }
