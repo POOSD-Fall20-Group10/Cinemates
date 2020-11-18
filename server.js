@@ -413,6 +413,8 @@ app.post('/API/AddMovieToList', async (req, res, next) =>
   const { token, groupID, userID, movieID, liked } = req.body;
   if(! token){
     error = "No token provided";
+    var ret = { error: error };
+    res.status(200).json(ret);
   }
   else{
     jwt.verify(token, jwtKey, async (err,decoded)=>
@@ -436,59 +438,61 @@ app.post('/API/AddMovieToList', async (req, res, next) =>
               }
             }
           }
+          var ret = { error: error };
+          res.status(200).json(ret);
         });
       }
-  var ret = { error: error };
-  res.status(200).json(ret);
 });
 
 app.post('/API/GetMovieApprovals', async (req, res, next) =>
 {
   var error = '';
-
+  var moviesList = [];
   const { groupID } = req.body;
 
   const db = client.db();
   const results = await db.collection('groups').find({_id: new mongo.ObjectID(groupID)}).toArray();
 
-  if(results.length > 0){
-    membersList = results[0].members;
+  if(results.length == 0){
+    error = "Group not found";
+  }
+  else{
+        membersList = results[0].members;
+        var yesVotes = new Map();
+        var noVotes = new Map();
+
+        membersList.forEach(function(memberInfo){
+          memberInfo.yesList.forEach(function(movieInfo){
+            if(yesVotes.has(movieInfo.movieID)){
+              yesVotes.set(movieInfo.movieID, yesVotes.get(movieInfo.movieID) + 1);
+            }
+            else{
+              yesVotes.set(movieInfo.movieID, 1);
+            }
+          });
+          memberInfo.noList.forEach(function(movieInfo){
+            if(noVotes.has(movieInfo.movieID)){
+              noVotes.set(movieInfo.movieID, noVotes.get(movieInfo.movieID) + 1);
+            }
+            else{
+              noVotes.set(movieInfo.movieID, 1);
+            }
+          });
+        });
+
+        moviesList = Array.from(yesVotes.keys()).concat(Array.from(noVotes.keys()).filter((item) => !yesVotes.has(item)));
+        moviesList.sort(function(a,b){
+          if (!yesVotes.has(a) || !noVotes.has(b)){
+            return 1;
+          }
+          if(!yesVotes.has(b) || !noVotes.has(a)){
+            return -1;
+          }
+          return ( (yesVotes.get(a) / noVotes.get(a)) < (yesVotes.get(b) / noVotes.get(b)) );
+        });
   }
 
-  var yesVotes = new Map();
-  var noVotes = new Map();
-
-  membersList.forEach(function(memberInfo){
-    memberInfo.yesList.forEach(function(movieInfo){
-      if(yesVotes.has(movieInfo.movieID)){
-        yesVotes.set(movieInfo.movieID, yesVotes.get(movieInfo.movieID) + 1);
-      }
-      else{
-        yesVotes.set(movieInfo.movieID, 1);
-      }
-    });
-    memberInfo.noList.forEach(function(movieInfo){
-      if(noVotes.has(movieInfo.movieID)){
-        noVotes.set(movieInfo.movieID, noVotes.get(movieInfo.movieID) + 1);
-      }
-      else{
-        noVotes.set(movieInfo.movieID, 1);
-      }
-    });
-  });
-
-  var moviesList = Array.from(yesVotes.keys()).concat(Array.from(noVotes.keys()).filter((item) => !yesVotes.has(item)));
-  moviesList.sort(function(a,b){
-    if (!yesVotes.has(a) || !noVotes.has(b)){
-      return 1;
-    }
-    if(!yesVotes.has(b) || !noVotes.has(a)){
-      return -1;
-    }
-    return ( (yesVotes.get(a) / noVotes.get(a)) < (yesVotes.get(b) / noVotes.get(b)) );
-  });
-
-  var ret = { movies:moviesList };
+  var ret = { movies:moviesList, error: error };
   res.status(200).json(ret);
 });
 
@@ -500,6 +504,8 @@ app.post('/API/AddFriend', async (req, res, next) =>
   const { token, user1, user2 } = req.body;
   if(! token){
     error = "No token provided";
+    var ret = { error: error };
+    res.status(200).json(ret);
   }
   else{
     jwt.verify(token, jwtKey, async (err,decoded)=>
@@ -512,10 +518,10 @@ app.post('/API/AddFriend', async (req, res, next) =>
           db.collection('users').update({_id: new mongo.ObjectID(user1)},{ $addToSet: {friends: {userID : user2}}});
           db.collection('users').update({_id: new mongo.ObjectID(user2)},{ $addToSet: {friends: {userID : user1}}});
         }
+        var ret = { error: error };
+        res.status(200).json(ret);
       });
     }
-  var ret = { error: error };
-  res.status(200).json(ret);
 });
 
 app.post('/API/DeleteFriend', async (req, res, next) =>
@@ -526,6 +532,8 @@ app.post('/API/DeleteFriend', async (req, res, next) =>
   const { token, user1, user2 } = req.body;
   if(! token){
     error = "No token provided";
+    var ret = { error: error };
+    res.status(200).json(ret);
   }
   else{
     jwt.verify(token, jwtKey, async (err,decoded)=>
@@ -538,23 +546,25 @@ app.post('/API/DeleteFriend', async (req, res, next) =>
           db.collection('users').update({_id: new mongo.ObjectID(user1)},{ $pull: {friends: {userID : user2}}});
           db.collection('users').update({_id: new mongo.ObjectID(user2)},{ $pull: {friends: {userID : user1}}});
         }
+        var ret = { error: error };
+        res.status(200).json(ret);
       });
     }
-  var ret = { error: error };
-  res.status(200).json(ret);
 });
 
 app.post('/API/ListFriends', async (req, res, next) =>
 {
+  var error = '';
+  var friends = [];
   const { token, userID } = req.body;
   if(! token){
     error = "No token provided";
+    var ret = { friends: friends, error: error};
+    res.status(200).json(ret);
   }
   else{
     jwt.verify(token, jwtKey, async (err,decoded)=>
       {
-        var error = '';
-        var friends = [];
         if(err){
           error = err;
         }
