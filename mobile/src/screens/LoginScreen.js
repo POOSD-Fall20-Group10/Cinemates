@@ -11,6 +11,7 @@ const LoginScreen = ({ navigation }) => {
 const url = 'https://cine-mates.herokuapp.com/API/UserLogin'
 const[username, setName] = useState('')
 const[password, setPass] = useState('')
+var md5 = require('md5');
 
 //login Api call
 async function sendtoserver(param) {
@@ -42,9 +43,12 @@ async function sendtoserver(param) {
 //set username and password to send to api call function
 const doLogin = () => {
   //json object construction
+
+  var hashedpass = md5(password)
+
   var obj = {
     login: username,
-    password: password
+    password: hashedpass
   };
 
   var objstr = JSON.stringify(obj)

@@ -16,6 +16,7 @@ const RegisterScreen = ({ navigation }) => {
   const[email, setemail] = useState('')
   const[password, setpassword] = useState('')
   const[password2, setpassword2] = useState('')
+  var md5 = require('md5');
 
   //login Api call
   async function sendtoserver(param) {
@@ -55,13 +56,15 @@ const doRegister = () => {
     return
   }
 
+  var hashedpass = md5(password)
+
   //json object construction
   var obj = {
     firstName: fname,
     lastName: lname,
     login: username,
     email: email,
-    password: password,
+    password: hashedpass,
   };
 
   var objstr = JSON.stringify(obj)
