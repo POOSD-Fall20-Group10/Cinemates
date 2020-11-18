@@ -17,13 +17,15 @@ function Verify(){
 
     try {
             const response = await fetch(buildPath('Verify?token='+token));
+            alert(response.text());
+            /*
            const data = await response.json();
             if(data.success){
               alert("verified");
             }
             else{
               alert("not verified");
-            }
+            }*/
         }
     catch(e)
     {
