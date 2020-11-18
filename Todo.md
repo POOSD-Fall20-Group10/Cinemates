@@ -7,9 +7,11 @@ Create headers for each page specifically
 ##Frontend Main:   
 ~~Create groups array~~
 Organize Groups array onto page
+Add Group info to button
+Add onCLick event to button That transfers page with info
 ~~Create movies array~~
 Organized movie array onto page
-Create group selector in movies section   
+Create group selector in movies section
 
 ##Frontend Account:   
 Create areas for account name, desc
