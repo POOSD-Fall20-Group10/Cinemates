@@ -22,6 +22,32 @@ const[username, setName] = useState('')
 const[password, setPass] = useState('')
 const url = 'https://cine-mates.herokuapp.com/API/UserLogin'
 
+async function sendtoserver(param) {
+  try {
+    let response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: param
+    });
+    let responseJson = await response.json()
+
+    //correct password
+    if(responseJson.error == ''){
+      Alert.alert("goodshit my g")
+    }
+    //incorrect password
+    else if (responseJson.error == 'Username or password incorrect') {
+      Alert.alert(responseJson.error)
+    }
+
+  } catch (e) {
+    Alert.alert(e)
+  }
+}
+
 const doLogin = () => {
   //set variables
   setName('')
@@ -37,6 +63,7 @@ const doLogin = () => {
 
     Alert.alert(objstr)
 
+  sendtoserver(objstr)
 }
 
 /*
@@ -48,6 +75,8 @@ fetch('https://cine-mates.herokuapp.com/API/UserLogin', {
     Alert.alert(responseJson)
   })
 */
+
+
 
 
 
