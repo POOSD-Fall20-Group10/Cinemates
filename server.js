@@ -227,6 +227,7 @@ app.post('/API/GetUserByLogin', async (req, res, next) =>
   var fn = '';
   var ln = '';
   var isver = '';
+  var email = '';
 
   if( results.length > 0 )
   {
@@ -234,9 +235,10 @@ app.post('/API/GetUserByLogin', async (req, res, next) =>
     fn = results[0].firstName;
     ln = results[0].lastName;
     isver = results[0].isVerified;
+    email = results[0].email;
   }
 
-  var ret = { id:id, firstName:fn, lastName:ln,isVerified:isver, error:error};
+  var ret = { id:id, firstName:fn, lastName:ln, email: email, isVerified:isver, error:error};
   res.status(200).json(ret);
 });
 
@@ -270,7 +272,7 @@ app.post('/API/EditGroup', async (req, res, next) =>
 
   var error = '';
 
-  const { token, groupID, name, description, members } = req.body;
+  const { token, groupID, name, description } = req.body;
   if(! token){
     error = "No token provided";
   }
@@ -282,7 +284,7 @@ app.post('/API/EditGroup', async (req, res, next) =>
         }
         else{
         const db = client.db();
-        db.collection('groups').update({_id: new mongo.ObjectID(groupID)},{name:name,description:description,members:members})
+        db.collection('groups').update({_id: new mongo.ObjectID(groupID)},{$set: {name:name,description:description}})
       }
     });
   }
