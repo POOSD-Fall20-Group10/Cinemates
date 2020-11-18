@@ -27,7 +27,8 @@ Way to open specific groups per page
 -password recovery: PasswordReset endpoint takes an email, generates a password reset token and sends it to the email. When the link is clicked it takes the user to /Reset which checks the token same as /Verify. Need a page at that address which checks if the request was success, if so then have fields to enter new password. 
 
 #API:   
-Add chat API. Takes in date/time, login, and message   
+Add chat API. Takes in date/time, login, and message
+Add description to users
 
 #Backburner:   
 Friends system
