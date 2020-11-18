@@ -14,7 +14,7 @@ function Verify(){
   const doVerify = async event => {
     const authResult = new URLSearchParams(window.location.search);
     const token = authResult.get('token');
-
+    var js = JSON.stringify({token: token})
     try {
             const response = await fetch(buildPath('api/Verify'),{
               method:'POST',body:js,headers:{
