@@ -67,7 +67,7 @@ const resendEmail = async event => {
             if (res.error) {
                 setMessage(res.error);
             } else {
-                user = {firstName:res.firstName,lastName:res.lastName,id:res.id,login:res.login,email:res.email}
+                user = {firstName:res.firstName,lastName:res.lastName,id:res.id,login:res.login,email:res.email,token:res.token}
                 localStorage.setItem('user_data', JSON.stringify(user));
                 setMessage('');
                 if(res.isVerified)
