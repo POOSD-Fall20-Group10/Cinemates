@@ -37,10 +37,12 @@ function MainHeader()
     {
         event.preventDefault();
     };
-    const openAccount = event => //Needs to send to Account page
-    {
-        event.preventDefault();
-    };
+    // Moves to account page with current user info
+    const openAccount = async event => {
+        event.preventDefault();
+        localStorage.setItem('current_account', userId);
+        window.location.href = '/account';
+    };
     const openGroup = event => //Needs to be changed to work with dropdown menu to select active group
     {
         event.preventDefault();
