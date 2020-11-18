@@ -15,23 +15,31 @@ import logo from './Cinemates.png';
 
 function App() {
   return (
-  <Router>
+    <Router>
     <div className="App">
       <div className="outer">
-      <div>&nbsp;&nbsp;&nbsp;</div>
-      <div className="container-div">
-        <img src={logo} alt="Cinemates" width="200" height="200"></img>
-      </div>
-        <div className="inner">
+        <div>
         <Switch>
         <Route path="/" exact>
-          <LoginPage />
+          <div>&nbsp;&nbsp;&nbsp;</div>
+          <div className="container-div">
+            <img src={logo} alt="Cinemates" width="200" height="200"></img>
+          </div>
+          <div className="inner">
+            <LoginPage/>
+          </div>
         </Route>
         <Route path="/register" exact>
-          <RegisterPage />
+        <div>&nbsp;&nbsp;&nbsp;</div>
+          <div className="container-div">
+            <img src={logo} alt="Cinemates" width="200" height="200"></img>
+        </div>
+        <div className="inner">
+            <RegisterPage/>
+          </div>
         </Route>
         <Route path="/main" exact>
-          <MainPage />
+          <MainPage/>
         </Route>
         <Route path="/group" exact>
           <GroupPage />
