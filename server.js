@@ -28,6 +28,9 @@ app.use(express.urlencoded({limit: '50mb'}));
 // session token will expire after 30 minutes if not refreshed
 const sessionLength = 1800000;
 
+//expiration time of 0 makes token last for duration of browser session
+//const sessionLength = 0;
+
 app.use((req, res, next) =>
 {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -609,7 +612,10 @@ app.post('/API/GetMovies', async (req,res,next) =>
 
 async function SendEmailVerification(email, token){
   err = '';
-  var linkURL = 'http://localhost:5000/Verify?token='+token;
+  //link for testing local server
+  //var linkURL = 'http://localhost:5000/Reset?token='+token;
+  //link for production
+  var linkURL = 'http://cine-mates.herokuapp.com/Verify?token=' + token;
   const msg = {
     to: email, // Change to your recipient
     from: 'cinematesconfirmation@gmail.com', // Change to your verified sender
@@ -630,7 +636,10 @@ async function SendEmailVerification(email, token){
 
 async function SendPasswordReset(email, token){
   err = '';
-  var linkURL = 'http://localhost:5000/Reset?token='+token;
+  //link for testing local server
+  //var linkURL = 'http://localhost:5000/Reset?token='+token;
+  //link for production
+  var linkURL = 'http://cine-mates.herokuapp.com/Reset?token=' + token;
   const msg = {
     to: email, // Change to your recipient
     from: 'cinematesconfirmation@gmail.com', // Change to your verified sender
