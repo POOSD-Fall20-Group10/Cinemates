@@ -447,6 +447,60 @@ app.post('/API/AddMovieToList', async (req, res, next) =>
 app.post('/API/GetMovieApprovals', async (req, res, next) =>
 {
   var error = '';
+  var movieVotes = [];
+  const { groupID } = req.body;
+
+  const db = client.db();
+  const results = await db.collection('groups').find({_id: new mongo.ObjectID(groupID)}).toArray();
+
+  if(results.length == 0){
+    error = "Group not found";
+  }
+  else{
+        membersList = results[0].members;
+        var yesVotes = new Map();
+        var noVotes = new Map();
+
+        membersList.forEach(function(memberInfo){
+          memberInfo.yesList.forEach(function(movieInfo){
+            if(yesVotes.has(movieInfo.movieID)){
+              yesVotes.set(movieInfo.movieID, yesVotes.get(movieInfo.movieID) + 1);
+            }
+            else{
+              yesVotes.set(movieInfo.movieID, 1);
+            }
+          });
+          memberInfo.noList.forEach(function(movieInfo){
+            if(noVotes.has(movieInfo.movieID)){
+              noVotes.set(movieInfo.movieID, noVotes.get(movieInfo.movieID) + 1);
+            }
+            else{
+              noVotes.set(movieInfo.movieID, 1);
+            }
+          });
+        });
+
+        var moviesList = Array.from(yesVotes.keys()).concat(Array.from(noVotes.keys()).filter((item) => !yesVotes.has(item)));
+        movieVotes = moviesList.map(function(m){
+          var yesCount = 0;
+          var noCount = 0;
+          if(yesVotes.has(m)){
+            yesCount = yesVotes.get(m);
+          }
+          if(noVotes.has(m)){
+            noCount = noVotes.get(m);
+          }
+          return {movie: m, yesVotes: yesCount, noVotes: noCount }
+        });
+    }
+
+  var ret = { movies: movieVotes, error: error };
+  res.status(200).json(ret);
+});
+
+app.post('/API/GetSortedMovies', async (req, res, next) =>
+{
+  var error = '';
   var moviesList = [];
   const { groupID } = req.body;
 
@@ -490,7 +544,7 @@ app.post('/API/GetMovieApprovals', async (req, res, next) =>
           }
           return ( (yesVotes.get(a) / noVotes.get(a)) < (yesVotes.get(b) / noVotes.get(b)) );
         });
-  }
+      }
 
   var ret = { movies:moviesList, error: error };
   res.status(200).json(ret);
