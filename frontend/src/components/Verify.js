@@ -16,7 +16,11 @@ function Verify(){
     const token = authResult.get('token');
 
     try {
-            const response = await fetch(buildPath('Verify?token='+token));
+            const response = await fetch(buildPath('api/Verify'),{
+              method:'POST',body:js,headers:{
+                  'Content-Type': 'application/json'
+              }
+            });
             const data = await response.text();
             alert(data);
             /*

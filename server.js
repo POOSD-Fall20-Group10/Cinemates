@@ -44,6 +44,21 @@ app.use((req, res, next) =>
   );
   next();
 });
+//////////////////////////////////////////////////
+// For Heroku deployment
+
+// Server static assets if in production
+if (process.env.NODE_ENV === 'production')
+{
+  // Set static folder
+  app.use(express.static('frontend/build'));
+
+
+  app.get('*', (req, res) =>
+ {
+    res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
+  });
+}
 
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}.`);
@@ -813,9 +828,9 @@ app.post('/API/PasswordReset', async (req, res, next) =>
   res.status(200).json(ret);
 });
 
-app.get("/Verify", async (req, res) =>
+app.post("/API/Verify", async (req, res, next) =>
 {
-  const token = req.query.token;
+  const {token} = req.body;
   const db = client.db();
   const results = await db.collection('users').find({vToken : token}).toArray();
 
@@ -846,9 +861,9 @@ app.get("/Verify", async (req, res) =>
   }
 });
 
-app.get("/Reset/", async (req, res) =>
+app.post("/API/Reset", async (req, res, next) =>
 {
-  const token = req.query.token;
+  const {token} = req.body;
   const db = client.db();
   const results = await db.collection('users').find({pToken : token}).toArray();
 
@@ -878,19 +893,3 @@ app.get("/Reset/", async (req, res) =>
     });
   }
 });
-
-//////////////////////////////////////////////////
-// For Heroku deployment
-
-// Server static assets if in production
-if (process.env.NODE_ENV === 'production')
-{
-  // Set static folder
-  app.use(express.static('frontend/build'));
-
-
-  app.get('*', (req, res) =>
- {
-    res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
-  });
-}
