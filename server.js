@@ -49,21 +49,6 @@ app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}.`);
 });
 
-//////////////////////////////////////////////////
-// For Heroku deployment
-
-// Server static assets if in production
-if (process.env.NODE_ENV === 'production')
-{
-  // Set static folder
-  app.use(express.static('frontend/build'));
-
-  app.get('*', (req, res) =>
- {
-    res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
-  });
-}
-
 app.post('/API/AddUser', async (req, res, next) =>
 {
 
@@ -828,7 +813,7 @@ app.post('/API/PasswordReset', async (req, res, next) =>
   res.status(200).json(ret);
 });
 
-app.get("/Verify/", async (req, res) =>
+app.get("/Verify", async (req, res) =>
 {
   const token = req.query.token;
   const db = client.db();
@@ -893,3 +878,19 @@ app.get("/Reset/", async (req, res) =>
     });
   }
 });
+
+//////////////////////////////////////////////////
+// For Heroku deployment
+
+// Server static assets if in production
+if (process.env.NODE_ENV === 'production')
+{
+  // Set static folder
+  app.use(express.static('frontend/build'));
+
+
+  app.get('*', (req, res) =>
+ {
+    res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
+  });
+}
