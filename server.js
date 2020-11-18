@@ -72,7 +72,7 @@ app.post('/API/AddUser', async (req, res, next) =>
   const { email, login, password, firstName, lastName } = req.body;
   const db = client.db();
   db.collection('users').insertOne({email:email,login:login,password:password,firstName:firstName,
-    lastName:lastName,isVerified:false,vToken:null,pCode:null, friends: []}, async (error, result) => {
+    lastName:lastName,isVerified:false,vToken:null,pToken:null, friends: []}, async (error, result) => {
       if(error){
         err = error;
       }
@@ -107,8 +107,8 @@ app.post('/API/EditUser', async (req, res, next) =>
           }
           else{
             const db = client.db();
-            db.collection('users').update({_id: new mongo.ObjectID(userID)},{email:email,login:login,password:password,
-              firstName:firstName,lastName:lastName})
+            db.collection('users').update({_id: new mongo.ObjectID(userID)},{$set:{email:email,login:login,password:password,
+              firstName:firstName,lastName:lastName}})
           }
         }
       });
@@ -199,6 +199,7 @@ app.post('/API/GetUserByID', async (req, res, next) =>
   var fn = '';
   var ln = '';
   var isver = '';
+  var email = '';
 
   if( results.length > 0 )
   {
@@ -206,9 +207,10 @@ app.post('/API/GetUserByID', async (req, res, next) =>
     fn = results[0].firstName;
     ln = results[0].lastName;
     isver = results[0].isVerified;
+    email = results[0].email;
   }
 
-  var ret = { login:login, firstName:fn, lastName:ln,isVerified:isver,error:error};
+  var ret = { login:login, firstName:fn, lastName:ln, email: email, isVerified:isver,error:error};
   res.status(200).json(ret);
 });
 
