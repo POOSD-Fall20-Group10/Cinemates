@@ -1,15 +1,5 @@
 import React, { useState } from 'react';
-import {
-    Alert,
-    View,
-    StyleSheet,
-    Text,
-    Button,
-    TextInput,
-    Image,
-    KeyboardAvoidingView,
-    Platform
-} from 'react-native';
+import { Alert, View, StyleSheet, Text, Button, TextInput, Image, KeyboardAvoidingView, Platform } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
@@ -19,15 +9,39 @@ import Card from '../components/Card';
 
 const RegisterScreen = ({ navigation }) => {
 
+  const url = 'https://cine-mates.herokuapp.com/API/AddUser'
   const[fname, setfname] = useState('')
   const[lname, setlname] = useState('')
   const[username, setusername] = useState('')
   const[email, setemail] = useState('')
   const[password, setpassword] = useState('')
   const[password2, setpassword2] = useState('')
-  const url = 'https://cine-mates.herokuapp.com/API/AddUser'
+
+  //login Api call
+  async function sendtoserver(param) {
+    try {
+      let response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: param
+      });
+      let responseJson = await response.json()
+
+      //register
+      if(responseJson.error == ''){
+        Alert.alert("Successful registration")
+      }
+
+    } catch (e) {
+      Alert.alert(e)
+    }
+  }
 
 const doRegister = () => {
+  /*
   //set variables
   setfname('')
   setlname('')
@@ -35,6 +49,11 @@ const doRegister = () => {
   setemail('')
   setpassword('')
   setpassword2('')
+*/
+  if(password != password2){
+    Alert.alert("Error: passwords do not match")
+    return
+  }
 
   //json object construction
   var obj = {
@@ -43,12 +62,11 @@ const doRegister = () => {
     login: username,
     email: email,
     password: password,
-    password2: password2,
   };
 
   var objstr = JSON.stringify(obj)
 
-    Alert.alert(objstr)
+  sendtoserver(objstr)
 }
 
 
