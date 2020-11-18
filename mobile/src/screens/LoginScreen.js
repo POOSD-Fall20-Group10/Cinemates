@@ -6,9 +6,7 @@ import {
     Text,
     Button,
     TextInput,
-    Image,
-    KeyboardAvoidingView,
-    Platform
+    Image
 } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 
@@ -21,6 +19,33 @@ const LoginScreen = ({ navigation }) => {
 const[username, setName] = useState('')
 const[password, setPass] = useState('')
 const url = 'https://cine-mates.herokuapp.com/API/UserLogin'
+
+async function sendtoserver(param) {
+    try {
+      let response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: param
+      });
+      let responseJson = await response.json()
+  
+      //correct password
+      if(responseJson.error == ''){
+        Alert.alert("Username + Password work")
+      }
+      //incorrect password
+      else if (responseJson.error == 'Username or password incorrect') {
+        Alert.alert(responseJson.error)
+      }
+  
+    } catch (e) {
+      Alert.alert(e)
+    }
+  }
+  
 
 const doLogin = () => {
   //set variables
@@ -37,20 +62,8 @@ const doLogin = () => {
 
     Alert.alert(objstr)
 
+    sendtoserver(objstr)
 }
-
-/*
-fetch('https://cine-mates.herokuapp.com/API/UserLogin', {
-    method: 'POST',
-    body: objstr
-  }) .then((response) => response.json())
-  .then((responseJson) => {
-    Alert.alert(responseJson)
-  })
-*/
-
-
-
 
     return (
         <Background>
@@ -58,7 +71,7 @@ fetch('https://cine-mates.herokuapp.com/API/UserLogin', {
                 <Image source={logo} style={styles.logo} />
                 <Card style={styles.inputContainer}>
                     <TextInput style={styles.textInput} placeholder="Username" onChangeText={(val) => setName(val)} />
-                    <TextInput style={styles.textInput} placeholder="Password" onChangeText={(val) => setPass(val)}/>
+                    <TextInput style={styles.textInput} placeholder="Password" secureTextEntry={true} onChangeText={(val) => setPass(val)}/>
                     <Button title="Login" onPress={() => doLogin()}/>
                     <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
                         <Text>Don't have an account?</Text>

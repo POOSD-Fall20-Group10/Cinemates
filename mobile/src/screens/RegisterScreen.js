@@ -68,8 +68,8 @@ const doRegister = () => {
                     <TextInput style={styles.textInput} placeholder="Last Name" onChangeText={(val) => setlname(val)}/>
                     <TextInput style={styles.textInput} placeholder="Username" onChangeText={(val) => setusername(val)}/>
                     <TextInput style={styles.textInput} placeholder="Email" onChangeText={(val) => setemail(val)}/>
-                    <TextInput style={styles.textInput} placeholder="Password" onChangeText={(val) => setpassword(val)}/>
-                    <TextInput style={styles.textInput} placeholder="Confirm Password" onChangeText={(val) => setpassword2(val)}/>
+                    <TextInput style={styles.textInput} placeholder="Password" secureTextEntry={true} onChangeText={(val) => setpassword(val)}/>
+                    <TextInput style={styles.textInput} placeholder="Confirm Password" secureTextEntry={true} onChangeText={(val) => setpassword2(val)}/>
                     <Button title="Register" onPress={() => doRegister()}/>
                     <View style={{flexDirection: 'row'}}>
                         <Text>Already have an account?</Text>
