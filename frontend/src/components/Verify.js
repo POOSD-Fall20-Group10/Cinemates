@@ -17,7 +17,8 @@ function Verify(){
 
     try {
             const response = await fetch(buildPath('Verify?token='+token));
-            alert(response.text());
+            const data = await response.text();
+            alert(data);
             /*
            const data = await response.json();
             if(data.success){
