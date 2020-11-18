@@ -34,7 +34,10 @@ async function sendtoserver(param) {
   
       //correct password
       if(responseJson.error == ''){
-        Alert.alert("Username + Password work")
+        navigation.reset ({
+            index: 0,
+            routes: [{name: 'Main'}]
+        )}
       }
       //incorrect password
       else if (responseJson.error == 'Username or password incorrect') {
