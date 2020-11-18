@@ -10,6 +10,7 @@ import RegisterPage from './pages/RegisterPage';
 import MainPage from './pages/MainPage';
 import GroupPage from './pages/GroupPage';
 import AccountPage from './pages/AccountPage';
+import VerifyPage from './pages/VerifyPage';
 
 import logo from './Cinemates.png';
 
@@ -46,6 +47,9 @@ function App() {
         </Route>
         <Route path="/account" exact>
           <AccountPage />
+        </Route>
+        <Route path="/verify" exact>
+          <VerifyPage />
         </Route>
         <Redirect to="/" />
       </Switch>
