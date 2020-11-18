@@ -243,7 +243,7 @@ app.post('/API/AddGroup', async (req, res, next) =>
 
   var error = '';
 
-  const { token, name, description, members } = req.body;
+  const { token, name, description, members, messages } = req.body;
   if(! token){
     error = "No token provided";
   }
@@ -255,7 +255,7 @@ app.post('/API/AddGroup', async (req, res, next) =>
         }
         else{
         const db = client.db();
-        db.collection('groups').insert({name:name,description:description,members:members})
+        db.collection('groups').insert({name:name,description:description,members:members, messages: messages})
       }
     });
   }
@@ -376,15 +376,17 @@ app.post('/API/DeleteUserFromGroup', async (req, res, next) =>
 
 app.post('/API/ListGroups', async (req, res, next) =>
 {
+  var error = '';
+  var groups = [];
   const { token, userID } = req.body;
   if(! token){
     error = "No token provided";
+    var ret = {groups : groups, error: error};
+    res.status(200).json(ret);
   }
   else{
-    jwt.verify(token, jwtKey, async (err,decoded)=>
-      {
-        var error = '';
-        var groups = [];
+    jwt.verify(token, jwtKey, async (err,decoded) =>
+    {
         if(err){
           error = err;
         }
@@ -609,6 +611,70 @@ app.post('/API/GetMovies', async (req,res,next) =>
 }
 
 );
+
+app.post('/API/MessageGroup', async (req, res, next) =>
+{
+  var error = '';
+  const { token, groupID, userID, message } = req.body;
+  if(! token){
+    error = "No token provided";
+    var ret = {error : error};
+    res.status(200).json(ret);
+  }
+  else{
+    jwt.verify(token, jwtKey, async (err, decoded) =>
+    {
+      if(err){
+        error = err;
+      }
+      else{
+        if(decoded._id != userID){
+          error = "Token  does not match userID";
+        }
+        else{
+          const db = client.db();
+          db.collection('groups').update({_id : new mongo.ObjectID(groupID)}, {$addToSet:
+            {"messages" : {senderID: userID, message: message, timeSent: new Date()}}});
+        }
+      }
+      var ret = {error : error};
+      res.status(200).json(ret);
+    });
+  }
+});
+
+app.post('/API/ListGroupMessages', async (req, res, next) =>
+{
+  error = '';
+  messages = [];
+  const { token, groupID } = req.body;
+  if( ! token ){
+    error = "No token provided";
+    var ret = {messages: messages, error: error};
+    res.status(200).json(ret);
+  }
+  else{
+    jwt.verify(token, jwtKey, async (err, decoded) =>
+    {
+      if(err){
+        error = err;
+      }
+      else{
+        const db = client.db();
+        const results = await db.collection('groups').find({_id: new mongo.ObjectID(groupID)}).toArray();
+
+        if(results.length > 0){
+          messages = results[0].messages;
+        }
+        else{
+          error = "Group not found";
+        }
+      }
+      var ret = {messages: messages, error: error};
+      res.status(200).json(ret);
+    });
+  }
+});
 
 async function SendEmailVerification(email, token){
   err = '';
