@@ -1,7 +1,7 @@
 /*
 
-All grid code is placed in a 'supports' rule (feature query) at the bottom of the CSS (Line 77). 
-        
+All grid code is placed in a 'supports' rule (feature query) at the bottom of the CSS (Line 77).
+
 The 'supports' rule will only run if your browser supports CSS grid.
 
 Flexbox is used as a fallback so that browsers which don't support grid will still recieve an identical layout.
@@ -78,7 +78,7 @@ body {
 
 The following rule will only run if your browser supports CSS grid.
 
-Remove or comment-out the code block below to see how the browser will fall-back to flexbox styling. 
+Remove or comment-out the code block below to see how the browser will fall-back to flexbox styling.
 
 */
 
@@ -93,4 +93,14 @@ Remove or comment-out the code block below to see how the browser will fall-back
 	.gallery-item {
 		margin: 0;
 	}
+}
+
+#moviesDiv{
+	position: relative;
+	max-height: 200px;
+	max-width: 75px;
+	overflow-y: scroll;
+	overflow-x: wrap;
+	-ms-overflow-style: none;
+	scrollbar-width: none;
 }
