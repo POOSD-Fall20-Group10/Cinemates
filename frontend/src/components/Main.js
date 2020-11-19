@@ -1,6 +1,7 @@
 import React from 'react';
 import MainHeader from './MainHeader';
 import Gallery from './Gallery';
+import GroupsList from './GroupsList';
 
 const app_name = 'cine-mates'
 function buildPath(route) {
@@ -12,22 +13,28 @@ function buildPath(route) {
     }
 }
 
+// User info
 var userId;
 var login;
 var token;
 
+// Will contain info from the API calls
 var groupList;
 var movieList;
+
+// divs to be filled out onload and added to page
+var GroupsDiv;
+var MoviesDiv;
 
 //Add Group variables
 var addGroupName;
 var addGroupDescription;
 
-// Takes what is in movieList and adds them the to page
+// Takes what is in movieList and adds them to moviesDiv
 function createMovieList()
 {
     var i;
-    var div = document.getElementById("movieListDiv"); // The div being modified
+    var div = document.createElement('div'); // Creates new div
     div.innerHTML = "Movie List"; // Header
 
 
@@ -36,14 +43,15 @@ function createMovieList()
         var temp = document.createElement("button"); // Creates new button
         temp.innerHTML = movieList.movies[i].title; // Adds movie title to button
         div.appendChild(temp); // Adds button the div
+        MoviesDiv = div; // sets moviesDiv
     }
 }
 
-// Takes what is in groupList and adds them the to page
+// Takes what is in groupList and adds them to groupsDiv
 function createGroupList()
 {
     var i;
-    var div = document.getElementById("groupListDiv"); // The div being modified
+    var div = document.createElement('div'); // Creates new div
     div.innerHTML = "Group List"; // Header
 
 
@@ -53,57 +61,11 @@ function createGroupList()
         temp.innerHTML = groupList.groups[i].name; // Adds group name to button
         div.appendChild(temp); // Adds button the div
     }
+    var temp = document.createElement("button"); // Creates new button
+    temp.innerHTML = "Create New Group"; // Create New Group Button, NEEDS TO OPEN FORM
+    div.appendChild(temp); // Adds button the div
+    GroupsDiv = div; // sets groupsDiv
 }
-
-// Makes API call to retrieve all groups that the user {userId} belongs to.
-//Then calls createGroupList()
-const loadGroups = async event => {
-    event.preventDefault();
-    var obj = {token:token,userID:userId};
-    var js = JSON.stringify(obj);
-
-    //API call
-    try {
-            const response = await fetch(buildPath('api/ListGroups'), {
-                method:'POST',body:js,headers:{
-                    'Content-Type': 'application/json'
-                }
-            });
-
-            groupList = JSON.parse(await response.text()); // Adds response to groupList
-            createGroupList();
-        }
-    catch(e)
-    {
-        alert(e.toString());
-        return;
-    }
-};
-
-// Makes API call to retrieve all movies
-//Then calls createMovieList()
-const loadMovies = async event => {
-    event.preventDefault();
-    var obj = {page:1};
-    var js = JSON.stringify(obj);
-
-    // API call
-    try {
-            const response = await fetch(buildPath('api/GetMovies'), {
-                method:'POST',body:js,headers:{
-                    'Content-Type': 'application/json'
-                }
-            });
-
-            movieList = JSON.parse(await response.text()); // Adds response to movieList
-            createMovieList();
-        }
-    catch(e)
-    {
-        alert(e.toString());
-        return;
-    }
-};
 
 // Makes an AddGroup API call to create a new group with addGroupName and addGroupDescription
 // Only member in the group is the current user
@@ -159,17 +121,8 @@ function Main() {
             <br></br>
             <Gallery></Gallery>
             <div id="mainDiv">
-                <div id="moviesDiv">
-                <button type="button" id="moviesTest" class="buttons" onClick={loadMovies}> Get Movies </button>
-                </div>
-                <div id="groupsDiv">
-                    <button type="button" id="GroupTest" class="buttons" onClick={loadGroups}> Get Groups </button>
-                </div>
             </div>
-            <div id="movieListDiv">
-            </div>
-            <div id="groupListDiv">
-            </div>
+            <GroupsList />
             <div id="tempAddGroupDiv">
             <div class="container">
                 <form onSubmit={addGroup}>
