@@ -19,11 +19,9 @@ var token;
 
 // Will contain info from the API calls
 var groupList;
-var movieList;
 
 // divs to be filled out onload and added to page
 var GroupsDiv;
-var MoviesDiv;
 
 //Add Group variables
 var addGroupName;
@@ -33,15 +31,21 @@ var addGroupDescription;
 function createGroupList()
 {
     // the loop
-  let children = groupList.groups.map((val) => {
+  let children = groupList.groups.map((val, index) => {
     return (
-      React.createElement("p", {id: "0"}, val["name"])
+      React.createElement("button", {id: index, onClick: () =>openPage(val)}, val.name)
     )
   })
   // the div with children inside
     GroupsDiv =  React.createElement("div", {className: "contexCon"},children);
 }
 
+function openPage(group)
+{
+  localStorage.setItem("group_info",JSON.stringify(group));
+  alert(localStorage.getItem("group_info"));
+  window.location.href = '/group'
+}
 // Makes an AddGroup API call to create a new group with addGroupName and addGroupDescription
 // Only member in the group is the current user
 const addGroup = async event => {
