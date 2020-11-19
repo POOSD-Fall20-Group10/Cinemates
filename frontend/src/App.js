@@ -22,7 +22,6 @@ function App() {
         <div>
         <Switch>
         <Route path="/" exact>
-          <div>&nbsp;&nbsp;&nbsp;</div>
           <div className="container-div">
             <img src={logo} alt="Cinemates" width="200" height="200"></img>
           </div>
