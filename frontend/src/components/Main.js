@@ -2,6 +2,7 @@ import React from 'react';
 import MainHeader from './MainHeader';
 import Gallery from './Gallery';
 import GroupsList from './GroupsList';
+import MoviesList from './MoviesList'
 import '../bootstrap.min.css';
 
 const app_name = 'cine-mates'
@@ -19,54 +20,9 @@ var userId;
 var login;
 var token;
 
-// Will contain info from the API calls
-var groupList;
-var movieList;
-
-// divs to be filled out onload and added to page
-var GroupsDiv;
-var MoviesDiv;
-
 //Add Group variables
 var addGroupName;
 var addGroupDescription;
-
-// Takes what is in movieList and adds them to moviesDiv
-function createMovieList()
-{
-    var i;
-    var div = document.createElement('div'); // Creates new div
-    div.innerHTML = "Movie List"; // Header
-
-
-    for(i = 0; i < movieList.movies.length; i++)
-    {
-        var temp = document.createElement("button"); // Creates new button
-        temp.innerHTML = movieList.movies[i].title; // Adds movie title to button
-        div.appendChild(temp); // Adds button the div
-        MoviesDiv = div; // sets moviesDiv
-    }
-}
-
-// Takes what is in groupList and adds them to groupsDiv
-function createGroupList()
-{
-    var i;
-    var div = document.createElement('div'); // Creates new div
-    div.innerHTML = "Group List"; // Header
-
-
-    for(i = 0; i < groupList.groups.length; i++)
-    {
-        var temp = document.createElement("button"); // Creates new button
-        temp.innerHTML = groupList.groups[i].name; // Adds group name to button
-        div.appendChild(temp); // Adds button the div
-    }
-    var temp = document.createElement("button"); // Creates new button
-    temp.innerHTML = "Create New Group"; // Create New Group Button, NEEDS TO OPEN FORM
-    div.appendChild(temp); // Adds button the div
-    GroupsDiv = div; // sets groupsDiv
-}
 
 // Makes an AddGroup API call to create a new group with addGroupName and addGroupDescription
 // Only member in the group is the current user
@@ -124,6 +80,7 @@ function Main() {
             <div id="mainDiv">
             </div>
             <GroupsList />
+            <MoviesList />
             <div id="tempAddGroupDiv">
             <div class="container">
                 <form onSubmit={addGroup}>

@@ -40,6 +40,7 @@ function createGroupList()
     GroupsDiv =  React.createElement("div", {className: "contexCon"},children);
 }
 
+//save group info to local storage and redirect to the groups page
 function openPage(group)
 {
   localStorage.setItem("group_info",JSON.stringify(group));
