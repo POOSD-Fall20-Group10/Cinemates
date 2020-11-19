@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import Background from '../components/Background';
 import logo from '../assets/Cinemates.png';

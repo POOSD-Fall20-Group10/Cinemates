@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Alert, View, StyleSheet, Text, Button, TextInput, Image, KeyboardAvoidingView, Platform } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import Background from '../components/Background';
 import logo from '../assets/Cinemates.png';
@@ -33,7 +34,16 @@ const RegisterScreen = ({ navigation }) => {
 
       //register
       if(responseJson.error == ''){
-        Alert.alert("Successful registration")
+        Alert.alert(
+          'Registration Successful',
+          'Please be sure to verify your email address',
+          [
+            {text: 'OK', onPress: () => navigation.reset ({
+            index: 0,
+            routes: [{name: 'Login'}]
+            })}
+          ]
+        )
       }
 
     } catch (e) {
@@ -101,7 +111,7 @@ const doRegister = () => {
                             routes: [{name: 'Login'}]
                           })}>
                                 Login
-                            </Text>
+                        </Text>
                     </View>
                 </Card>
                 </View>

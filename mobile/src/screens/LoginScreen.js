@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Alert, View, StyleSheet, Text, Button, TextInput, Image, KeyboardAvoidingView, Platform } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import Background from '../components/Background';
 import logo from '../assets/Cinemates.png';
@@ -9,6 +10,7 @@ import Card from '../components/Card';
 const LoginScreen = ({ navigation }) => {
 
 const url = 'https://cine-mates.herokuapp.com/API/UserLogin'
+const url2 = 'https://cine-mates.herokuapp.com/API/EmailVerification'
 const[username, setName] = useState('')
 const[password, setPass] = useState('')
 var md5 = require('md5');
@@ -28,7 +30,23 @@ async function sendtoserver(param) {
 
     //correct password
     if(responseJson.error == ''){
-      Alert.alert("goodshit my g")
+      if(responseJson.isVerified == true){
+        Alert.alert("welcome")
+
+        navigation.reset ({
+        index: 0,
+        routes: [{name: 'Main'}]
+        })
+      }
+      else{
+        Alert.alert(
+          'Login unsuccessful',
+          'Please verify email before logging in',
+          [
+            {text: 'OK', onPress: () => emailMe(responseJson.email) }
+          ]
+        )
+      }
     }
     //incorrect password
     else if (responseJson.error == 'Username or password incorrect') {
@@ -54,6 +72,30 @@ const doLogin = () => {
   var objstr = JSON.stringify(obj)
 
   sendtoserver(objstr)
+}
+
+async function emailMe(email) {
+
+  try {
+    let response = await fetch(url2, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+            email: email
+        })
+    });
+    let responseJson = await response.json()
+
+    if(responseJson.error == ''){
+      Alert.alert("Sent again, be sure to check spam folder")
+    }
+
+  } catch (e) {
+    Alert.alert(e)
+  }
 }
 
     return (
