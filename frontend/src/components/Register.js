@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import RegisterHeader from './RegisterHeader';
+import '../bootstrap.min.css';
+
 const app_name = 'cine-mates';
 const CryptoJS = require('crypto-js');
 function buildPath(route)

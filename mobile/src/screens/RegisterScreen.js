@@ -93,14 +93,15 @@ const doRegister = () => {
                     <TextInput style={styles.textInput} placeholder="Confirm Password" secureTextEntry={true} onChangeText={(val) => setpassword2(val)}/>
                     <Button title="Register" onPress={() => doRegister()}/>
                     <View style={{flexDirection: 'row'}}>
-                        <Text>Already have an account?</Text>
-                        <Button
-                            title="Login"
-                            onPress={() =>
-                                navigation.reset ({
-                                index: 0,
-                                routes: [{name: 'Login'}]
-                            })}/>
+                        <Text>Already have an account? </Text>
+                        <Text style={{color: 'blue'}}
+                          onPress={() =>
+                            navigation.reset ({
+                            index: 0,
+                            routes: [{name: 'Login'}]
+                          })}>
+                                Login
+                            </Text>
                     </View>
                 </Card>
                 </View>

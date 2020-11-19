@@ -65,14 +65,15 @@ const doLogin = () => {
                     <TextInput style={styles.textInput} placeholder="Password" secureTextEntry={true} onChangeText={(val) => setPass(val)}/>
                     <Button title="Login" onPress={() => doLogin()}/>
                     <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                        <Text>Don't have an account?</Text>
-                        <Button
-                            title="Register"
+                        <Text>Don't have an account? </Text>
+                        <Text style={{color: 'blue'}}
                             onPress={() =>
-                                navigation.reset ({
-                                index: 0,
-                                routes: [{name: 'Register'}]
-                            })}/>
+                              navigation.reset ({
+                              index: 0,
+                              routes: [{name: 'Register'}]
+                            })}>
+                            Register
+                        </Text>
                     </View>
                 </Card>
             </View>

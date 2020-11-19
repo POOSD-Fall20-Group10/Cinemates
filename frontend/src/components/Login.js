@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import LoginHeader from './LoginHeader';
+import '../bootstrap.min.css';
+
 const app_name = 'cine-mates'
 
 const doRegisterButton = event => {
