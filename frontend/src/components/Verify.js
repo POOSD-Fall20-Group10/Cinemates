@@ -11,36 +11,38 @@ function buildPath(route) {
 }
 
 function Verify(){
-  const doVerify = async event => {
+    var status;
     const authResult = new URLSearchParams(window.location.search);
     const token = authResult.get('token');
-    var js = JSON.stringify({token: token})
+    var js = JSON.stringify({token: token});
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST",buildPath('api/Verify'),false);
+    xhr.setRequestHeader("Content-type","application/json; charset=UTF-8");
     try {
-            const response = await fetch(buildPath('api/Verify'),{
-              method:'POST',body:js,headers:{
-                  'Content-Type': 'application/json'
-              }
-            });
-            const data = await response.text();
-            alert(data);
-            /*
-           const data = await response.json();
-            if(data.success){
-              alert("verified");
+          xhr.send(js);
+            const response = JSON.parse(xhr.responseText);
+            if(response.success){
+              status = "Successfully Verified";
+              setTimeout(function() {
+                window.location.href = '/login';
+              },
+              3000);
             }
             else{
-              alert("not verified");
-            }*/
-        }
+              status = "Verification Failed";
+                setTimeout(function() {
+                  window.location.href = '/login';
+                },
+                3000);
+            }
+    }
     catch(e)
     {
         alert(e.toString());
         return;
     }
-  }
-  return (
-    <div id="mainDiv">
-      <button type="button" class="buttons" onClick={doVerify}> Test</button>
+    return (
+    <div id="messageDiv">{status}
     </div>);
 }
 
