@@ -23,6 +23,7 @@ html, body {
 }
 
 .App-header {
+  font-size: 20px;
   background-color: #282c34;
   min-height: 100vh;
   display: flex;
