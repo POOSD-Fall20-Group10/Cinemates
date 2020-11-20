@@ -4444,6 +4444,7 @@ input[type=submit].btn-block {
 }
 
 .nav-link {
+	color: black;
 	display: block;
 	padding: .5rem 1rem
 }
