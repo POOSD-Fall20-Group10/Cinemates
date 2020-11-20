@@ -5,7 +5,7 @@ function GroupHeader() {
         <div>
         <nav className="navbar navbar-expand-lg navbar-light fixed-top">
             <div className="container">
-            <Link className="navbar-brand" to={"/"}>Cinemates</Link>
+            <Link className="nav-link" to={"/"}>Cinemates</Link>
             <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
                 <ul className="navbar-nav ml-auto">
                 <li className="nav-item">
