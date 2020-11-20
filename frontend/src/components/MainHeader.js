@@ -53,38 +53,9 @@ function MainHeader()
 
     const updateMovies = async event => {
       event.preventDefault();
-      var res;
-      var movies = [];
-      try {    
-      const response = await fetch('https://api.themoviedb.org/3/movie/now_playing?api_key=ce41792ee6b56545a5a67c7e6705976c&language=en-US&page=1&region=US', {
-          method:'GET',body:null,headers:{
-              'Content-Type': 'application/json',
-          }
-      });
-
-       res = JSON.parse(await response.text());
-      } catch(e) {
-        alert(e.toString());
-        return;
-      }  
-      for(var k = 1; k <= res.total_pages; k++){
-        try {    
-        const response = await fetch('https://api.themoviedb.org/3/movie/now_playing?api_key=ce41792ee6b56545a5a67c7e6705976c&language=en-US&page='+k+'&region=US', {
-            method:'GET',body:null,headers:{
-                'Content-Type': 'application/json',
-            }
-        });
-
-         res = JSON.parse(await response.text());
-         movies = movies.concat(res.results);
-        } catch(e) {
-          alert(e.toString());
-          return;
-        }  
-      }
-      try {    
-              var moviesBody = JSON.stringify({"movies": movies});
-              const response2 = await fetch(buildPath('api/UpdateMovies'), {
+      try {   
+              var moviesBody = JSON.stringify({});
+              const response = await fetch(buildPath('api/UpdateMovies'), {
                   method:'POST',body:moviesBody,headers:{
                       'Content-Type': 'application/json'
                   }
