@@ -40,7 +40,6 @@ async function sendtoserver(param) {
     //correct password
     if(responseJson.error == ''){
       if(responseJson.isVerified == true){
-        Alert.alert("welcome")
         storeInfo(responseJson)
 
         navigation.reset ({
