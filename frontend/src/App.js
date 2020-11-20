@@ -22,18 +22,14 @@ function App() {
         <div>
         <Switch>
         <Route path="/" exact>
-          <div className="container-div">
-            <img src={logo} alt="Cinemates" width="200" height="200"></img>
-          </div>
           <div className="inner">
-            <LoginPage/>
+          <img src={logo} alt="Cinemates" width="200" height="200"></img>
+          <LoginPage/>
           </div>
         </Route>
         <Route path="/register" exact>
-          <div className="container-div">
-            <img src={logo} alt="Cinemates" width="200" height="200"></img>
-        </div>
         <div className="inner">
+            <img src={logo} alt="Cinemates" width="200" height="200"></img>
             <RegisterPage/>
           </div>
         </Route>
