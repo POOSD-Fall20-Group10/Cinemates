@@ -22,7 +22,7 @@ function App() {
         <div>
         <Switch>
         <Route path="/" exact>
-          <div>
+          <div className="inner">
           <img src={logo} alt="Cinemates" width="200" height="200"></img>
           <LoginPage/>
           </div>

@@ -1,6 +1,6 @@
 .App {
   text-align: center;
-  background-image: url("background.png") no-repeat center center fixed; 
+  background-image: url("wallpaper.png") no-repeat center center fixed; 
   background-size:cover;
   -moz-background-size:cover;
   -webkit-background-size:cover;
@@ -10,7 +10,7 @@
 
 html, body {
   height: 100%;
-  background: url("background.png") no-repeat center center fixed;
+  background: url("wallpaper.png") no-repeat center center fixed;
   background-size:cover;
   -moz-background-size:cover;
   -webkit-background-size:cover;
@@ -23,6 +23,7 @@ html, body {
 }
 
 .App-header {
+  font-size: 20px;
   background-color: #282c34;
   min-height: 100vh;
   display: flex;
@@ -43,4 +44,10 @@ html, body {
   Width: 100vw; 
   Align-Items: center;
   Justify-Content: center;
+  }
+
+  img {
+    width: 60%;
+    margin: auto;
+    display: block;
   }
