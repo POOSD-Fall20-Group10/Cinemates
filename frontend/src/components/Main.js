@@ -80,7 +80,9 @@ function Main() {
             <div id="mainDiv">
             </div>
             <GroupsList />
-            <MoviesList />
+            <div id='moviesDiv' >
+                <MoviesList />
+            </div>
             <div id="tempAddGroupDiv">
             <div class="container">
                 <form onSubmit={addGroup}>
