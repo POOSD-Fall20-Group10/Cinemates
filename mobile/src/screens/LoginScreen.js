@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { Alert, View, StyleSheet, Text, Button, TextInput, Image, KeyboardAvoidingView, Platform } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Background from '../components/Background';
 import logo from '../assets/Cinemates.png';
 import Card from '../components/Card';
+import background from '../assets/background.png';
 
 const LoginScreen = ({ navigation }) => {
 
@@ -31,8 +32,7 @@ async function sendtoserver(param) {
     //correct password
     if(responseJson.error == ''){
       if(responseJson.isVerified == true){
-        Alert.alert("welcome")
-
+        setLoginStorage();
         navigation.reset ({
         index: 0,
         routes: [{name: 'Main'}]
@@ -57,6 +57,15 @@ async function sendtoserver(param) {
     Alert.alert(e)
   }
 }
+
+// Async Storage
+const setLoginStorage = async (loginData) => {
+  try {
+    await AsyncStorage.setItem('loginData', JSON.stringify(loginData));
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 //set username and password to send to api call function
 const doLogin = () => {
