@@ -52,7 +52,8 @@ async function sendtoserver(param) {
           'Login unsuccessful',
           'Please verify email before logging in',
           [
-            {text: 'OK', onPress: () => emailMe(responseJson.email) }
+            {text: 'Ok'},
+            {text: 'Resend', onPress: () => emailMe(responseJson.email) }
           ]
         )
       }
