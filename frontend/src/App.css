@@ -1,5 +1,21 @@
 .App {
   text-align: center;
+  background-image: url("background.png") no-repeat center center fixed; 
+  background-size:cover;
+  -moz-background-size:cover;
+  -webkit-background-size:cover;
+  -ms-background-size:cover;
+  -o-background-size:cover;
+}
+
+html, body {
+  height: 100%;
+  background: url("background.png") no-repeat center center fixed;
+  background-size:cover;
+  -moz-background-size:cover;
+  -webkit-background-size:cover;
+  -ms-background-size:cover;
+  -o-background-size:cover;
 }
 
 .App-logo {
@@ -14,7 +30,7 @@
   align-items: center;
   justify-content: center;
   font-size: calc(20px + 2vmin);
-  color: white;
+  color: rgb(134, 4, 4);
 }
 
 .App-link {
