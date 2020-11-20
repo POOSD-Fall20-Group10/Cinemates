@@ -15,6 +15,14 @@ const[username, setName] = useState('')
 const[password, setPass] = useState('')
 var md5 = require('md5');
 
+async function storeInfo(param) {
+  try {
+    await AsyncStorage.setItem('key', JSON.stringify(param))
+  } catch(e) {
+    console.log(e)
+  }
+}
+
 //login Api call
 async function sendtoserver(param) {
   try {
@@ -32,7 +40,8 @@ async function sendtoserver(param) {
     if(responseJson.error == ''){
       if(responseJson.isVerified == true){
         Alert.alert("welcome")
-
+        storeInfo(responseJson)
+        
         navigation.reset ({
         index: 0,
         routes: [{name: 'Main'}]
