@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Alert, View, StyleSheet, Text, Button, TextInput, Image, KeyboardAvoidingView, Platform } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Background from '../components/Background';
 import logo from '../assets/Cinemates.png';
@@ -41,7 +41,7 @@ async function sendtoserver(param) {
       if(responseJson.isVerified == true){
         Alert.alert("welcome")
         storeInfo(responseJson)
-        
+
         navigation.reset ({
         index: 0,
         routes: [{name: 'Main'}]
