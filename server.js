@@ -27,11 +27,11 @@ app.use(cors());
 app.use(express.json({limit: '50mb'}));
 app.use(express.urlencoded({limit: '50mb'}));
 
-// token expires after 30 minutes
-//const sessionLength = 1800000;
+// token expires after 1 hour
+const sessionLength = 3600000;
 
 //expiration time of 0 makes token last for duration of browser session
-const sessionLength = 0;
+//const sessionLength = 0;
 
 //automatically refresh movies every thursday at midnight
 var refreshMovies = schedule.scheduleJob('0 0 * * 4', async function(){
