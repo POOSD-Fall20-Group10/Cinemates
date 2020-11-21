@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { NavigationContainer, StackActions } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerItem } from '@react-navigation/drawer';
 
 import LoginScreen from './src/screens/LoginScreen';
 import RegisterScreen from './src/screens/RegisterScreen';
@@ -11,26 +11,38 @@ import GroupsScreen from './src/screens/GroupsScreen';
 import AccountScreen from './src/screens/AccountScreen';
 
 const CinematesStack = createStackNavigator();
-const Tab = createBottomTabNavigator();
+const Drawer = createDrawerNavigator();
 
-function MainScreen() {
+const MainScreen = ({ navigation }) => {
   return (
-      <Tab.Navigator>
-        <Tab.Screen 
+      <Drawer.Navigator initialRouteName="Movies" drawerContent={props => {
+        return (
+          <DrawerContentScrollView {...props}>
+            <DrawerItemList {...props} />
+            <DrawerItem label="Logout" onPress={() => navigation.reset ({
+            index: 0,
+            routes: [{name: 'Login'}]
+            })} />
+          </DrawerContentScrollView>
+        )
+      }}>
+        <Drawer.Screen 
           name = "Movies"
           component = { MoviesScreen }
         />
 
-        <Tab.Screen 
+        <Drawer.Screen 
           name = "Groups"
           component = { GroupsScreen }
         />
 
-        <Tab.Screen 
+        <Drawer.Screen 
           name = "Account"
           component = { AccountScreen }
         />
-      </Tab.Navigator>
+
+        
+      </Drawer.Navigator>
   );
 } 
 

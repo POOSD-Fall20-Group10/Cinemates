@@ -30,6 +30,10 @@ Way to open specific groups per page
 Add chat API. Takes in date/time, login, and message
 Add description to users
 
+##Mobile:
+Button that retrieves email
+Add buildpath function
+
 #Backburner:   
 Friends system
 Images for Accounts, Groups, Movies

@@ -98,7 +98,7 @@ Remove or comment-out the code block below to see how the browser will fall-back
 #moviesDiv{
 	position: relative;
 	max-height: 200px;
-	max-width: 75px;
+	max-width: 400px;
 	overflow-y: scroll;
 	overflow-x: wrap;
 	-ms-overflow-style: none;

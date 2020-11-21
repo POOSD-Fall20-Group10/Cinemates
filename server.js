@@ -5,6 +5,8 @@ const mongo = require('mongodb');
 const path = require('path');
 const jwt = require('jsonwebtoken');
 const sgMail = require('@sendgrid/mail');
+const fetch = require('node-fetch');
+const schedule = require('node-schedule');
 require('dotenv').config();
 
 const jwtKey = process.env.JWT_KEY;
@@ -25,12 +27,18 @@ app.use(cors());
 app.use(express.json({limit: '50mb'}));
 app.use(express.urlencoded({limit: '50mb'}));
 
-// session token will expire after 30 minutes if not refreshed
-const sessionLength = 1800000;
+// token expires after 30 minutes
+//const sessionLength = 1800000;
 
 //expiration time of 0 makes token last for duration of browser session
-//const sessionLength = 0;
+const sessionLength = 0;
 
+//automatically refresh movies every thursday at midnight
+var refreshMovies = schedule.scheduleJob('0 0 * * 4', async function(){
+  console.log('Movies refreshed');
+  var error = await UpdateMovies();
+  console.log(error);
+});
 app.use((req, res, next) =>
 {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -648,10 +656,47 @@ app.post('/API/ListFriends', async (req, res, next) =>
 
 app.post('/API/UpdateMovies', async (req, res, next) =>
 {
+  var error = await UpdateMovies();
+  var ret = { error: error };
+  res.status(200).json(ret);
+});
 
+async function UpdateMovies(){
   var error = '';
+  var results;
+  var movies = [];
+  try {
+  var response = await fetch('https://api.themoviedb.org/3/movie/now_playing?api_key=ce41792ee6b56545a5a67c7e6705976c&language=en-US&page=1&region=US', {
+      method:'GET',body:null,headers: {
+          'Content-Type': 'application/json',
+      }
+    });
 
-  const { movies } = req.body;
+   results = JSON.parse(await response.text());
+ }
+ catch(e){
+   error = e;
+ }
+
+  if(! results){
+    error = "Could not fetch updated movies";
+  }
+  else{
+    for(var k = 1; k <= results.total_pages; k++){
+      try {    
+      response = await fetch('https://api.themoviedb.org/3/movie/now_playing?api_key=ce41792ee6b56545a5a67c7e6705976c&language=en-US&page='+k+'&region=US', {
+          method:'GET',body:null,headers:{
+              'Content-Type': 'application/json',
+          }
+      });
+
+       results = JSON.parse(await response.text());
+       movies = movies.concat(results.results);
+      } catch(e) {
+        error = e;
+      }  
+    }
+  }
 
   const db = client.db();
   db.collection('movies').remove({});
@@ -659,9 +704,8 @@ app.post('/API/UpdateMovies', async (req, res, next) =>
     db.collection('movies').insert(movieInfo)
   });
 
-  var ret = { error: error };
-  res.status(200).json(ret);
-});
+  return error;
+}
 
 app.post('/API/GetMovies', async (req,res,next) =>
 {

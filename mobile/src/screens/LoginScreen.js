@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { Alert, View, StyleSheet, Text, Button, TextInput, Image, KeyboardAvoidingView, Platform } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Background from '../components/Background';
 import logo from '../assets/Cinemates.png';
 import Card from '../components/Card';
+import background from '../assets/background.png';
 
 const LoginScreen = ({ navigation }) => {
 
@@ -14,6 +15,14 @@ const url2 = 'https://cine-mates.herokuapp.com/API/EmailVerification'
 const[username, setName] = useState('')
 const[password, setPass] = useState('')
 var md5 = require('md5');
+
+async function storeInfo(param) {
+  try {
+    await AsyncStorage.setItem('key', JSON.stringify(param))
+  } catch(e) {
+    console.log(e)
+  }
+}
 
 //login Api call
 async function sendtoserver(param) {
@@ -31,7 +40,7 @@ async function sendtoserver(param) {
     //correct password
     if(responseJson.error == ''){
       if(responseJson.isVerified == true){
-        Alert.alert("welcome")
+        storeInfo(responseJson)
 
         navigation.reset ({
         index: 0,
@@ -43,7 +52,8 @@ async function sendtoserver(param) {
           'Login unsuccessful',
           'Please verify email before logging in',
           [
-            {text: 'OK', onPress: () => emailMe(responseJson.email) }
+            {text: 'Ok'},
+            {text: 'Resend', onPress: () => emailMe(responseJson.email) }
           ]
         )
       }
@@ -57,6 +67,15 @@ async function sendtoserver(param) {
     Alert.alert(e)
   }
 }
+
+// Async Storage
+const setLoginStorage = async (loginData) => {
+  try {
+    await AsyncStorage.setItem('loginData', JSON.stringify(loginData));
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 //set username and password to send to api call function
 const doLogin = () => {
