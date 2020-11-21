@@ -46,6 +46,53 @@ const resendEmail = async event => {
     }
 };
 
+const forgotClick = async event => {
+    event.preventDefault();
+
+    var div = document.getElementById("resetDiv");
+    div.innerHTML += "Enter Your Account's Email Here";
+    var temp = document.createElement('input');
+    temp.type = "text";
+    temp.className = "form-control";
+    temp.id = "resetEmail";
+    temp.placeholder = "Email";
+    div.appendChild(temp);
+
+    temp = document.createElement('button');
+    temp.type = "submit";
+    temp.className = "btn btn-dark btn-lg btn-block";
+    temp.id = "resetButton";
+    temp.innerHTML = "Reset";
+    temp.addEventListener("click", doReset);
+    div.appendChild(temp);
+};
+
+const doReset = async event => {
+    event.preventDefault();
+
+    var obj = {email:document.getElementById("resetEmail").value};
+    var js = JSON.stringify(obj);
+
+    //API call
+    try {
+            const response = await fetch(buildPath('api/PasswordReset'), {
+                method:'POST',body:js,headers:{
+                    'Content-Type': 'application/json'
+                }
+
+            });
+            var div = document.getElementById("resetDiv");
+            var temp = document.createElement("text");
+            temp.innerHTML = "Email Sent";
+            div.appendChild(temp); // Adds text to the div
+        }
+    catch(e)
+    {
+        alert(e.toString());
+        return;
+    }
+};
+
     function Login() {
         var loginName;
         var loginPassword;
@@ -114,6 +161,9 @@ const resendEmail = async event => {
                     <button type="submit" className="btn btn-dark btn-lg btn-block" id="loginButton" onClick={doLogin}>Sign In</button>
                 </form>
                 <span id="loginResult">{message}</span>
+                <div id='resetDiv'>
+                    <p onClick={forgotClick}>Forgot Password?</p>
+                </div>
                 <div id='verifyDiv'>
                 </div>
             </div>
