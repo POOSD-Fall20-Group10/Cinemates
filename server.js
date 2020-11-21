@@ -115,8 +115,14 @@ app.post('/API/EditUser', async (req, res, next) =>
           }
           else{
             const db = client.db();
-            db.collection('users').update({_id: new mongo.ObjectID(userID)},{$set:{email:email,login:login,password:password,
-              firstName:firstName,lastName:lastName}})
+            if(password){
+              db.collection('users').update({_id: new mongo.ObjectID(userID)},{$set:{email:email,login:login,password:password,
+                firstName:firstName,lastName:lastName}})
+            }
+            else{
+              db.collection('users').update({_id: new mongo.ObjectID(userID)},{$set: {email:email,login:login,
+                firstName:firstName,lastName:lastName}})
+            }
           }
         }
       });
