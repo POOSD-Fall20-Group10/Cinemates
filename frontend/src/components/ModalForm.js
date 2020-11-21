@@ -1,8 +1,5 @@
 import React from 'react';
-import MainHeader from './MainHeader';
-import Gallery from './Gallery';
-import GroupsList from './GroupsList';
-import MoviesList from './MoviesList'
+import '../bootstrap.min.css';
 import {Helmet} from "react-helmet";
 
 const app_name = 'cine-mates'
@@ -48,48 +45,15 @@ const addGroup = async event => {
     }
 };
 
-function Main() {
-
-    var _ud = localStorage.getItem('user_data');
-    var ud = JSON.parse(_ud);
-    userId = ud.id;
-    login = ud.login;
-    token = ud.token;
-
+function ModalForm() {
     return(
-        <div>
-            <Helmet>
+    <div>
+        <Helmet>
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-            </Helmet>
-            <MainHeader></MainHeader>
-            <div>&nbsp;&nbsp;</div>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <Gallery></Gallery>
-            <div id="mainDiv">
-            </div>
-            <GroupsList />
-            <div id='moviesDiv' >
-                <MoviesList />
-            </div>
-            <div id="tempAddGroupDiv">
-            <div class="container">
+        </Helmet>
+        <div class="container">
             <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#form">
                 Add New Group
             </button>  
@@ -108,12 +72,12 @@ function Main() {
                         <div class="modal-body">
                             <div class="form-group">
                                 <label for="groupname">Group Name</label>
-                                <input type="text" class="form-control" id="group-name" aria-describedby="group-name" placeholder="Enter group name" ref={(c) => addGroupName = c}></input>
+                                <input type="text" class="form-control" id="group-name" aria-describedby="group-name" placeholder="Enter group name"></input>
                                 <small id="group-name" class="form-text text-muted">Name your group</small>
                             </div>
                             <div class="form-group">
                                 <label for="group-description">Group Description</label>
-                                <input type="text" class="form-control" id="group-description" aria-describedby="group-description" placeholder="Enter group description" ref={(c) => addGroupDescription = c}></input>
+                                <input type="text" class="form-control" id="group-description" aria-describedby="group-description" placeholder="Enter group description"></input>
                                 <small id="group-description" class="form-text text-muted">Describe your group</small>
                             </div>
                         </div>
@@ -121,15 +85,14 @@ function Main() {
                         <button type="submit" class="btn btn-success" onClick={addGroup}>Submit</button>
                         </div>
                     </form>
-                </div>
-                </div>
-                </div>
+                    </div>
+                    </div>
+                    </div>
                 </div>
             </div>
         </div>
-        </div>
-        </div>
+    </div>
     );
 }
 
-export default Main;
+export default ModalForm;

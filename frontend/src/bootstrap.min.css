@@ -2112,7 +2112,7 @@ pre code {
 	width: 100%;
 	height: calc(1.5em + .75rem + 2px);
 	padding: .375rem .75rem;
-	font-size: 1rem;
+	font-size: 15px;
 	font-weight: 400;
 	line-height: 1.5;
 	color: #495057;
@@ -4444,6 +4444,7 @@ input[type=submit].btn-block {
 }
 
 .nav-link {
+	font-size:25px;
 	color: black;
 	display: block;
 	padding: .5rem 1rem
