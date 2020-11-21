@@ -918,7 +918,7 @@ app.post("/API/Reset", async (req, res, next) =>
     jwt.verify(token, jwtKey, (err, decoded) =>
     {
       if (err) {
-        res.status(200).json({ success: false, message: "Failed to verify token" });
+        res.status(200).json({ success: false, message: "Failed to verify token"});
       }
       else {
         var found = false;
@@ -926,7 +926,7 @@ app.post("/API/Reset", async (req, res, next) =>
           if(userInfo._id == decoded._id ){
             found = true;
             db.collection('users').update({_id: new mongo.ObjectID(userInfo._id)},{$set: {isVerified: true, pToken: null}});
-            res.status(200).json({success: true, message: "User verified"});
+            res.status(200).json({success: true, message: "User verified", userInfo: decoded});
           }
         });
         //this case really shouldn't be possible but ya never know
