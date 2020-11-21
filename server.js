@@ -79,17 +79,23 @@ app.post('/API/AddUser', async (req, res, next) =>
 
   const { email, login, password, firstName, lastName } = req.body;
   const db = client.db();
-  db.collection('users').insertOne({email:email,login:login,password:password,firstName:firstName,
-    lastName:lastName,isVerified:false,vToken:null,pToken:null, friends: []}, async (error, result) => {
-      if(error){
-        err = error;
-      }
-      else{
-        const vToken = jwt.sign(result.ops[0], jwtKey);
-        db.collection('users').update({_id : new mongo.ObjectID(result.ops[0]._id)}, {$set: {vToken: vToken}});
-       err = await SendEmailVerification(email, vToken);
-      }
-    });
+  const results = await db.collection('users').find({email:email}).toArray();
+  if(results.length > 0){
+    err = 'Email already used';
+  }
+  else {
+    db.collection('users').insertOne({email:email,login:login,password:password,firstName:firstName,
+      lastName:lastName,isVerified:false,vToken:null,pToken:null, friends: []}, async (error, result) => {
+        if(error){
+          err = error;
+        }
+        else{
+          const vToken = jwt.sign(result.ops[0], jwtKey);
+          db.collection('users').update({_id : new mongo.ObjectID(result.ops[0]._id)}, {$set: {vToken: vToken}});
+         err = await SendEmailVerification(email, vToken);
+        }
+      });
+  }
 
   var ret = { error: err };
   res.status(200).json(ret);
