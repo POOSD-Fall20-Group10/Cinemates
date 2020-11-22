@@ -46,6 +46,9 @@ function Account() {
             <div id="accountFirstLast">
                 <h1 id="title">{name}</h1>
             </div>
+            <div id="userCode">
+                <h1 id="title"> User Code: {curAccount}</h1>
+            </div>
         </div>
    );
 }
