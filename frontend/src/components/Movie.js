@@ -1,6 +1,7 @@
 import React from 'react';
 import Card from "react-bootstrap/Card";
 import { Button } from 'reactstrap';
+import '../bootstrap.min.css';
 
 const app_name = 'cine-mates'
 function buildPath(route) {
@@ -98,6 +99,7 @@ function Movie() {
         groupIds.push(gd.groups[i]._id);
     }
 
+    var imageUrl = "https://api.themoviedb.org/3/movie/" + {movieId} + "/images?" + "api_key=" + {token} + "&language=en-US";
     return(
         <div>
             <div id="movieInfo">
@@ -111,8 +113,8 @@ function Movie() {
                 <button type="button" id="noButton" class="buttons" onClick={voteNo}> No </button>
             </div>
 
-            <Card style={{ width: '18rem' }}>
-            <Card.Img variant="top" src="holder.js/100px180" />
+            <Card style={{ width: '80rem' }}>
+            <Card.Img variant="top" src={imageUrl}/>
             <Card.Body>
                 <Card.Title>{title}</Card.Title>
                 <Card.Text>{overview}</Card.Text>
