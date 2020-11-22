@@ -1,4 +1,5 @@
 import React from 'react';
+import GroupMoviesList from './GroupMoviesList'
 
 const app_name = 'cine-mates'
 function buildPath(route) {
@@ -41,7 +42,7 @@ function Group() {
 
     var _gd = localStorage.getItem('group_info');
     var gd = JSON.parse(_gd);
-    groupId = gd.id;
+    groupId = gd._id;
     groupName = gd.name;
     groupDescription = gd.description;
     members = gd.members;
@@ -55,6 +56,9 @@ function Group() {
                 </div>
                 <button type="button" id="addMemberButton" class="buttons" onClick={openAddMemberForm}> Add Member </button>
                 <button type="button" id="editGroupButton" class="buttons" onClick={openEditGroupForm}> Edit Group </button>
+            </div>
+            <div id='groupMoviesDiv' >
+                <GroupMoviesList />
             </div>
             <div id="tempEditGroupDiv">
                 <div class="container">
