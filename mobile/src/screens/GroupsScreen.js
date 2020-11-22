@@ -12,6 +12,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import background from '../assets/background_curtains.jpg';
+import Card from '../components/Card';
 
 const GroupsScreen = ({ navigation }) => {
 
@@ -121,6 +122,7 @@ const GroupsScreen = ({ navigation }) => {
         >
             <Text>Add new group</Text>
         </TouchableHighlight>
+        
     </ImageBackground>
 );
 };
