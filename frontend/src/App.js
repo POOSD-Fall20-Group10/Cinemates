@@ -12,6 +12,7 @@ import GroupPage from './pages/GroupPage';
 import AccountPage from './pages/AccountPage';
 import VerifyPage from './pages/VerifyPage';
 import ResetPage from './pages/ResetPage';
+import MoviePage from './pages/MoviePage';
 
 import logo from './Cinemates.png';
 
@@ -48,6 +49,9 @@ function App() {
         </Route>
         <Route path="/Reset" exact>
           <ResetPage />
+        </Route>
+        <Route path="/movie" exact>
+          <MoviePage />
         </Route>
         <Redirect to="/" />
       </Switch>
