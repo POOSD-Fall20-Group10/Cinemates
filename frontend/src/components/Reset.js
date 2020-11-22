@@ -26,12 +26,40 @@ var user;
         var resLogin;
         var resFName;
         var resLName;
+        var resID;
+
+    var js = JSON.stringify({token: token});
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST",buildPath('api/Reset'),false);
+    xhr.setRequestHeader("Content-type","application/json; charset=UTF-8");
+    try {
+          xhr.send(js);
+            const response = JSON.parse(xhr.responseText);
+            if(response.success){
+              resEmail = response.userInfo.email;
+              resLogin = response.userInfo.login;
+              resFName = response.userInfo.firstName;
+              resLName = response.userInfo.lastName;
+              resID = response.userInfo._id;
+            }
+            else{
+              alert("verify failed");
+                setTimeout(function() {
+                  window.location.href = '/login';
+                },
+                3000);
+            }
+          }
+          catch(e){
+            alert(e.toString());
+            return;
+          }
 
         const resetPassword = async event => {
             event.preventDefault();
             if(resPassword.value == confirm.value)
             {
-                var obj = {token:token,email:resEmail,login:resLogin,
+                var obj = {token:token,email:resEmail,login:resLogin, userID: resID,
                     password:CryptoJS.MD5(resPassword.value).toString(),firstName:resFName,lastName:resLName};;
                 var js = JSON.stringify(obj);
 
@@ -43,7 +71,12 @@ var user;
                     });
 
                 var res = JSON.parse(await response.text());
-               
+                if(! res.error){
+                window.location.href = '/login';
+                }
+                else{
+                  alert(res.error);
+                }
                 } catch(e) {
                     alert(e.toString());
                     return;

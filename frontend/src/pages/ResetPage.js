@@ -11,4 +11,4 @@ const ResetPage = () =>
     );
 };
 
-export default Reset;
+export default ResetPage;

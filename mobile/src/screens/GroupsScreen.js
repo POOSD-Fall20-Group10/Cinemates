@@ -17,6 +17,7 @@ import Card from '../components/Card';
 const GroupsScreen = ({ navigation }) => {
 
     const url = 'https://cine-mates.herokuapp.com/API/AddGroup'
+    const url2 = 'https://cine-mates.herokuapp.com/API/ListGroups'
 
     const [modalVisible, setModalVisible] = useState(false);
 
@@ -25,6 +26,8 @@ const GroupsScreen = ({ navigation }) => {
 
     const[groupName, setGN] = useState('')
     const[groupDesc, setDC] = useState('')
+
+    const[myerror, setErr] = useState('')
 
     async function getItem() {
       try {
@@ -41,6 +44,11 @@ const GroupsScreen = ({ navigation }) => {
     getItem()
 
     const createPayload = () => {
+
+      if(groupName == ''){
+        setErr("Error: empty group name")
+        return
+      }
 
       var obj = {
         token: token,
@@ -72,6 +80,38 @@ const GroupsScreen = ({ navigation }) => {
 
         let responseJson = await response.json()
         console.log(responseJson)
+          if(responseJson.error ==''){
+            setErr('')
+            setModalVisible(!modalVisible);
+          }
+        }
+       catch (e) {
+          console.log(e)
+        }
+    }
+
+    //group retrieval via get groups button
+    async function getGroups() {
+      try {
+        let response = await fetch(url2, {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            token: token,
+            userID: id,
+          })
+        });
+
+        let responseJson = await response.json()
+
+        responseJson.groups.forEach(function(groupInfo, index)
+        {
+          console.log(groupInfo.name)
+        })
+
         }
        catch (e) {
           console.log(e)
@@ -96,6 +136,7 @@ const GroupsScreen = ({ navigation }) => {
                 <TextInput style={styles.textInput} placeholder="Enter group name" onChangeText={(val) => setGN(val)} />
                 <Text>Group Description</Text>
                 <TextInput style={styles.textInput} placeholder="Enter group description" onChangeText={(val) => setDC(val)} />
+                <Text>{myerror}</Text>
                 <TouchableHighlight
                     onPress={() => {
                         setModalVisible(!modalVisible);
@@ -106,7 +147,6 @@ const GroupsScreen = ({ navigation }) => {
                 <TouchableHighlight
                     onPress={() => {
                         createPayload();
-                        setModalVisible(!modalVisible);
                     }}
                 >
                     <Text>Submit</Text>
@@ -122,7 +162,14 @@ const GroupsScreen = ({ navigation }) => {
         >
             <Text>Add new group</Text>
         </TouchableHighlight>
-        
+        <TouchableHighlight
+            style={styles.button}
+            onPress={() => {
+                getGroups()
+            }}
+        >
+            <Text>Get groups</Text>
+        </TouchableHighlight>
     </ImageBackground>
 );
 };

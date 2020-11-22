@@ -1,4 +1,7 @@
 import React from 'react';
+import Card from "react-bootstrap/Card";
+import { Button } from 'reactstrap';
+import '../bootstrap.min.css';
 
 const app_name = 'cine-mates'
 function buildPath(route) {
@@ -95,20 +98,21 @@ function Movie() {
     {
         groupIds.push(gd.groups[i]._id);
     }
-
-
+    
+    var imageUrl = "https://image.tmdb.org/t/p/w500" + md.poster_path;
     return(
-        <div>
-            <div id="movieInfo">
-            <h1 id="title">{title}</h1>
-            <h3 id="overview">{overview}</h3>
-            <h3 id="releaseDate">{releaseDate}</h3>
-            <h3 id="score">{score}</h3>
-            </div>
-            <div id="vote">
-                <button type="button" id="yesButton" class="buttons" onClick={voteYes}> Yes </button>
-                <button type="button" id="noButton" class="buttons" onClick={voteNo}> No </button>
-            </div>
+        <div style={{display: 'flex',  justifyContent:'center', alignItems:'center', height: '100vh'}}>
+            <Card style={{ width: '80rem' }}>
+            <Card.Img variant="top" src={imageUrl}/>
+            <Card.Body>
+                <Card.Title>{title}</Card.Title>
+                <Card.Text>{overview}</Card.Text>
+                <Card.Text>{releaseDate}</Card.Text>
+                <Card.Text>{score}</Card.Text>
+                <Button variant="primary" onClick={voteYes}>Yes</Button>
+                <Button variant="primary" onClick={voteNo}>No</Button>
+            </Card.Body>
+            </Card>
         </div>
    );
 }
