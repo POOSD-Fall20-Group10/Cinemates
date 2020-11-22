@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Alert, View, StyleSheet, Text, Button, TextInput, Image, ImageBackground } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import { Modal, Alert, View, StyleSheet, Text, TouchableHighlight, TextInput, Image, ImageBackground } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import background from '../assets/background_curtains.jpg';
@@ -11,9 +10,14 @@ const LoginScreen = ({ navigation }) => {
 
   const url = 'https://cine-mates.herokuapp.com/API/UserLogin'
   const url2 = 'https://cine-mates.herokuapp.com/API/EmailVerification'
+  const url3 = 'https://cine-mates.herokuapp.com/API/PasswordReset'
 
+  const [modalVisible, setModalVisible] = useState(false);
+  
   const[username, setName] = useState('')
   const[password, setPass] = useState('')
+
+  const[resetEmail, setReset] = useState('')
 
   var md5 = require('md5');
 
@@ -111,18 +115,76 @@ const LoginScreen = ({ navigation }) => {
     }
   }
 
+  async function resetPass() {
+    try {
+      let response = await fetch(url3, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+              email: resetEmail
+          })
+      });
+      let responseJson = await response.json()
+
+      if(responseJson.error == ''){
+        Alert.alert("Sent")
+      }
+      else{
+        Alert.alert(responseJson.error)
+      }
+
+    } catch (e) {
+      console.log(e)
+    }
+
+  }
+
       return (
           <ImageBackground
             source={background}
             style={styles.imagebackground}
           >
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={modalVisible}
+              onRequestClose={() => {
+                  Alert.alert("Modal has been closed.");
+              }}
+            >
+              <View style={styles.modalView}>
+                  <Text>Email Address</Text>
+                  <TextInput style={styles.textInput} onChangeText={(val) => setReset(val)}/>
+                  <TouchableHighlight
+                      onPress={() => {
+                          resetPass()
+                          setModalVisible(!modalVisible);
+                      }}
+                  >
+                    <Text>Submit</Text>
+                  </TouchableHighlight>
+              </View>
+            </Modal>
+
               <View style={styles.screen}>
                   <Image source={logo} style={styles.logo} />
                   <Card style={styles.inputContainer}>
                       <TextInput style={styles.textInput} placeholder="Username" onChangeText={(val) => setName(val)} />
                       <TextInput style={styles.textInput} placeholder="Password" secureTextEntry={true} onChangeText={(val) => setPass(val)}/>
-                      <Button title="Login" onPress={() => doLogin()}/>
-                      <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                      <TouchableHighlight style={styles.cineButton} onPress={() => doLogin()}>
+                        <Text style={{color: 'white'}}>Log In</Text>
+                      </TouchableHighlight>
+                      <Text style={{color: 'blue',  marginTop: 10, marginBottom: -5}}
+                              onPress={() =>
+                                setModalVisible(true)}>
+                              Forgot Password?
+                          </Text>
+                  </Card>
+                  <Card style={{...styles.inputContainer, padding:10}}>
+                    <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
                           <Text>Don't have an account? </Text>
                           <Text style={{color: 'blue'}}
                               onPress={() =>
@@ -130,7 +192,7 @@ const LoginScreen = ({ navigation }) => {
                                 index: 0,
                                 routes: [{name: 'Register'}]
                               })}>
-                              Register
+                              Sign up
                           </Text>
                       </View>
                   </Card>
@@ -159,7 +221,8 @@ const LoginScreen = ({ navigation }) => {
           alignItems: 'center',
           flexDirection: 'column',
           justifyContent: 'space-between',
-          padding: 20
+          padding: 20,
+          marginVertical: 7
       },
       textInput: {
           alignSelf: 'stretch',
@@ -174,7 +237,31 @@ const LoginScreen = ({ navigation }) => {
         width: '100%',
         height: '100%',
         flex: 1
-      }
+      },
+      cineButton: {
+        alignSelf: 'stretch',
+        marginTop: 5,
+        alignItems: 'center',
+        backgroundColor: 'dimgray',
+        borderRadius: 3,
+        height: 30,
+        justifyContent: 'center'
+      },
+      modalView: {
+        margin: 20,
+        backgroundColor: "white",
+        borderRadius: 20,
+        padding: 35,
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 0,
+          height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 4,
+    },
   });
 
 export default LoginScreen;

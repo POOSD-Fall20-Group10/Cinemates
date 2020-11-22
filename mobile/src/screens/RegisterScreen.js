@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Alert, View, StyleSheet, Text, Button, TextInput, Image, KeyboardAvoidingView, Platform, ImageBackground } from 'react-native';
+import { Alert, View, StyleSheet, Text, TouchableHighlight, TextInput, Image, KeyboardAvoidingView, Platform, ImageBackground } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -89,15 +89,19 @@ const doRegister = () => {
                 <Image source={logo} style={styles.logo} />
                 <View style={{justifyContent: 'space-between', }}>
                 <Card style={styles.inputContainer}>
-
                     <TextInput style={styles.textInput} placeholder="First Name" onChangeText={(val) => setfname(val)}/>
                     <TextInput style={styles.textInput} placeholder="Last Name" onChangeText={(val) => setlname(val)}/>
                     <TextInput style={styles.textInput} placeholder="Username" onChangeText={(val) => setusername(val)}/>
                     <TextInput style={styles.textInput} placeholder="Email" onChangeText={(val) => setemail(val)}/>
                     <TextInput style={styles.textInput} placeholder="Password" secureTextEntry={true} onChangeText={(val) => setpassword(val)}/>
                     <TextInput style={styles.textInput} placeholder="Confirm Password" secureTextEntry={true} onChangeText={(val) => setpassword2(val)}/>
-                    <Button title="Register" onPress={() => doRegister()}/>
-                    <View style={{flexDirection: 'row'}}>
+                    <TouchableHighlight style={styles.cineButton} onPress={() => doRegister()}>
+                      <Text style={{color: 'white'}}>Sign Up</Text>
+                    </TouchableHighlight>
+                </Card>
+                
+                <Card style={{...styles.inputContainer, padding:10}}>
+                  <View style={{flexDirection: 'row'}}>
                         <Text>Already have an account? </Text>
                         <Text style={{color: 'blue'}}
                           onPress={() =>
@@ -105,7 +109,7 @@ const doRegister = () => {
                             index: 0,
                             routes: [{name: 'Login'}]
                           })}>
-                                Login
+                                Log in
                         </Text>
                     </View>
                 </Card>
@@ -121,7 +125,7 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 10,
         alignItems: 'center',
-        marginBottom: 30
+        marginBottom: 20
     },
     logo: {
         flex: 1,
@@ -134,6 +138,8 @@ const styles = StyleSheet.create({
         width: 300,
         maxWidth: '80%',
         alignItems: 'center',
+        marginVertical: 7,
+        justifyContent: 'space-between',
     },
     textInput: {
         alignSelf: 'stretch',
@@ -148,7 +154,16 @@ const styles = StyleSheet.create({
       width: '100%',
       height: '100%',
       flex: 1
-    }
+    },
+    cineButton: {
+      alignSelf: 'stretch',
+      marginTop: 5,
+      alignItems: 'center',
+      backgroundColor: 'dimgray',
+      borderRadius: 3,
+      height: 30,
+      justifyContent: 'center'
+    },
 });
 
 export default RegisterScreen;

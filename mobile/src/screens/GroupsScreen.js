@@ -9,8 +9,6 @@ import {
     ImageBackground,
     TouchableHighlight
 } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import background from '../assets/background_curtains.jpg';
