@@ -14,15 +14,53 @@ var movieId;
 var userId
 var token;
 
-const voteYes = event => //Needs to open notification window
-    {
+const voteYes = async event => // Add movie to yes list and return to main
+{
     event.preventDefault();
-    };
 
-const voteNo = event => //Needs to open notification window
-    {
+    var obj = {token:token,userID:userId,movieID:movieId,liked:true};
+    var js = JSON.stringify(obj);
+
+    //API call
+    try {
+            const response = await fetch(buildPath('api/AddMovieToList'), {
+                method:'POST',body:js,headers:{
+                    'Content-Type': 'application/json'
+                }
+
+            });
+            window.location.href = '/main';
+        }
+    catch(e)
+    {
+        alert(e.toString());
+        return;
+    }
+};
+
+const voteNo = async event => // Add movie to no list and return to main
+{
     event.preventDefault();
-    };
+
+    var obj = {token:token,userID:userId,movieID:movieId,liked:false};
+    var js = JSON.stringify(obj);
+
+    //API call
+    try {
+            const response = await fetch(buildPath('api/AddMovieToList'), {
+                method:'POST',body:js,headers:{
+                    'Content-Type': 'application/json'
+                }
+
+            });
+            window.location.href = '/main';
+        }
+    catch(e)
+    {
+        alert(e.toString());
+        return;
+    }
+};
 
 function Movie() {
 
