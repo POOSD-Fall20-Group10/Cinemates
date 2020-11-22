@@ -1,5 +1,6 @@
 import React from 'react';
 import Card from "react-bootstrap/Card";
+import { Button } from 'reactstrap';
 
 const app_name = 'cine-mates'
 function buildPath(route) {
