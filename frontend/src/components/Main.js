@@ -87,7 +87,7 @@ function Main() {
             </div>
             <GroupsList />
             <div id='moviesDiv' >
-                <MoviesList />
+            <MoviesList />
             </div>
             <div id="tempAddGroupDiv">
             <div class="container">
