@@ -28,11 +28,19 @@ function createMoviesList()
 {
   let children = moviesList.movies.map((val, index) => {
     return (
-      React.createElement("button", {id: index}, val.title)
+      React.createElement("button", {id: index, onClick: () =>openPage(val)}, val.title)
     )
   })
   // the div with children inside
     MoviesDiv =  React.createElement("div", {className: "contexCon"},children);
+}
+
+//save movie info to local storage and redirect to the movie page
+function openPage(movie)
+{
+  localStorage.setItem("movie_info",JSON.stringify(movie));
+  alert(localStorage.getItem("group_info"));
+  window.location.href = '/movie';
 }
 
 function MoviesList() {
