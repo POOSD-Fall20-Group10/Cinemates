@@ -7,14 +7,13 @@ import {
     Button,
     TextInput,
     Image,
-    KeyboardAvoidingView,
-    Platform
+    ImageBackground
 } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import Background from '../components/Background';
+import background from '../assets/background_curtains.jpg';
 import logo from '../assets/Cinemates.png';
 import Card from '../components/Card';
 
@@ -34,10 +33,22 @@ async function getMyObject() {
 
 const MoviesScreen = ({ navigation }) => {
     return(
-        <Background>
-            <Button title="press me for your email" onPress={() => getMyObject()}/>
-        </Background>
+      <ImageBackground
+        source={background}
+        style={styles.imagebackground}
+      >
+            <Text>Movies</Text>
+        </ImageBackground>
     );
 };
+
+const styles = StyleSheet.create({
+  imagebackground: {
+    width: '100%',
+    height: '100%',
+    flex: 1
+  }
+});
+
 
 export default MoviesScreen;

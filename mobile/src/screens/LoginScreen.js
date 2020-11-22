@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import { Alert, View, StyleSheet, Text, Button, TextInput, Image, KeyboardAvoidingView, Platform } from 'react-native';
+import { Alert, View, StyleSheet, Text, Button, TextInput, Image, ImageBackground } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import Background from '../components/Background';
+import background from '../assets/background_curtains.jpg';
 import logo from '../assets/Cinemates.png';
 import Card from '../components/Card';
-import background from '../assets/background.png';
 
 const LoginScreen = ({ navigation }) => {
 
@@ -118,7 +117,10 @@ async function emailMe(email) {
 }
 
     return (
-        <Background>
+        <ImageBackground
+          source={background}
+          style={styles.imagebackground}
+        >
             <View style={styles.screen}>
                 <Image source={logo} style={styles.logo} />
                 <Card style={styles.inputContainer}>
@@ -138,7 +140,7 @@ async function emailMe(email) {
                     </View>
                 </Card>
             </View>
-        </Background>
+        </ImageBackground>
     )
 };
 
@@ -146,7 +148,8 @@ const styles = StyleSheet.create({
     screen: {
         flex: 1,
         padding: 10,
-        alignItems: 'center'
+        alignItems: 'center',
+        marginBottom: 50
     },
     logo: {
         flex: 1,
@@ -171,6 +174,11 @@ const styles = StyleSheet.create({
         height: 39,
         alignItems: 'center',
         marginVertical: 3
+    },
+    imagebackground: {
+      width: '100%',
+      height: '100%',
+      flex: 1
     }
 });
 
