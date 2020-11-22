@@ -11,13 +11,76 @@ import {
 } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import background from '../assets/background_curtains.jpg';
 import logo from '../assets/Cinemates.png';
 import Card from '../components/Card';
 
 const GroupsScreen = ({ navigation }) => {
+
+    const url = 'https://cine-mates.herokuapp.com/API/AddGroup'
+
     const [modalVisible, setModalVisible] = useState(false);
+
+    const[id, setID] = useState('')
+    const[token, setToken] = useState('')
+
+    const[groupName, setGN] = useState('')
+    const[groupDesc, setDC] = useState('')
+
+    async function getItem() {
+      try {
+        const value = await AsyncStorage.getItem('key');
+        const obj = JSON.parse(value)
+
+        setID(obj.id)
+        setToken(obj.token)
+      } catch (error) {
+        console.log(error + "h")
+      }
+    }
+
+    getItem()
+
+    const createPayload = () => {
+
+      var obj = {
+        token: token,
+        members: [
+          {userID: id},
+        ],
+        name: groupName,
+        description: groupDesc,
+        messages: [],
+      }
+
+      var objstr = JSON.stringify(obj)
+
+      doRegister(objstr)
+
+    }
+
+
+    async function doRegister(param) {
+      try {
+        let response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: param
+        });
+
+        let responseJson = await response.json()
+        console.log(responseJson)
+        }
+       catch (e) {
+          console.log(e)
+        }
+    }
+
     return(
         <ImageBackground
         source={background}
@@ -33,11 +96,12 @@ const GroupsScreen = ({ navigation }) => {
             >
             <View style={styles.modalView}>
                 <Text>Group Name</Text>
-                <TextInput style={styles.textInput} placeholder="Enter group name" onChangeText={(val) => setName(val)} />
+                <TextInput style={styles.textInput} placeholder="Enter group name" onChangeText={(val) => setGN(val)} />
                 <Text>Group Description</Text>
-                <TextInput style={styles.textInput} placeholder="Enter group description" onChangeText={(val) => setName(val)} />
+                <TextInput style={styles.textInput} placeholder="Enter group description" onChangeText={(val) => setDC(val)} />
                 <TouchableHighlight
                     onPress={() => {
+                        createPayload();
                         setModalVisible(!modalVisible);
                     }}
                 >
