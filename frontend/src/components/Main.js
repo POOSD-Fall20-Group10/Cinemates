@@ -4,6 +4,7 @@ import Gallery from './Gallery';
 import GroupsList from './GroupsList';
 import MoviesList from './MoviesList'
 import {Helmet} from "react-helmet";
+import '../bootstrap.min.css';
 
 const app_name = 'cine-mates'
 function buildPath(route) {
