@@ -60,7 +60,7 @@ const LoginScreen = ({ navigation }) => {
         //login true and not verified
         else{
           Alert.alert(
-            'Login unsuccessful',
+            'Account Unverified',
             'Please verify email before logging in',
             [
               {text: 'Ok'},
@@ -188,7 +188,7 @@ const LoginScreen = ({ navigation }) => {
                         <Text style={{color: 'white'}}>Log In</Text>
                       </TouchableHighlight>
                       <Text style={{color: 'red'}}>{myerror}</Text>
-                      <Text style={{color: 'blue',  marginTop: 10, marginBottom: -5}}
+                      <Text style={{color: 'blue', marginBottom: -5}}
                               onPress={() =>
                                 setModalVisible(true)}>
                               Forgot Password?
