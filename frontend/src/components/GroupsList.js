@@ -44,7 +44,6 @@ function createGroupList()
 function openPage(group)
 {
   localStorage.setItem("group_info",JSON.stringify(group));
-  alert(localStorage.getItem("group_info"));
   window.location.href = '/group'
 }
 // Makes an AddGroup API call to create a new group with addGroupName and addGroupDescription
@@ -91,6 +90,7 @@ function GroupsList() {
             xhr.send(js);
 
             groupList = JSON.parse(xhr.responseText); // Adds response to groupList
+            localStorage.setItem("group_List",JSON.stringify(groupList));
             createGroupList();
         }
     catch(e)
