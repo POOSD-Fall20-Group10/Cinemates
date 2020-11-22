@@ -184,10 +184,10 @@ const LoginScreen = ({ navigation }) => {
                   <Card style={styles.inputContainer}>
                       <TextInput style={styles.textInput} placeholder="Username" onChangeText={(val) => setName(val)} />
                       <TextInput style={styles.textInput} placeholder="Password" secureTextEntry={true} onChangeText={(val) => setPass(val)}/>
-                      <Text style={{color: 'red'}}>{myerror}</Text>
                       <TouchableHighlight style={styles.cineButton} onPress={() => doLogin()}>
                         <Text style={{color: 'white'}}>Log In</Text>
                       </TouchableHighlight>
+                      <Text style={{color: 'red'}}>{myerror}</Text>
                       <Text style={{color: 'blue',  marginTop: 10, marginBottom: -5}}
                               onPress={() =>
                                 setModalVisible(true)}>
