@@ -13,7 +13,7 @@ const LoginScreen = ({ navigation }) => {
   const url3 = 'https://cine-mates.herokuapp.com/API/PasswordReset'
 
   const [modalVisible, setModalVisible] = useState(false);
-  
+
   const[username, setName] = useState('')
   const[password, setPass] = useState('')
 
@@ -158,6 +158,13 @@ const LoginScreen = ({ navigation }) => {
               <View style={styles.modalView}>
                   <Text>Email Address</Text>
                   <TextInput style={styles.textInput} onChangeText={(val) => setReset(val)}/>
+                  <TouchableHighlight
+                      onPress={() => {
+                          setModalVisible(!modalVisible);
+                      }}
+                  >
+                      <Text>Cancel</Text>
+                  </TouchableHighlight>
                   <TouchableHighlight
                       onPress={() => {
                           resetPass()
