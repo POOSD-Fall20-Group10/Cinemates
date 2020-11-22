@@ -1,4 +1,5 @@
 import React from 'react';
+import Card from "react-bootstrap/Card";
 
 const app_name = 'cine-mates'
 function buildPath(route) {
@@ -96,7 +97,6 @@ function Movie() {
         groupIds.push(gd.groups[i]._id);
     }
 
-
     return(
         <div>
             <div id="movieInfo">
@@ -109,6 +109,18 @@ function Movie() {
                 <button type="button" id="yesButton" class="buttons" onClick={voteYes}> Yes </button>
                 <button type="button" id="noButton" class="buttons" onClick={voteNo}> No </button>
             </div>
+
+            <Card style={{ width: '18rem' }}>
+            <Card.Img variant="top" src="holder.js/100px180" />
+            <Card.Body>
+                <Card.Title>{title}</Card.Title>
+                <Card.Text>{overview}</Card.Text>
+                <Card.Text>{releaseDate}</Card.Text>
+                <Card.Text>{score}</Card.Text>
+                <Button variant="primary" onClick={voteYes}>Yes</Button>
+                <Button variant="primary" onClick={voteNo}>No</Button>
+            </Card.Body>
+            </Card>
         </div>
    );
 }
