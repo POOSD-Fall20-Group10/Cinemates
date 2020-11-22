@@ -40,7 +40,7 @@ const addGroup = async event => {
                     'Content-Type': 'application/json'
                 }
             });
-
+            window.location.reload(false);
         }
     catch(e)
     {
