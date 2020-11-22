@@ -19,6 +19,8 @@ const LoginScreen = ({ navigation }) => {
 
   const[resetEmail, setReset] = useState('')
 
+  const[myerror, setErr] = useState('')
+
   var md5 = require('md5');
 
   //Save response body for rest of webpages
@@ -58,7 +60,7 @@ const LoginScreen = ({ navigation }) => {
         //login true and not verified
         else{
           Alert.alert(
-            'Login unsuccessful',
+            'Account Unverified',
             'Please verify email before logging in',
             [
               {text: 'Ok'},
@@ -69,6 +71,7 @@ const LoginScreen = ({ navigation }) => {
       }
       //incorrect password
       else if (responseJson.error == 'Username or password incorrect') {
+        setErr(responseJson.error)
         console.log(responseJson.error)
       }
 
@@ -184,7 +187,8 @@ const LoginScreen = ({ navigation }) => {
                       <TouchableHighlight style={styles.cineButton} onPress={() => doLogin()}>
                         <Text style={{color: 'white'}}>Log In</Text>
                       </TouchableHighlight>
-                      <Text style={{color: 'blue',  marginTop: 10, marginBottom: -5}}
+                      <Text style={{color: 'red'}}>{myerror}</Text>
+                      <Text style={{color: 'blue', marginBottom: -5}}
                               onPress={() =>
                                 setModalVisible(true)}>
                               Forgot Password?

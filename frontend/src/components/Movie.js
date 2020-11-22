@@ -98,7 +98,7 @@ function Movie() {
     {
         groupIds.push(gd.groups[i]._id);
     }
-    // md.poster_path
+    
     var imageUrl = "https://image.tmdb.org/t/p/w500" + md.poster_path;
     return(
         <div style={{display: 'flex',  justifyContent:'center', alignItems:'center', height: '100vh'}}>
