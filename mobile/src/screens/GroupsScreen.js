@@ -12,8 +12,6 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import background from '../assets/background_curtains.jpg';
-import logo from '../assets/Cinemates.png';
-import Card from '../components/Card';
 
 const GroupsScreen = ({ navigation }) => {
 
@@ -97,6 +95,13 @@ const GroupsScreen = ({ navigation }) => {
                 <TextInput style={styles.textInput} placeholder="Enter group name" onChangeText={(val) => setGN(val)} />
                 <Text>Group Description</Text>
                 <TextInput style={styles.textInput} placeholder="Enter group description" onChangeText={(val) => setDC(val)} />
+                <TouchableHighlight
+                    onPress={() => {
+                        setModalVisible(!modalVisible);
+                    }}
+                >
+                    <Text>Cancel</Text>
+                </TouchableHighlight>
                 <TouchableHighlight
                     onPress={() => {
                         createPayload();
