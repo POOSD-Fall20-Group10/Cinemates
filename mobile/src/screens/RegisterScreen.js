@@ -19,6 +19,8 @@ const RegisterScreen = ({ navigation }) => {
   const[password, setpassword] = useState('')
   const[password2, setpassword2] = useState('')
 
+  const[myerror, setErr] = useState('')
+
   var md5 = require('md5');
 
   //login Api call
@@ -47,6 +49,9 @@ const RegisterScreen = ({ navigation }) => {
           ]
         )
       }
+      else{
+        setErr(responseJson.error)
+      }
 
     } catch (e) {
       console.log(e)
@@ -57,6 +62,11 @@ const doRegister = () => {
 
   if(password != password2){
     Alert.alert("Error: passwords do not match")
+    return
+  }
+
+  if(username =='' || email =='' || password =='' || password2 ==''){
+    setErr("Please fill out all fields")
     return
   }
 
@@ -95,11 +105,12 @@ const doRegister = () => {
                     <TextInput style={styles.textInput} placeholder="Email" onChangeText={(val) => setemail(val)}/>
                     <TextInput style={styles.textInput} placeholder="Password" secureTextEntry={true} onChangeText={(val) => setpassword(val)}/>
                     <TextInput style={styles.textInput} placeholder="Confirm Password" secureTextEntry={true} onChangeText={(val) => setpassword2(val)}/>
+                    <Text style={{color: 'red'}}>{myerror}</Text>
                     <TouchableHighlight style={styles.cineButton} onPress={() => doRegister()}>
                       <Text style={{color: 'white'}}>Sign Up</Text>
                     </TouchableHighlight>
                 </Card>
-                
+
                 <Card style={{...styles.inputContainer, padding:10}}>
                   <View style={{flexDirection: 'row'}}>
                         <Text>Already have an account? </Text>

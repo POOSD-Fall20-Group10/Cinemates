@@ -2,7 +2,7 @@ import React from 'react';
 import GroupMoviesList from './GroupMoviesList'
 import {Helmet} from "react-helmet";
 import Card from "react-bootstrap/Card";
-import GroupHeader from './GroupHeader';
+import MainHeader from './MainHeader';
 import '../bootstrap.min.css';
 
 const app_name = 'cine-mates'
@@ -101,7 +101,24 @@ function Group() {
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
             </Helmet>
 
-            <GroupHeader></GroupHeader>
+            <MainHeader></MainHeader>
+            <div>&nbsp;&nbsp;</div>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
             <div style={{display: 'flex',  justifyContent:'center', alignItems:'center', height: '100vh'}}>
             <Card style={{ width: '80rem' }}>
             <Card.Body>
