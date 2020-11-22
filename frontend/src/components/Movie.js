@@ -98,8 +98,8 @@ function Movie() {
     {
         groupIds.push(gd.groups[i]._id);
     }
-
-    var imageUrl = "https://api.themoviedb.org/3/movie/" + {movieId} + "/images?" + "api_key=" + {token} + "&language=en-US";
+    
+    var imageUrl = "https://image.tmdb.org/t/p/w500" + md.poster_path;
     return(
         <div style={{display: 'flex',  justifyContent:'center', alignItems:'center', height: '100vh'}}>
             <Card style={{ width: '80rem' }}>
