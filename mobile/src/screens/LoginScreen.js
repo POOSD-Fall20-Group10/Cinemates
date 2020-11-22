@@ -19,6 +19,8 @@ const LoginScreen = ({ navigation }) => {
 
   const[resetEmail, setReset] = useState('')
 
+  const[myerror, setErr] = useState('')
+
   var md5 = require('md5');
 
   //Save response body for rest of webpages
@@ -69,6 +71,7 @@ const LoginScreen = ({ navigation }) => {
       }
       //incorrect password
       else if (responseJson.error == 'Username or password incorrect') {
+        setErr(responseJson.error)
         console.log(responseJson.error)
       }
 
@@ -181,6 +184,7 @@ const LoginScreen = ({ navigation }) => {
                   <Card style={styles.inputContainer}>
                       <TextInput style={styles.textInput} placeholder="Username" onChangeText={(val) => setName(val)} />
                       <TextInput style={styles.textInput} placeholder="Password" secureTextEntry={true} onChangeText={(val) => setPass(val)}/>
+                      <Text style={{color: 'red'}}>{myerror}</Text>
                       <TouchableHighlight style={styles.cineButton} onPress={() => doLogin()}>
                         <Text style={{color: 'white'}}>Log In</Text>
                       </TouchableHighlight>
