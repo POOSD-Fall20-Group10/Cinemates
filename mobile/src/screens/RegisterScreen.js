@@ -11,12 +11,14 @@ import Card from '../components/Card';
 const RegisterScreen = ({ navigation }) => {
 
   const url = 'https://cine-mates.herokuapp.com/API/AddUser'
+
   const[fname, setfname] = useState('')
   const[lname, setlname] = useState('')
   const[username, setusername] = useState('')
   const[email, setemail] = useState('')
   const[password, setpassword] = useState('')
   const[password2, setpassword2] = useState('')
+
   var md5 = require('md5');
 
   //login Api call
@@ -47,20 +49,12 @@ const RegisterScreen = ({ navigation }) => {
       }
 
     } catch (e) {
-      Alert.alert(e)
+      console.log(e)
     }
   }
 
 const doRegister = () => {
-  /*
-  //set variables
-  setfname('')
-  setlname('')
-  setusername('')
-  setemail('')
-  setpassword('')
-  setpassword2('')
-*/
+
   if(password != password2){
     Alert.alert("Error: passwords do not match")
     return
@@ -81,8 +75,6 @@ const doRegister = () => {
 
   sendtoserver(objstr)
 }
-
-
 
     return (
       <ImageBackground

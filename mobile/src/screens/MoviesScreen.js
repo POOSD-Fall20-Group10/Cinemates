@@ -17,28 +17,16 @@ import background from '../assets/background_curtains.jpg';
 import logo from '../assets/Cinemates.png';
 import Card from '../components/Card';
 
-
-async function getMyObject() {
-  try {
-      const jsonValue = await AsyncStorage.getItem('key')
-      const needed = JSON.parse(jsonValue)
-      Alert.alert(needed.email)
-    } catch(e) {
-      Alert.alert(e)
-    }
-
-    console.log('Done.')
-
-  }
-
 const MoviesScreen = ({ navigation }) => {
+
     return(
       <ImageBackground
         source={background}
         style={styles.imagebackground}
       >
             <Text>Movies</Text>
-        </ImageBackground>
+
+      </ImageBackground>
     );
 };
 

@@ -22,6 +22,7 @@ const AccountScreen = ({ navigation }) => {
   const url = 'https://cine-mates.herokuapp.com/API/EditUser'
   var md5 = require('md5');
 
+  //prepopulation of current values
   const[user, setUser] = useState('')
   //const[pass, setPass] = useState('')
   const[email, setEmail] = useState('')
@@ -29,7 +30,7 @@ const AccountScreen = ({ navigation }) => {
   const[lname, setLname] = useState('')
   const[token, setToken] = useState('')
 
-
+  //new values to be updated
   const[userNew, setUser2] = useState('')
   const[passNew, setPass2] = useState('')
   const[emailNew, setEmail2] = useState('')
@@ -37,42 +38,39 @@ const AccountScreen = ({ navigation }) => {
   const[lnameNew, setLname2] = useState('')
   const[tokenNew, setToken2] = useState('')
 
+  async function getItem(item) {
+    try {
+      const value = await AsyncStorage.getItem('key');
+      const obj = JSON.parse(value)
 
-
-async function getItem(item) {
-  try {
-    const value = await AsyncStorage.getItem('key');
-    const obj = JSON.parse(value)
-    setUser(obj.login)
-    //setPass(obj.password)
-    setEmail(obj.email)
-    setFname(obj.firstName)
-    setLname(obj.lastName)
-    setToken(obj.token)
-  } catch (error) {
-    console.log(error)
-  }
-}
-
-    getItem()
-
-    const doUpdate = () => {
-
-      var hashNew = md5(passNew)
-
-      var obj = {
-        login: userNew,
-        password: hashNew,
-        email: emailNew,
-        firstName: fnameNew,
-        lastName: lnameNew,
-        token: token,
-      };
-
-      var objstr = JSON.stringify(obj)
-      editUser(objstr)
-
+      setUser(obj.login)
+      //setPass(obj.password)
+      setEmail(obj.email)
+      setFname(obj.firstName)
+      setLname(obj.lastName)
+      setToken(obj.token)
+    } catch (error) {
+      console.log(error)
     }
+  }
+  getItem()
+
+  const doUpdate = () => {
+
+    var hashNew = md5(passNew)
+
+    var obj = {
+      login: userNew,
+      password: hashNew,
+      email: emailNew,
+      firstName: fnameNew,
+      lastName: lnameNew,
+      token: token,
+    };
+
+    var objstr = JSON.stringify(obj)
+    editUser(objstr)
+  }
 
 //login Api call
   async function editUser(param) {
@@ -88,13 +86,10 @@ async function getItem(item) {
       });
       let responseJson = await response.json()
       console.log(responseJson)
-    }
-      catch (e) {
-      Alert.alert(e)
+    } catch (e) {
+        Alert.alert(e)
       }
-    }
-
-
+  }
 
     return(
       <ImageBackground
@@ -103,20 +98,20 @@ async function getItem(item) {
       >
         <Card style={styles.inputContainer}>
 
-                            <Text>Username</Text>
-                            <TextInput style={styles.textInput} placeholder={user} onChangeText={(val) => setUser2(val)}/>
-                            <Text>Password</Text>
-                            <TextInput style={styles.textInput} placeholder="Password" onChangeText={(val) => setPass2(val)}/>
-                            <Text>Email</Text>
-                            <TextInput style={styles.textInput} placeholder={email} onChangeText={(val) => setEmail2(val)}/>
-                            <Text>First Name</Text>
-                            <TextInput style={styles.textInput} placeholder={fname} onChangeText={(val) => setFname2(val)}/>
-                            <Text>Last Name</Text>
-                            <TextInput style={styles.textInput} placeholder={lname} onChangeText={(val) => setLname2(val)}/>
-                            <Button title="Update" onPress={() => doUpdate()}/>
+          <Text>Username</Text>
+          <TextInput style={styles.textInput} placeholder={user} onChangeText={(val) => setUser2(val)}/>
+          <Text>Password</Text>
+          <TextInput style={styles.textInput} placeholder="Password" onChangeText={(val) => setPass2(val)}/>
+          <Text>Email</Text>
+          <TextInput style={styles.textInput} placeholder={email} onChangeText={(val) => setEmail2(val)}/>
+          <Text>First Name</Text>
+          <TextInput style={styles.textInput} placeholder={fname} onChangeText={(val) => setFname2(val)}/>
+          <Text>Last Name</Text>
+          <TextInput style={styles.textInput} placeholder={lname} onChangeText={(val) => setLname2(val)}/>
+          <Button title="Update" onPress={() => doUpdate()}/>
 
         </Card>
-        </ImageBackground>
+      </ImageBackground>
     );
 };
 
