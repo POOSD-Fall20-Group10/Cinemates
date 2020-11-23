@@ -9,28 +9,24 @@ import {
     ImageBackground,
     FlatList,
     Modal,
-    TouchableHighlight,
-    SafeAreaView
+    TouchableHighlight
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import background from '../assets/background_curtains.jpg';
 import Card from '../components/Card';
 
-const IndividualGroupScreen = ({navigation}) => {
-  navigation.setOptions = {
-    title: name
-  }
+const IndividualGroupScreen = ({naviagtion}) => {
 
-const url = 'https://cine-mates.herokuapp.com/API/GetUserByLogin'
-const url2 = 'https://cine-mates.herokuapp.com/API/AddUserToGroup'
-const url3 = 'https://cine-mates.herokuapp.com/API/ListGrpupMessages'
+const findlink = 'https://cine-mates.herokuapp.com/API/GetUserByLogin'
+const addlink = 'https://cine-mates.herokuapp.com/API/AddUserToGroup'
 
-const[token, setToken] = useState('')
-const[groupID, setGID] = useState('')
 const[name, setName] = useState('')
 const[description, setDescription] = useState('')
 const[members, setMembers] = useState('')
+
+const[token, setToken] = useState('')
+const[groupID, setGID] = useState('')
 
 const[find, setFind] = useState('')
 const[tobeadded, setTBA] = useState('')
@@ -43,6 +39,7 @@ const[err, setErr] = useState('')
       const obj = JSON.parse(value)
 
       setToken(obj.token)
+      console.log(token)
 
     } catch (error) {
       console.log(error)
@@ -57,13 +54,13 @@ const[err, setErr] = useState('')
       setGID(obj._id)
       setName(obj.name)
       setDescription(obj.description)
-      setMembers(obj.members)
+      setMembers(JSON.stringify(obj.members))
 
     } catch (error) {
       console.log(error)
     }
   }
-
+/*
   async function findPerson(param) {
     try {
       let response = await fetch(url, {
@@ -121,39 +118,16 @@ const[err, setErr] = useState('')
         console.log(e)
       }
   }
-
-  /*
-  async function listGroupMessages() {
-    try {
-      let response = await fetch(url3, {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-        })
-      })
-    }
-  }
-  */
+*/
 
     return (
         <ImageBackground
         source={background}
         style={styles.imagebackground}
         >
-          <Button title="Fire Up" onPress={() => {getItem(); getToken()}}/>
-          <TextInput style={styles.textInput} onChangeText={(val) => setFind(val)}/>
-          <Button title="Finder" onPress={() => findPerson(find)}/>
-          <Text>Group Name: {name} Description: {description}</Text>
-          <Text>{err}</Text>
-
           <Card style={styles.inputContainer}>
-              <Text style={{fontWeight: 'bold', fontSize: 20, textAlign: 'center'}}>Chat</Text>
-                <TextInput style={{marginRight: 10}} placeholder="Write Your Message Here"/>
-                <Button title="Send"/>
-
+            <Button title="Load Data" onPress={() => getItem()}/>
+            <Text>GroupID:{groupID} Name:{name} Desc: {description} Members: {members}</Text>
           </Card>
 
         </ImageBackground>
@@ -177,12 +151,12 @@ const styles = StyleSheet.create({
         marginVertical: 3
     },
     inputContainer: {
-      alignItems: 'center',
-      flexDirection: 'column',
-      justifyContent: 'space-between',
-      padding: 10,
-      marginVertical: 7
-  },
+        width: 300,
+        maxWidth: '80%',
+        alignItems: 'center',
+        marginVertical: 7,
+        justifyContent: 'space-between',
+    }
 });
 
 export default IndividualGroupScreen;

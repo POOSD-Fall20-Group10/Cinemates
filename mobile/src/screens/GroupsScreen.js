@@ -8,7 +8,8 @@ import {
     Modal,
     ImageBackground,
     TouchableHighlight,
-    FlatList
+    FlatList,
+    Button
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -41,6 +42,14 @@ const GroupsScreen = ({ navigation }) => {
         setToken(obj.token)
       } catch (error) {
         console.log(error + "h")
+      }
+    }
+
+    async function storeInfo(param) {
+      try {
+        await AsyncStorage.setItem('group', JSON.stringify(param))
+      } catch(e) {
+        console.log(e)
       }
     }
 
@@ -118,7 +127,7 @@ const GroupsScreen = ({ navigation }) => {
         }
     }
 
-    getGroups()
+    //getGroups()
 
     return(
         <ImageBackground
@@ -165,19 +174,14 @@ const GroupsScreen = ({ navigation }) => {
             <Text>Add new group</Text>
         </TouchableHighlight>
         <Card style={styles.inputContainer}>
-            
+            <Button title="Load groups" onPress={() => getGroups()}/>
             <FlatList
-             padding ={30}
+             padding ={25}
              data={response.groups}
              keyExtractor={(item) => item.name }
              renderItem={({item}) =>
-             <View style={{height: 50}}>
-                 <TouchableHighlight 
-                    style={styles.button}
-                    onPress={() => navigation.navigate(IndividualGroupScreen, {screen: 'IndividualGroupScreen'})}
-                 >
-                    <Text>{item.name}</Text>
-                </TouchableHighlight>
+             <View style={{height: 30}}>
+                <Text onPress={() => {navigation.navigate(IndividualGroupScreen, {screen: 'IndividualGroupScreen'}); storeInfo(item);}}>{item.name}</Text>
              <View style={{height: 1,backgroundColor:'gray'}}></View>
              </View>
             }
