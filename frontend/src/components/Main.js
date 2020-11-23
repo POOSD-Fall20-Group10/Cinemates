@@ -1,10 +1,9 @@
 import React from 'react';
 import MainHeader from './MainHeader';
-import Gallery from './Gallery';
+import Card from "react-bootstrap/Card";
 import GroupsList from './GroupsList';
 import MoviesList from './MoviesList'
 import {Helmet} from "react-helmet";
-import '../bootstrap.min.css';
 
 const app_name = 'cine-mates'
 function buildPath(route) {
@@ -58,38 +57,29 @@ function Main() {
     token = ud.token;
 
     return(
-        <div>
+        <div style={{top:0}}>
+            <MainHeader></MainHeader>
+            <div>
+            </div>
+            <div>
             <Helmet>
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
             </Helmet>
-            <MainHeader></MainHeader>
-            <div>&nbsp;&nbsp;</div>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <Gallery></Gallery>
-            <div id="mainDiv">
+            <Card style={{ width: '120rem', justifyContent:'center', alignItems:'center'}}>
+            <Card.Body>
+                <Card.Text>Movies</Card.Text>
+                <MoviesList/>
+            </Card.Body>
+            </Card>
             </div>
-            <GroupsList />
-            <div id='moviesDiv' >
-            <MoviesList />
-            </div>
-            <div id="tempAddGroupDiv">
+            <div>
+            <Card style={{ width: '120rem' }}>
+            <Card.Body>
+                <Card.Text>Groups</Card.Text>
+                <GroupsList/>
+                <div id="tempAddGroupDiv">
             <div class="container">
             <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#form">
                 Add New Group
@@ -126,9 +116,12 @@ function Main() {
                 </div>
                 </div>
                 </div>
+                </div>
+                </div>
+                </div>
+            </Card.Body>
+            </Card>
             </div>
-        </div>
-        </div>
         </div>
     );
 }

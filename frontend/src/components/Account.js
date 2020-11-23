@@ -1,4 +1,5 @@
 import React from 'react';
+import Card from "react-bootstrap/Card";
 
 const app_name = 'cine-mates'
 function buildPath(route) {
@@ -36,19 +37,15 @@ function Account() {
     }
 
     return(
-        <div>
-            <div id="Account">
-                <h1 id="title">Account</h1>
-            </div>
-            <div id="accountNameDiv" >
-                <h1 id="title">{curAccountInfo.login}</h1>
-            </div>
-            <div id="accountFirstLast">
-                <h1 id="title">{name}</h1>
-            </div>
-            <div id="userCode">
-                <h1 id="title"> User Code: {curAccount}</h1>
-            </div>
+        <div style={{display: 'flex',  justifyContent:'center', alignItems:'center', height: '100vh'}}>
+            <Card style={{ width: '80rem' }}>
+            <Card.Body>
+                <Card.Text>Account</Card.Text>
+                <Card.Text>{curAccountInfo.login}</Card.Text>
+                <Card.Text>{name}</Card.Text>
+                <Card.Text> User Code: {curAccount}</Card.Text>
+            </Card.Body>
+            </Card>
         </div>
    );
 }
