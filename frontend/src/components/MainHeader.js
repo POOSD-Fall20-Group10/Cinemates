@@ -40,7 +40,7 @@ function MainHeader()
         event.preventDefault();
     };
     // Moves to account page with current user info
-    const openAccount = async event => {
+    const openAccount = event => {
         event.preventDefault();
         localStorage.setItem('current_account', userId);
         window.location.href = '/account';
@@ -48,7 +48,6 @@ function MainHeader()
     const openGroup = event => //Needs to be changed to work with dropdown menu to select active group
     {
         event.preventDefault();
-        alert('Needs dropdown not button');
     };
 
     const updateMovies = async event => {
@@ -74,16 +73,13 @@ function MainHeader()
             <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
                 <ul className="navbar-nav ml-auto">
                 <li className="nav-item">
-                    <Link className="nav-link" onClick={openNotifications}>Notifications</Link>
+                    <Link className="nav-link" onClick={openAccount}>{login}</Link>
                 </li>
                 <li className="nav-item">
                     <Link className="nav-link" onClick={openSettings}>Settings</Link>
                 </li>
                 <li className="nav-item">
                     <Link className="nav-link" onClick={doLogout}>Log Out</Link>
-                </li>
-                <li className="nav-item">
-                    <Link className="nav-link" onClick={updateMovies}>Update Movies</Link>
                 </li>
                 </ul>
             </div>

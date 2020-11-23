@@ -109,8 +109,8 @@ function Movie() {
                 <Card.Text>{overview}</Card.Text>
                 <Card.Text>{releaseDate}</Card.Text>
                 <Card.Text>{score}</Card.Text>
-                <Button variant="primary" onClick={voteYes}>Yes</Button>
-                <Button variant="primary" onClick={voteNo}>No</Button>
+                <Button variant="primary" onClick={voteYes}>Yay</Button>
+                <Button variant="primary" onClick={voteNo}>Nay</Button>
             </Card.Body>
             </Card>
         </div>

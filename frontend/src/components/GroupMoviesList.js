@@ -39,7 +39,6 @@ function createMoviesList()
 function openPage(movie)
 {
   localStorage.setItem("movie_info",JSON.stringify(movie));
-  alert(localStorage.getItem("group_info"));
   window.location.href = '/movie';
 }
 

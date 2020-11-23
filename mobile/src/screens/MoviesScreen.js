@@ -74,7 +74,7 @@ const MoviesScreen = ({ navigation }) => {
             transparent={true}
             visible={modalVisible}
             onRequestClose={() => {
-                this.modalVisible(false);
+                Alert.alert("Modal has been closed.");
             }}
         >
         <View style={styles.modalView}>
@@ -115,7 +115,8 @@ const MoviesScreen = ({ navigation }) => {
             <FlatList
              padding ={30}
              data={response.movies}
-             keyExtractor={(item) => item.poster_path }
+             keyExtractor={(item) => item.id.toString() }
+             initialNumToRender={10}
              renderItem={({item}) =>
                <View style={{height: 180, justifyContent: 'center'}}>
                  <Text onPress={() =>
@@ -141,7 +142,7 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     alignSelf: 'center',
-    marginVertical: 75,
+    marginVertical: 120,
     width: 300,
     maxWidth: '80%',
     alignItems: 'center',
@@ -159,10 +160,7 @@ modalView: {
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 5,
-    alignSelf: 'center',
-    justifyContent: 'center',
-    marginVertical: 200
+    elevation: 5
 },
 textInput: {
     alignSelf: 'stretch',
