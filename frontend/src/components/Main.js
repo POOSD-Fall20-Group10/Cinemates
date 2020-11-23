@@ -4,7 +4,6 @@ import Card from "react-bootstrap/Card";
 import GroupsList from './GroupsList';
 import MoviesList from './MoviesList'
 import {Helmet} from "react-helmet";
-import '../bootstrap.min.css';
 
 const app_name = 'cine-mates'
 function buildPath(route) {
@@ -58,18 +57,17 @@ function Main() {
     token = ud.token;
 
     return(
-        <div>
+        <div style={{top:0}}>
+            <MainHeader></MainHeader>
+            <div>
+            </div>
+            <div>
             <Helmet>
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
             </Helmet>
-            <MainHeader></MainHeader>
-            <div>&nbsp;&nbsp;</div>
-            <div id="mainDiv">
-            </div>
-            <div>
-            <Card style={{ width: '240rem', height:'80vh' }}>
+            <Card style={{ width: '120rem', justifyContent:'center', alignItems:'center'}}>
             <Card.Body>
                 <Card.Text>Movies</Card.Text>
                 <MoviesList/>
@@ -77,7 +75,7 @@ function Main() {
             </Card>
             </div>
             <div>
-            <Card style={{ width: '240rem', height:'80vh'  }}>
+            <Card style={{ width: '120rem' }}>
             <Card.Body>
                 <Card.Text>Groups</Card.Text>
                 <GroupsList/>

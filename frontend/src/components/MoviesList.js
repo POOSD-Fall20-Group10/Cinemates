@@ -23,10 +23,10 @@ var moviesList;
 // divs to be filled out onload and added to page
 var MoviesDiv;
 
-// Takes what is in movieList and adds them to moviesDiv
+// Takes what is in movieList and adds them to moviesDivs
 function createMoviesList()
 {
-  let children = moviesList.movies.map((val, index) => {
+  let children = moviesList.movies.slice(0, 70).map((val, index) => {
     return (
       React.createElement("button", {id: index, onClick: () =>openPage(val)}, val.title)
     )
