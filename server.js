@@ -542,8 +542,8 @@ app.post('/API/GetSortedMovies', async (req, res, next) =>
 
         membersList.forEach(function(memberInfo){
           memberInfo.yesList.forEach(function(movieInfo){
-            if(! movieInArray(movieInfo,moviesList)){
-              moviesList.push(movieInfo);
+            if(! movieInArray(movieInfo.movieID,moviesList)){
+              moviesList.push(movieInfo.movieID);
             }
             if(yesVotes.has(movieInfo.movieID._id)){
               yesVotes.set(movieInfo.movieID._id, yesVotes.get(movieInfo.movieID._id) + 1);
@@ -553,6 +553,9 @@ app.post('/API/GetSortedMovies', async (req, res, next) =>
             }
           });
           memberInfo.noList.forEach(function(movieInfo){
+            if(! movieInArray(movieInfo.movieID,moviesList)){
+              moviesList.push(movieInfo.movieID);
+            }
             if(noVotes.has(movieInfo.movieID._id)){
               noVotes.set(movieInfo.movieID._id, noVotes.get(movieInfo.movieID._id) + 1);
             }
