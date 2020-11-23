@@ -74,7 +74,7 @@ const MoviesScreen = ({ navigation }) => {
             transparent={true}
             visible={modalVisible}
             onRequestClose={() => {
-                Alert.alert("Modal has been closed.");
+                this.modalVisible(false);
             }}
         >
         <View style={styles.modalView}>
@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     alignSelf: 'center',
-    marginVertical: 120,
+    marginVertical: 100,
     width: 300,
     maxWidth: '80%',
     alignItems: 'center',
@@ -140,7 +140,10 @@ modalView: {
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 5
+    elevation: 5,
+    alignSelf: 'center',
+    justifyContent: 'center',
+    marginVertical: 200
 },
 textInput: {
     alignSelf: 'stretch',

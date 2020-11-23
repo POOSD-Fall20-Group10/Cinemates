@@ -14,6 +14,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import background from '../assets/background_curtains.jpg';
 import Card from '../components/Card';
+import IndividualGroupScreen from './IndividualGroupScreen';
 
 const GroupsScreen = ({ navigation }) => {
 
@@ -171,7 +172,10 @@ const GroupsScreen = ({ navigation }) => {
              keyExtractor={(item) => item.name }
              renderItem={({item}) =>
              <View style={{height: 50}}>
-                 <TouchableHighlight style={styles.button}>
+                 <TouchableHighlight 
+                    style={styles.button}
+                    onPress={() => navigation.navigate(IndividualGroupScreen, {screen: 'IndividualGroupScreen'})}
+                 >
                     <Text>{item.name}</Text>
                 </TouchableHighlight>
              <View style={{height: 1,backgroundColor:'gray'}}></View>
