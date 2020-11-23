@@ -8,7 +8,9 @@ import {
     TextInput,
     Image,
     ImageBackground,
-    FlatList
+    FlatList,
+    Modal,
+    TouchableHighlight
 } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -21,7 +23,10 @@ import Card from '../components/Card';
 const MoviesScreen = ({ navigation }) => {
 
   const url = 'https://cine-mates.herokuapp.com/API/GetMovies'
+  const base ='https://image.tmdb.org/t/p/w500'
   const[response, setResponse] = useState('')
+  const [modalVisible, setModalVisible] = useState(false)
+  const [desc, setDesc] = useState('')
 
   async function movieCall() {
     try {
@@ -53,24 +58,48 @@ const MoviesScreen = ({ navigation }) => {
       }
   }
 
-    movieCall()
+  movieCall()
 
     return(
       <ImageBackground
-      source={background}
-      style={styles.imagebackground}
+        source={background}
+        style={styles.imagebackground}
       >
         <Card style={styles.inputContainer}>
-            
+        <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+                Alert.alert("Modal has been closed.");
+            }}
+        >
+        <View style={styles.modalView}>
+            <Text>Description</Text>
+            <Text>{desc}</Text>
+            <TouchableHighlight
+                onPress={() => {
+                    setModalVisible(!modalVisible);
+                }}
+            >
+                <Text>Close</Text>
+            </TouchableHighlight>
+        </View>
+    </Modal>
             <FlatList
              padding ={30}
              data={response.movies}
-             keyExtractor={(item) => item.title }
+             keyExtractor={(item) => item.poster_path }
              renderItem={({item}) =>
-             <View style={{height: 50}}>
-             <Text style={{height: 50}}>{item.title}</Text>
-             <View style={{height: 1,backgroundColor:'gray'}}></View>
-             </View>
+               <View style={{height: 160}}>
+                 <Text onPress={() =>
+                   {setDesc(item.overview); setModalVisible(!modalVisible);}} style={{height: 25}, {textAlign: 'right'}}>{item.title}</Text>
+                 <Image
+                 style={{width: 90, height: 130}}
+                 source={{uri: 'https://image.tmdb.org/t/p/w500' + item.poster_path}}
+                 />
+                 <View style={{height: 2, backgroundColor:'black', marginTop: 8}}></View>
+               </View>
             }
             />
         </Card>
@@ -79,11 +108,6 @@ const MoviesScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    padding: 10,
-    alignItems: 'center'
-  },
   imagebackground: {
     width: '100%',
     height: '100%',
@@ -95,6 +119,30 @@ const styles = StyleSheet.create({
     width: 300,
     maxWidth: '80%',
     alignItems: 'center',
+},
+modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5
+},
+textInput: {
+    alignSelf: 'stretch',
+    borderColor: 'black',
+    borderWidth: 1,
+    borderRadius: 5,
+    height: 39,
+    alignItems: 'center',
+    marginVertical: 3
 },
 });
 
