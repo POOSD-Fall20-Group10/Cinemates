@@ -581,6 +581,7 @@ app.post('/API/GetSortedMovies', async (req, res, next) =>
         membersList.forEach(function(memberInfo){
           memberInfo.yesList.forEach(function(movieInfo){
             if(! movieInArray(movieInfo.movieID ,moviesList)){
+              console.log(movieInfo.movieID.id);
               moviesList.push(movieInfo.movieID);
             }
             if(yesVotes.has(movieInfo.movieID._id)){
@@ -592,6 +593,7 @@ app.post('/API/GetSortedMovies', async (req, res, next) =>
           });
           memberInfo.noList.forEach(function(movieInfo){
             if(! movieInArray(movieInfo.movieID,moviesList)){
+              console.log(movieInfo.movieID.id);
               moviesList.push(movieInfo.movieID);
             }
             if(noVotes.has(movieInfo.movieID._id)){
@@ -619,12 +621,13 @@ app.post('/API/GetSortedMovies', async (req, res, next) =>
 });
 
 function movieInArray(movieInfo, movieArray){
+  var res = false;
   movieArray.forEach(function (m){
     if(m.id == movieInfo.id){
-      return true;
+      res = true;
     }
   });
-  return false;
+  return res;
 }
 
 app.post('/API/AddFriend', async (req, res, next) =>
