@@ -8,8 +8,8 @@ const GroupPage = () =>
 
     return(
       <div>
-        <Group />
-        <Chat />
+        <Group/>
+        <Chat/>
       </div>
     );
 };

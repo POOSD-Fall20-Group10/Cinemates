@@ -144,22 +144,6 @@ function Group() {
 
             <MainHeader></MainHeader>
             <div>&nbsp;&nbsp;</div>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
             <div style={{display: 'flex',  justifyContent:'center', alignItems:'center', height: '100vh'}}>
             <Card style={{ width: '80rem' }}>
             <Card.Body>
@@ -239,18 +223,13 @@ function Group() {
                     {MemberList}
                 </div>
             </div>
+            <div>&nbsp;</div>
             <div id="groupMoviesDiv">
-                <GroupMoviesList />
+                <GroupMoviesList/>
                 </div>
-   
                </Card.Body>
                </Card>
-   
                </div>
-   
-   
-   
-   
            </div>
    );
 }

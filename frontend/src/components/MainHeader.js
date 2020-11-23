@@ -67,34 +67,23 @@ function MainHeader()
     };
 
     return(
-        <div id="headerDiv">
+        <div style={{top:0}}>
         <nav className="navbar navbar-expand-lg navbar-light fixed-top">
             <div className="container">
             <Link className="nav-link" to={"/"}>Cinemates</Link>
             <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
                 <ul className="navbar-nav ml-auto">
                 <li className="nav-item">
-                    <button type="button" id="AccountButton" class="buttons" onClick={openAccount}> {login} </button>
+                    <Link className="nav-link" onClick={openNotifications}>Notifications</Link>
                 </li>
                 <li className="nav-item">
-                <select name="groups" id="GroupSelector" onchange="openGroup();">
-                    <option value="dog">Group 1</option>
-                    <option value="cat">Group 2</option>
-                    <option value="hamster">Group 3</option>
-                </select>
-                <div>&nbsp;</div>
+                    <Link className="nav-link" onClick={openSettings}>Settings</Link>
                 </li>
                 <li className="nav-item">
-                    <button type="button" id="notificationsButton" class="buttons" onClick={openNotifications}> Notifications </button>
+                    <Link className="nav-link" onClick={doLogout}>Log Out</Link>
                 </li>
                 <li className="nav-item">
-                    <button type="button" id="settingsButton" class="buttons" onClick={openSettings}> Settings </button>
-                </li>
-                <li className="nav-item">
-                    <button type="button" id="logoutButton" class="buttons" onClick={doLogout}> Log Out </button>
-                </li>
-                <li className="nav-item">
-                    <button type="button" id="updateMovieButton" class="buttons" onClick={updateMovies}>Update Movies</button>
+                    <Link className="nav-link" onClick={updateMovies}>Update Movies</Link>
                 </li>
                 </ul>
             </div>
