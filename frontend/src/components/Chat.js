@@ -1,4 +1,5 @@
 import React from 'react';
+import Card from "react-bootstrap/Card";
 
 const app_name = 'cine-mates'
 function buildPath(route) {
@@ -116,11 +117,15 @@ function Chat() {
     }
 
     return(
-        <div id="chat">
-            <h1 id="chatTitle">Chat</h1>
-            {ChatList}
-            <input type="text" class="form-control" id="messageToSend" placeholder="Write Your Message" ref={(c) => messageToSend = c}></input>
-            <button type="submit" class="btn btn-success" onClick={sendMessage}>Send</button>
+            <div style={{display: 'flex',  justifyContent:'center', alignItems:'center'}}>
+            <Card style={{ width: '80rem' }}>
+            <Card.Body>
+                <h1 id="chatTitle">Chat</h1>
+                <h3 id="chatTitle">{chatLog}</h3>
+                <input type="text" class="form-control" id="messageToSend" placeholder="Write Your Message" ref={(c) => messageToSend = c}></input>
+                <button type="submit" class="btn btn-success" onClick={sendMessage}>Send</button>
+            </Card.Body>
+            </Card>
         </div>
    );
 }
