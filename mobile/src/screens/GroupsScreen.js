@@ -7,7 +7,8 @@ import {
     TextInput,
     Modal,
     ImageBackground,
-    TouchableHighlight
+    TouchableHighlight,
+    FlatList
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -66,7 +67,6 @@ const GroupsScreen = ({ navigation }) => {
 
     }
 
-
     async function doRegister(param) {
       try {
         let response = await fetch(url, {
@@ -117,6 +117,14 @@ const GroupsScreen = ({ navigation }) => {
           console.log(e)
         }
     }
+
+    const renderItem = ({ group }) => {
+        return (
+            <View style={{ flex:1, justifyContent: 'center' }}>
+                <Text style={{ fontSize: 18, marginBottom: 15 }}> { group.groupInfo.name } </Text>
+            </View>
+        );
+    };
 
     return(
         <ImageBackground
@@ -170,6 +178,14 @@ const GroupsScreen = ({ navigation }) => {
         >
             <Text>Get groups</Text>
         </TouchableHighlight>
+
+        <View>
+            <FlatList 
+                data={this.state.data}
+                renderItem={this.renderItem}
+                keyExtractor={(group, index) => index}
+            />
+        </View>
     </ImageBackground>
 );
 };

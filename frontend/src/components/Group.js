@@ -1,6 +1,9 @@
 import React from 'react';
 import GroupMoviesList from './GroupMoviesList'
 import {Helmet} from "react-helmet";
+import Card from "react-bootstrap/Card";
+import MainHeader from './MainHeader';
+import '../bootstrap.min.css';
 
 const app_name = 'cine-mates'
 function buildPath(route) {
@@ -25,6 +28,9 @@ var editGroupDescription;
 var addMemberId;
 
 var userToAdd;
+
+var MemberList;
+var nameList;
 
 const doAddMember = async event => // Needs to Take in userID to add and make API call
 {
@@ -74,7 +80,44 @@ const doEditGroup = async event => // Needs to make API call and Replace locals
 
 function createMemberList()
 {
+    var i;
+    nameList = new Array();
 
+    for(i = 0; i < members.length; i++)
+    {
+        var obj = {userID:members[i].userID};
+        var js = JSON.stringify(obj);
+
+        // API Call
+        var xhr = new XMLHttpRequest();
+    	xhr.open("POST", buildPath('api/GetUserByID'), false);
+    	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+        try {
+                xhr.send(js);
+
+                var ret = JSON.parse(xhr.responseText);
+                nameList.push(ret.login);
+            }
+        catch(e)
+        {
+            alert(e.toString());
+            return;
+        }
+    }
+
+    let children = members.map((val, index) => {
+      return (
+        React.createElement("button", {id: index, onClick: () =>openAccount(val), className: "btn btn-danger"}, nameList[index])
+      )
+    })
+    // the div with children inside
+      MemberList =  React.createElement("div", {className: "contexCon"},children);
+}
+
+function openAccount(val)
+{
+    localStorage.setItem('current_account', val.userID);
+    window.location.href = '/account';
 }
 
 function Group() {
@@ -85,6 +128,7 @@ function Group() {
     groupName = gd.name;
     groupDescription = gd.description;
     members = gd.members;
+    createMemberList();
 
     var _ud = localStorage.getItem('user_data');
     var ud = JSON.parse(_ud);
@@ -97,9 +141,31 @@ function Group() {
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
             </Helmet>
+
+            <MainHeader></MainHeader>
+            <div>&nbsp;&nbsp;</div>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <div style={{display: 'flex',  justifyContent:'center', alignItems:'center', height: '100vh'}}>
+            <Card style={{ width: '80rem' }}>
+            <Card.Body>
             <div id="groupInfo">
                 <h1 id="groupName">{groupName}</h1>
-                <h3 id="groupDescription">{groupDescription}</h3>
+                <Card.Text>{groupDescription}</Card.Text>
                 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#form">
                     Edit Group
                 </button>
@@ -136,8 +202,7 @@ function Group() {
                         </div>
                     </div>
                 </div>
-                <div id="memberButtons">
-                </div>
+                <div>&nbsp;</div>
                 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#form2">
                     Add Member
                 </button>
@@ -169,11 +234,24 @@ function Group() {
                         </div>
                     </div>
                 </div>
+                <div>&nbsp;</div>
+                <div id="memberButtons">
+                    {MemberList}
+                </div>
             </div>
             <div id="groupMoviesDiv">
                 <GroupMoviesList />
-            </div>
-        </div>
+                </div>
+   
+               </Card.Body>
+               </Card>
+   
+               </div>
+   
+   
+   
+   
+           </div>
    );
 }
 

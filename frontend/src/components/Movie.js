@@ -105,7 +105,7 @@ function Movie() {
             <Card style={{ width: '80rem' }}>
             <Card.Img variant="top" src={imageUrl}/>
             <Card.Body>
-                <Card.Title>{title}</Card.Title>
+                <Card.Text>{title}</Card.Text>
                 <Card.Text>{overview}</Card.Text>
                 <Card.Text>{releaseDate}</Card.Text>
                 <Card.Text>{score}</Card.Text>
