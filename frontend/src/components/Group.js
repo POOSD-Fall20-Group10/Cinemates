@@ -29,6 +29,9 @@ var addMemberId;
 
 var userToAdd;
 
+var MemberList;
+var nameList;
+
 const doAddMember = async event => // Needs to Take in userID to add and make API call
 {
     event.preventDefault();
@@ -77,7 +80,44 @@ const doEditGroup = async event => // Needs to make API call and Replace locals
 
 function createMemberList()
 {
+    var i;
+    nameList = new Array();
 
+    for(i = 0; i < members.length; i++)
+    {
+        var obj = {userID:members[i].userID};
+        var js = JSON.stringify(obj);
+
+        // API Call
+        var xhr = new XMLHttpRequest();
+    	xhr.open("POST", buildPath('api/GetUserByID'), false);
+    	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+        try {
+                xhr.send(js);
+
+                var ret = JSON.parse(xhr.responseText);
+                nameList.push(ret.login);
+            }
+        catch(e)
+        {
+            alert(e.toString());
+            return;
+        }
+    }
+
+    let children = members.map((val, index) => {
+      return (
+        React.createElement("button", {id: index, onClick: () =>openAccount(val)}, nameList[index])
+      )
+    })
+    // the div with children inside
+      MemberList =  React.createElement("div", {className: "contexCon"},children);
+}
+
+function openAccount(val)
+{
+    localStorage.setItem('current_account', val.userID);
+    window.location.href = '/account';
 }
 
 function Group() {
@@ -88,6 +128,7 @@ function Group() {
     groupName = gd.name;
     groupDescription = gd.description;
     members = gd.members;
+    createMemberList();
 
     var _ud = localStorage.getItem('user_data');
     var ud = JSON.parse(_ud);
@@ -124,6 +165,9 @@ function Group() {
             <Card.Body>
                 <Card.Text>{groupName}</Card.Text>
                 <Card.Text>{groupDescription}</Card.Text>
+            <div id="groupInfo">
+                <h1 id="groupName">{groupName}</h1>
+                <h3 id="groupDescription">{groupDescription}</h3>
                 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#form">
                     Edit Group
                 </button>
@@ -161,6 +205,7 @@ function Group() {
                     </div>
                 </div>
                 <div id="memberButtons">
+                    {MemberList}
                 </div>
                 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#form2">
                     Add Member
@@ -193,19 +238,20 @@ function Group() {
                         </div>
                     </div>
                 </div>
+            </div>
             <div id="groupMoviesDiv">
                 <GroupMoviesList />
-            </div>
-
-            </Card.Body>
-            </Card>
-
-            </div>
-
-
-
-
-        </div>
+                </div>
+   
+               </Card.Body>
+               </Card>
+   
+               </div>
+   
+   
+   
+   
+           </div>
    );
 }
 
