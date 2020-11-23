@@ -106,9 +106,9 @@ function Movie() {
             <Card.Img variant="top" src={imageUrl}/>
             <Card.Body>
                 <Card.Text>{title}</Card.Text>
-                <Card.Text>{overview}</Card.Text>
-                <Card.Text>{releaseDate}</Card.Text>
-                <Card.Text>{score}</Card.Text>
+                <Card.Text>Overview: {overview}</Card.Text>
+                <Card.Text>Release Date: {releaseDate}</Card.Text>
+                <Card.Text>Rating: {score}</Card.Text>
                 <Button variant="primary" onClick={voteYes}>Yay</Button>
                 <Button variant="primary" onClick={voteNo}>Nay</Button>
             </Card.Body>
