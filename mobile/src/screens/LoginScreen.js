@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal, Alert, View, StyleSheet, Text, TouchableHighlight, TextInput, Image, ImageBackground } from 'react-native';
+import { Modal, View, StyleSheet, Text, TouchableHighlight, TextInput, Image, ImageBackground } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import background from '../assets/background_curtains.jpg';
@@ -59,20 +59,12 @@ const LoginScreen = ({ navigation }) => {
         }
         //login true and not verified
         else{
-          Alert.alert(
-            'Account Unverified',
-            'Please verify email before logging in',
-            [
-              {text: 'Ok'},
-              {text: 'Resend', onPress: () => emailMe(responseJson.email) }
-            ]
-          )
+          setErr('Account Unverified. Please check email for link to verify account.')
         }
       }
       //incorrect password
       else if (responseJson.error == 'Username or password incorrect') {
         setErr(responseJson.error)
-        console.log(responseJson.error)
       }
 
     } catch (e) {
@@ -83,16 +75,22 @@ const LoginScreen = ({ navigation }) => {
   //set username and password to send to api call function
   const doLogin = () => {
 
-    var hashedpass = md5(password)
+    if (username == '' || password == '') {
+      setErr("Please fill out all forms.")
+    }
 
-    var obj = {
-      login: username,
-      password: hashedpass
-    };
+    else {
+      var hashedpass = md5(password)
 
-    var objstr = JSON.stringify(obj)
+      var obj = {
+        login: username,
+        password: hashedpass
+      };
 
-    sendtoserver(objstr)
+      var objstr = JSON.stringify(obj)
+
+      sendtoserver(objstr)
+    }
   }
 
   async function emailMe(email) {
@@ -110,7 +108,7 @@ const LoginScreen = ({ navigation }) => {
       let responseJson = await response.json()
 
       if(responseJson.error == ''){
-        Alert.alert("Sent again, be sure to check spam folder")
+        setErr("Sent again, be sure to check spam folder")
       }
 
     } catch (e) {
@@ -133,10 +131,10 @@ const LoginScreen = ({ navigation }) => {
       let responseJson = await response.json()
 
       if(responseJson.error == ''){
-        Alert.alert("Sent")
+        setErr("Email sent")
       }
       else{
-        Alert.alert(responseJson.error)
+        setErr(responseJson.error)
       }
 
     } catch (e) {
@@ -155,7 +153,7 @@ const LoginScreen = ({ navigation }) => {
               transparent={true}
               visible={modalVisible}
               onRequestClose={() => {
-                  Alert.alert("Modal has been closed.");
+                  setModalVisible(!modalVisible);
               }}
             >
               <View style={styles.modalView}>
@@ -187,7 +185,7 @@ const LoginScreen = ({ navigation }) => {
                       <TouchableHighlight style={styles.cineButton} onPress={() => doLogin()}>
                         <Text style={{color: 'white'}}>Log In</Text>
                       </TouchableHighlight>
-                      <Text style={{color: 'red'}}>{myerror}</Text>
+                      <Text style={{color: 'red', alignSelf: 'center', textAlign: 'center'}}>{myerror}</Text>
                       <Text style={{color: 'blue', marginBottom: -5}}
                               onPress={() =>
                                 setModalVisible(true)}>

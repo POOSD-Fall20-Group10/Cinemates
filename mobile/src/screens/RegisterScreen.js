@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Alert, View, StyleSheet, Text, TouchableHighlight, TextInput, Image, KeyboardAvoidingView, Platform, ImageBackground } from 'react-native';
+import { View, StyleSheet, Text, TouchableHighlight, TextInput, Image, KeyboardAvoidingView, Platform, ImageBackground } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -38,16 +38,7 @@ const RegisterScreen = ({ navigation }) => {
 
       //register
       if(responseJson.error == ''){
-        Alert.alert(
-          'Registration Successful',
-          'Please be sure to verify your email address',
-          [
-            {text: 'OK', onPress: () => navigation.reset ({
-            index: 0,
-            routes: [{name: 'Login'}]
-            })}
-          ]
-        )
+        setErr('Registration Successful. Please be sure to verify your email address')
       }
       else{
         setErr(responseJson.error)
@@ -61,7 +52,7 @@ const RegisterScreen = ({ navigation }) => {
 const doRegister = () => {
 
   if(password != password2){
-    Alert.alert("Error: passwords do not match")
+    setErr("Passwords do not match")
     return
   }
 
@@ -105,7 +96,7 @@ const doRegister = () => {
                     <TextInput style={styles.textInput} placeholder="Email" onChangeText={(val) => setemail(val)}/>
                     <TextInput style={styles.textInput} placeholder="Password" secureTextEntry={true} onChangeText={(val) => setpassword(val)}/>
                     <TextInput style={styles.textInput} placeholder="Confirm Password" secureTextEntry={true} onChangeText={(val) => setpassword2(val)}/>
-                    <Text style={{color: 'red'}}>{myerror}</Text>
+                    <Text style={{color: 'red', alignSelf: 'center', textAlign: 'center'}}>{myerror}</Text>
                     <TouchableHighlight style={styles.cineButton} onPress={() => doRegister()}>
                       <Text style={{color: 'white'}}>Sign Up</Text>
                     </TouchableHighlight>
