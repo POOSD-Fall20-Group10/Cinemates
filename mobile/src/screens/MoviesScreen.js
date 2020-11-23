@@ -53,13 +53,15 @@ const MoviesScreen = ({ navigation }) => {
       }
   }
 
+    movieCall()
+
     return(
       <ImageBackground
-        source={background}
-        style={styles.imagebackground}
+      source={background}
+      style={styles.imagebackground}
       >
-        <Card>
-            <Button title="Movie" onPress={() => movieCall()}/>
+        <Card style={styles.inputContainer}>
+            
             <FlatList
              padding ={30}
              data={response.movies}
@@ -77,11 +79,23 @@ const MoviesScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
+  screen: {
+    flex: 1,
+    padding: 10,
+    alignItems: 'center'
+  },
   imagebackground: {
     width: '100%',
     height: '100%',
     flex: 1
-  }
+  },
+  inputContainer: {
+    alignSelf: 'center',
+    marginVertical: 120,
+    width: 300,
+    maxWidth: '80%',
+    alignItems: 'center',
+},
 });
 
 
