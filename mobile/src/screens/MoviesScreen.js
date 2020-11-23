@@ -68,7 +68,7 @@ const MoviesScreen = ({ navigation }) => {
              keyExtractor={(item) => item.title }
              renderItem={({item}) =>
              <View style={{height: 50}}>
-             <Text style={{height: 50}}>{item.title}</Text>
+                <Text style={{height: 50}}>{item.title}</Text>
              <View style={{height: 1,backgroundColor:'gray'}}></View>
              </View>
             }
