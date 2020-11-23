@@ -542,6 +542,9 @@ app.post('/API/GetSortedMovies', async (req, res, next) =>
 
         membersList.forEach(function(memberInfo){
           memberInfo.yesList.forEach(function(movieInfo){
+            if(! movieInArray(movieInfo,moviesList)){
+              moviesList.push(movieInfo);
+            }
             if(yesVotes.has(movieInfo.movieID._id)){
               yesVotes.set(movieInfo.movieID._id, yesVotes.get(movieInfo.movieID._id) + 1);
             }
@@ -561,19 +564,28 @@ app.post('/API/GetSortedMovies', async (req, res, next) =>
 
         moviesList = Array.from(yesVotes.keys()).concat(Array.from(noVotes.keys()).filter((item) => !yesVotes.has(item._id)));
         moviesList.sort(function(a,b){
-          if (!yesVotes.has(a) || !noVotes.has(b)){
+          if (!yesVotes.has(a._id) || !noVotes.has(b._id)){
             return 1;
           }
-          if(!yesVotes.has(b) || !noVotes.has(a)){
+          if(!yesVotes.has(b._id) || !noVotes.has(a._id)){
             return -1;
           }
-          return ( (yesVotes.get(a) / noVotes.get(a)) < (yesVotes.get(b) / noVotes.get(b)) );
+          return ( (yesVotes.get(a._id) / noVotes.get(a._id)) < (yesVotes.get(b._id) / noVotes.get(b._id)) );
         });
       }
 
   var ret = { movies:moviesList, error: error };
   res.status(200).json(ret);
 });
+
+function movieInArray(movieInfo, movieArray){
+  movieArray.forEach(function (m){
+    if(m._id == movieInfo._id){
+      return true;
+    }
+  });
+  return false;
+}
 
 app.post('/API/AddFriend', async (req, res, next) =>
 {
