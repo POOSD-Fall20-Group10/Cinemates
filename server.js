@@ -469,6 +469,44 @@ app.post('/API/AddMovieToList', async (req, res, next) =>
       }
 });
 
+app.post('/API/AddMovieToAllLists', async (req, res, next) =>
+{
+  var error = '';
+
+  const { token, userID, movieID, liked } = req.body;
+  if(! token){
+    error = "No token provided";
+    var ret = { error: error };
+    res.status(200).json(ret);
+  }
+  else{
+    jwt.verify(token, jwtKey, async (err,decoded)=>
+      {
+        if(err){
+          error = err;
+        }
+        else{
+          if(decoded._id != userID){
+            error = "Token does not match userID";
+          }
+          else{
+            const db = client.db();
+            if(liked){
+              db.collection('groups').update({"members.userID" : userID},
+                { $addToSet: {"members.$.yesList" : {movieID : movieID}}});
+              }
+              else{
+                db.collection('groups').update({"members.userID" : userID},
+                  { $addToSet: {"members.$.noList" : {movieID : movieID}}});
+              }
+            }
+          }
+          var ret = { error: error };
+          res.status(200).json(ret);
+        });
+      }
+});
+
 app.post('/API/GetMovieApprovals', async (req, res, next) =>
 {
   var error = '';
@@ -542,7 +580,7 @@ app.post('/API/GetSortedMovies', async (req, res, next) =>
 
         membersList.forEach(function(memberInfo){
           memberInfo.yesList.forEach(function(movieInfo){
-            if(! movieInArray(movieInfo.movieID,moviesList)){
+            if(! movieInArray(movieInfo.movieID ,moviesList)){
               moviesList.push(movieInfo.movieID);
             }
             if(yesVotes.has(movieInfo.movieID._id)){
@@ -582,7 +620,7 @@ app.post('/API/GetSortedMovies', async (req, res, next) =>
 
 function movieInArray(movieInfo, movieArray){
   movieArray.forEach(function (m){
-    if(m._id == movieInfo._id){
+    if(m.id == movieInfo.id){
       return true;
     }
   });
@@ -784,6 +822,7 @@ app.post('/API/GetNumMoviePages', async (req,res,next) =>
 }
 
 );
+
 app.post('/API/MessageGroup', async (req, res, next) =>
 {
   var error = '';
