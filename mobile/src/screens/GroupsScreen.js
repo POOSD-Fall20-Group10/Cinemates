@@ -171,7 +171,9 @@ const GroupsScreen = ({ navigation }) => {
              keyExtractor={(item) => item.name }
              renderItem={({item}) =>
              <View style={{height: 50}}>
-                <Text style={{height: 50}}>{item.name}</Text>
+                 <TouchableHighlight style={styles.button}>
+                    <Text>{item.name}</Text>
+                </TouchableHighlight>
              <View style={{height: 1,backgroundColor:'gray'}}></View>
              </View>
             }
@@ -213,9 +215,9 @@ const styles = StyleSheet.create({
     },
     button: {
         backgroundColor: 'white',
-        borderRadius: 20,
         padding: 10,
-        elevation: 2
+        elevation: 2,
+        borderColor: 'black'
     },
     inputContainer: {
         alignSelf: 'center',

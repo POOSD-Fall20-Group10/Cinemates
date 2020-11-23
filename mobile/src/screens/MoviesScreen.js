@@ -93,7 +93,7 @@ const MoviesScreen = ({ navigation }) => {
              renderItem={({item}) =>
                <View style={{height: 160}}>
                  <Text onPress={() =>
-                   {setDesc(item.overview); setModalVisible(!modalVisible);}} style={{height: 25}, {textAlign: 'right'}}>{item.title}</Text>
+                   {setDesc(item.overview); setModalVisible(!modalVisible);}} style={{height: 25, textAlign: 'right'}}>{item.title}</Text>
                  <Image
                  style={{width: 90, height: 130}}
                  source={{uri: 'https://image.tmdb.org/t/p/w500' + item.poster_path}}
