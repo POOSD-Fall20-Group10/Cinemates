@@ -151,10 +151,9 @@ const[err, setErr] = useState('')
 
           <Card style={styles.inputContainer}>
               <Text style={{fontWeight: 'bold', fontSize: 20, textAlign: 'center'}}>Chat</Text>
-              <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginRight: 30}}>
                 <TextInput style={{marginRight: 10}} placeholder="Write Your Message Here"/>
                 <Button title="Send"/>
-              </View>
+
           </Card>
 
         </ImageBackground>
