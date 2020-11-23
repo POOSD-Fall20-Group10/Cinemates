@@ -11,7 +11,7 @@ function buildPath(route) {
 }
 
 var chatLog;
-var chat;
+var ChatList;
 var token;
 var groupId;
 var messageToSend;
@@ -22,7 +22,6 @@ function createChat()
 {
     var i;
     nameList = new Array();
-    chat = "";
 
     for(i = 0; i < chatLog.length; i++)
     {
@@ -46,10 +45,20 @@ function createChat()
         }
     }
 
-    for(i = 0; i < chatLog.length; i++)
+    for(i = 0; i < nameList.length; i++)
     {
-        chat.concat(nameList[i], ": ", chatLog[i].message, "\n");
+        nameList[i] += ": ";
+        nameList[i] += chatLog[i].message;
     }
+    nameList.unshift("Welcome To CineMates Chat!");
+
+    let children = nameList.map((val) => {
+      return (
+        React.createElement("p", {}, val)
+      )
+    })
+    // the div with children inside
+      ChatList =  React.createElement("div", {className: "contexCon"},children);
 }
 
 const sendMessage = async event =>
@@ -109,7 +118,7 @@ function Chat() {
     return(
         <div id="chat">
             <h1 id="chatTitle">Chat</h1>
-            <h3 id="chatTitle">{chat}</h3>
+            {ChatList}
             <input type="text" class="form-control" id="messageToSend" placeholder="Write Your Message" ref={(c) => messageToSend = c}></input>
             <button type="submit" class="btn btn-success" onClick={sendMessage}>Send</button>
         </div>
