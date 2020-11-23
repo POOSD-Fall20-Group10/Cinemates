@@ -7,7 +7,8 @@ import {
     Button,
     TextInput,
     Image,
-    ImageBackground
+    ImageBackground,
+    FlatList
 } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -19,13 +20,58 @@ import Card from '../components/Card';
 
 const MoviesScreen = ({ navigation }) => {
 
+  const url = 'https://cine-mates.herokuapp.com/API/GetMovies'
+  const[response, setResponse] = useState('')
+
+  async function movieCall() {
+    try {
+      let response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+
+        })
+      });
+
+      let responseJson = await response.json()
+
+      setResponse(responseJson)
+
+      /*
+      responseJson.movies.forEach( function (movieInfo)
+      {
+        console.log(movieInfo.title);
+      });
+      */
+
+    }
+     catch (e) {
+        console.log(e)
+      }
+  }
+
     return(
       <ImageBackground
         source={background}
         style={styles.imagebackground}
       >
-            <Text>Movies</Text>
-
+        <Card>
+            <Button title="Movie" onPress={() => movieCall()}/>
+            <FlatList
+             padding ={30}
+             data={response.movies}
+             keyExtractor={(item) => item.title }
+             renderItem={({item}) =>
+             <View style={{height: 50}}>
+             <Text style={{height: 50}}>{item.title}</Text>
+             <View style={{height: 1,backgroundColor:'gray'}}></View>
+             </View>
+            }
+            />
+        </Card>
       </ImageBackground>
     );
 };
