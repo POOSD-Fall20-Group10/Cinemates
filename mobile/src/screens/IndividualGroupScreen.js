@@ -60,6 +60,15 @@ const[err, setErr] = useState('')
       console.log(error)
     }
   }
+
+  const getMembers = () => {
+
+    JSON.parse(members).forEach( function (memberInfo)
+    {
+      console.log(memberInfo.userID)
+    });
+
+  }
 /*
   async function findPerson(param) {
     try {
@@ -127,7 +136,8 @@ const[err, setErr] = useState('')
         >
           <Card style={styles.inputContainer}>
             <Button title="Load Data" onPress={() => getItem()}/>
-            <Text>GroupID:{groupID} Name:{name} Desc: {description} Members: {members}</Text>
+            <Text>Name:{name} Desc: {description} Members: {members}</Text>
+            <Button title="Members" onPress={() => getMembers()}/>
           </Card>
 
         </ImageBackground>
