@@ -78,19 +78,38 @@ const MoviesScreen = ({ navigation }) => {
             }}
         >
         <View style={styles.modalView}>
-            <Text style={{fontWeight: 'bold'},{fontSize: 20}}>{title}</Text>
+            <Text style={{fontWeight: 'bold', fontSize: 20, textAlign: 'center', padding: 7}}>{title}</Text>
             <Text style={{fontWeight: 'bold'}}>Description</Text>
-            <Text>{desc}</Text>
-            <Text>Release Date: {date}</Text>
-            <Text>IMDB score: {score}</Text>
-            <TouchableHighlight
-                onPress={() => {
-                    setModalVisible(!modalVisible);
-                    setDesc('')
-                }}
-            >
-                <Text>Close</Text>
-            </TouchableHighlight>
+            <Text style={{textAlign: 'center', padding: 7}}>{desc}</Text>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Text style={{fontWeight: 'bold'}}>Release Date:  </Text>
+              <Text>{date}</Text>
+            </View>
+            <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 7}}>
+              <Text style={{fontWeight: 'bold'}}>IMDB score:  </Text>
+              <Text>{score}</Text>
+            </View>
+            <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+              <TouchableHighlight
+                  style={{backgroundColor: 'green', marginHorizontal: 20 , width: 50, alignItems: 'center'}}
+                  onPress={() => {
+                      setModalVisible(!modalVisible);
+                      setDesc('')
+                  }}
+              >
+                  <Text style={{color: 'white'}}>Yes</Text>
+              </TouchableHighlight>
+
+              <TouchableHighlight
+                  style={{backgroundColor: 'red', marginHorizontal: 20, width: 50, alignItems: 'center'}}
+                  onPress={() => {
+                      setModalVisible(!modalVisible);
+                      setDesc('')
+                  }}
+              >
+                  <Text style={{color: 'white'}}>No</Text>
+              </TouchableHighlight>
+            </View>
         </View>
     </Modal>
             <FlatList
@@ -98,7 +117,7 @@ const MoviesScreen = ({ navigation }) => {
              data={response.movies}
              keyExtractor={(item) => item.poster_path }
              renderItem={({item}) =>
-               <View style={{height: 160}}>
+               <View style={{height: 180, justifyContent: 'center'}}>
                  <Text onPress={() =>
                    {setDesc(item.overview); setTitle(item.title); setDate(item.release_date); setScore(item.vote_average); setModalVisible(!modalVisible);}} style={{height: 25}, {textAlign: 'right'}}>{item.title}</Text>
                  <Image
@@ -122,7 +141,7 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     alignSelf: 'center',
-    marginVertical: 100,
+    marginVertical: 75,
     width: 300,
     maxWidth: '80%',
     alignItems: 'center',
