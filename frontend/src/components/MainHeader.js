@@ -48,7 +48,6 @@ function MainHeader()
     const openGroup = event => //Needs to be changed to work with dropdown menu to select active group
     {
         event.preventDefault();
-        alert('Needs dropdown not button');
     };
 
     const updateMovies = async event => {
