@@ -28,8 +28,9 @@ var addGroupDescription;
 // Only member in the group is the current user
 const addGroup = async event => {
     event.preventDefault();
+    var messageArray = new Array();
     var membersArray = [{"userID" : userId, "yesList":[], "noList":[]}]; // current user
-    var obj = {token:token,name:addGroupName.value,description:addGroupDescription.value,members:membersArray};
+    var obj = {token:token,name:addGroupName.value,description:addGroupDescription.value,members:membersArray,messages:messageArray};
     var js = JSON.stringify(obj);
 
     //API call
