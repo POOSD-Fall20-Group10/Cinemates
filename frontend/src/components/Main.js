@@ -1,6 +1,6 @@
 import React from 'react';
 import MainHeader from './MainHeader';
-import Gallery from './Gallery';
+import Card from "react-bootstrap/Card";
 import GroupsList from './GroupsList';
 import MoviesList from './MoviesList'
 import {Helmet} from "react-helmet";
@@ -66,30 +66,22 @@ function Main() {
             </Helmet>
             <MainHeader></MainHeader>
             <div>&nbsp;&nbsp;</div>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <Gallery></Gallery>
             <div id="mainDiv">
             </div>
-            <GroupsList />
-            <div id='moviesDiv' >
-            <MoviesList />
+            <div>
+            <Card style={{ width: '240rem', height:'80vh' }}>
+            <Card.Body>
+                <Card.Text>Movies</Card.Text>
+                <MoviesList/>
+            </Card.Body>
+            </Card>
             </div>
-            <div id="tempAddGroupDiv">
+            <div>
+            <Card style={{ width: '240rem', height:'80vh'  }}>
+            <Card.Body>
+                <Card.Text>Groups</Card.Text>
+                <GroupsList/>
+                <div id="tempAddGroupDiv">
             <div class="container">
             <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#form">
                 Add New Group
@@ -126,9 +118,12 @@ function Main() {
                 </div>
                 </div>
                 </div>
+                </div>
+                </div>
+                </div>
+            </Card.Body>
+            </Card>
             </div>
-        </div>
-        </div>
         </div>
     );
 }

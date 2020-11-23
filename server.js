@@ -361,13 +361,8 @@ app.post('/API/AddUserToGroup', async (req, res, next) =>
           error = err;
         }
         else{
-          if(decoded._id != userID){
-            error = "Token does not match userID";
-          }
-          else{
             const db = client.db();
             db.collection('groups').update({_id: new mongo.ObjectID(groupID)},{ $addToSet: {members: {userID : userID, yesList : [], noList : []}}});
-          }
         }
       });
     }
