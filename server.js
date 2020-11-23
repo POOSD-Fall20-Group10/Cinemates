@@ -562,7 +562,6 @@ app.post('/API/GetSortedMovies', async (req, res, next) =>
           });
         });
 
-        moviesList = Array.from(yesVotes.keys()).concat(Array.from(noVotes.keys()).filter((item) => !yesVotes.has(item._id)));
         moviesList.sort(function(a,b){
           if (!yesVotes.has(a._id) || !noVotes.has(b._id)){
             return 1;
