@@ -12,10 +12,55 @@ function buildPath(route) {
 }
 
 var chatLog;
+var ChatList;
 var token;
 var groupId;
 var messageToSend;
 var userId;
+var nameList;
+
+function createChat()
+{
+    var i;
+    nameList = new Array();
+
+    for(i = 0; i < chatLog.length; i++)
+    {
+        var obj = {userID:chatLog[i].senderID};
+        var js = JSON.stringify(obj);
+
+        // API Call
+        var xhr = new XMLHttpRequest();
+    	xhr.open("POST", buildPath('api/GetUserByID'), false);
+    	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+        try {
+                xhr.send(js);
+
+                var ret = JSON.parse(xhr.responseText);
+                nameList.push(ret.login);
+            }
+        catch(e)
+        {
+            alert(e.toString());
+            return;
+        }
+    }
+
+    for(i = 0; i < nameList.length; i++)
+    {
+        nameList[i] += ": ";
+        nameList[i] += chatLog[i].message;
+    }
+    nameList.unshift("Welcome To CineMates Chat!");
+
+    let children = nameList.map((val) => {
+      return (
+        React.createElement("p", {}, val)
+      )
+    })
+    // the div with children inside
+      ChatList =  React.createElement("div", {className: "contexCon"},children);
+}
 
 const sendMessage = async event =>
 {
@@ -63,6 +108,7 @@ function Chat() {
 
             var ret = JSON.parse(xhr.responseText);
             chatLog = ret.messages;
+            createChat();
         }
     catch(e)
     {

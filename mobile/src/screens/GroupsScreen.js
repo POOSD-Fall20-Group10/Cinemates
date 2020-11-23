@@ -7,11 +7,14 @@ import {
     TextInput,
     Modal,
     ImageBackground,
-    TouchableHighlight
+    TouchableHighlight,
+    FlatList
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import background from '../assets/background_curtains.jpg';
+import Card from '../components/Card';
+import IndividualGroupScreen from './IndividualGroupScreen';
 
 const GroupsScreen = ({ navigation }) => {
 
@@ -27,6 +30,7 @@ const GroupsScreen = ({ navigation }) => {
     const[groupDesc, setDC] = useState('')
 
     const[myerror, setErr] = useState('')
+    const[response, setResponse] = useState('')
 
     async function getItem() {
       try {
@@ -106,16 +110,15 @@ const GroupsScreen = ({ navigation }) => {
 
         let responseJson = await response.json()
 
-        responseJson.groups.forEach(function(groupInfo, index)
-        {
-          console.log(groupInfo.name)
-        })
+        setResponse(responseJson)
 
         }
        catch (e) {
           console.log(e)
         }
     }
+
+    getGroups()
 
     return(
         <ImageBackground
@@ -161,14 +164,25 @@ const GroupsScreen = ({ navigation }) => {
         >
             <Text>Add new group</Text>
         </TouchableHighlight>
-        <TouchableHighlight
-            style={styles.button}
-            onPress={() => {
-                getGroups()
-            }}
-        >
-            <Text>Get groups</Text>
-        </TouchableHighlight>
+        <Card style={styles.inputContainer}>
+            
+            <FlatList
+             padding ={30}
+             data={response.groups}
+             keyExtractor={(item) => item.name }
+             renderItem={({item}) =>
+             <View style={{height: 50}}>
+                 <TouchableHighlight 
+                    style={styles.button}
+                    onPress={() => navigation.navigate(IndividualGroupScreen, {screen: 'IndividualGroupScreen'})}
+                 >
+                    <Text>{item.name}</Text>
+                </TouchableHighlight>
+             <View style={{height: 1,backgroundColor:'gray'}}></View>
+             </View>
+            }
+            />
+        </Card>
     </ImageBackground>
 );
 };
@@ -205,10 +219,17 @@ const styles = StyleSheet.create({
     },
     button: {
         backgroundColor: 'white',
-        borderRadius: 20,
         padding: 10,
-        elevation: 2
-    }
+        elevation: 2,
+        borderColor: 'black'
+    },
+    inputContainer: {
+        alignSelf: 'center',
+        marginVertical: 120,
+        width: 300,
+        maxWidth: '80%',
+        alignItems: 'center',
+    },
   });
 
 

@@ -9,6 +9,7 @@ import RegisterScreen from './src/screens/RegisterScreen';
 import MoviesScreen from './src/screens/MoviesScreen';
 import GroupsScreen from './src/screens/GroupsScreen';
 import AccountScreen from './src/screens/AccountScreen';
+import IndividualGroupScreen from './src/screens/IndividualGroupScreen';
 
 const CinematesStack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -67,6 +68,11 @@ export default function App() {
             name = "Main"
             component = { MainScreen }
             options = {{  headerShown: false }}
+        />
+
+        <CinematesStack.Screen 
+            name = "IndividualGroupScreen"
+            component = { IndividualGroupScreen }
         />
         
       </CinematesStack.Navigator>
