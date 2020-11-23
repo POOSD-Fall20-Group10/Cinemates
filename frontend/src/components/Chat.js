@@ -121,7 +121,7 @@ function Chat() {
             <Card style={{ width: '80rem' }}>
             <Card.Body>
                 <h1 id="chatTitle">Chat</h1>
-                <h3 id="chatTitle">{chatLog}</h3>
+                <h3 id="chatTitle">{ChatList}</h3>
                 <input type="text" class="form-control" id="messageToSend" placeholder="Write Your Message" ref={(c) => messageToSend = c}></input>
                 <button type="submit" class="btn btn-success" onClick={sendMessage}>Send</button>
             </Card.Body>
