@@ -40,7 +40,7 @@ function MainHeader()
         event.preventDefault();
     };
     // Moves to account page with current user info
-    const openAccount = async event => {
+    const openAccount = event => {
         event.preventDefault();
         localStorage.setItem('current_account', userId);
         window.location.href = '/account';
@@ -73,7 +73,7 @@ function MainHeader()
             <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
                 <ul className="navbar-nav ml-auto">
                 <li className="nav-item">
-                    <Link className="nav-link" onClick={openNotifications}>Notifications</Link>
+                    <Link className="nav-link" onClick={openAccount}>{login}</Link>
                 </li>
                 <li className="nav-item">
                     <Link className="nav-link" onClick={openSettings}>Settings</Link>
