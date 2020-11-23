@@ -492,11 +492,11 @@ app.post('/API/AddMovieToAllLists', async (req, res, next) =>
           else{
             const db = client.db();
             if(liked){
-              db.collection('groups').update({"members.userID" : userID},
+              db.collection('groups').updateMany({"members.userID" : userID},
                 { $addToSet: {"members.$.yesList" : {movieID : movieID}}});
               }
               else{
-                db.collection('groups').update({"members.userID" : userID},
+                db.collection('groups').updateMany({"members.userID" : userID},
                   { $addToSet: {"members.$.noList" : {movieID : movieID}}});
               }
             }
