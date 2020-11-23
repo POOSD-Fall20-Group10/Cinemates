@@ -542,24 +542,24 @@ app.post('/API/GetSortedMovies', async (req, res, next) =>
 
         membersList.forEach(function(memberInfo){
           memberInfo.yesList.forEach(function(movieInfo){
-            if(yesVotes.has(movieInfo.movieID)){
-              yesVotes.set(movieInfo.movieID, yesVotes.get(movieInfo.movieID) + 1);
+            if(yesVotes.has(movieInfo.movieID._id)){
+              yesVotes.set(movieInfo.movieID._id, yesVotes.get(movieInfo.movieID._id) + 1);
             }
             else{
-              yesVotes.set(movieInfo.movieID, 1);
+              yesVotes.set(movieInfo.movieID._id, 1);
             }
           });
           memberInfo.noList.forEach(function(movieInfo){
-            if(noVotes.has(movieInfo.movieID)){
-              noVotes.set(movieInfo.movieID, noVotes.get(movieInfo.movieID) + 1);
+            if(noVotes.has(movieInfo.movieID._id)){
+              noVotes.set(movieInfo.movieID._id, noVotes.get(movieInfo.movieID._id) + 1);
             }
             else{
-              noVotes.set(movieInfo.movieID, 1);
+              noVotes.set(movieInfo.movieID._id, 1);
             }
           });
         });
 
-        moviesList = Array.from(yesVotes.keys()).concat(Array.from(noVotes.keys()).filter((item) => !yesVotes.has(item)));
+        moviesList = Array.from(yesVotes.keys()).concat(Array.from(noVotes.keys()).filter((item) => !yesVotes.has(item._id)));
         moviesList.sort(function(a,b){
           if (!yesVotes.has(a) || !noVotes.has(b)){
             return 1;
