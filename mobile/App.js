@@ -67,7 +67,6 @@ export default function App() {
         <CinematesStack.Screen
             name = "Main"
             component = { MainScreen }
-            options = {{  headerShown: false }}
         />
 
         <CinematesStack.Screen 

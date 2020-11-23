@@ -9,17 +9,22 @@ import {
     ImageBackground,
     FlatList,
     Modal,
-    TouchableHighlight
+    TouchableHighlight,
+    SafeAreaView
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import background from '../assets/background_curtains.jpg';
 import Card from '../components/Card';
 
-const IndividualGroupScreen = ({naviagtion}) => {
+const IndividualGroupScreen = ({navigation}) => {
+  navigation.setOptions = {
+    title: name
+  }
 
 const url = 'https://cine-mates.herokuapp.com/API/GetUserByLogin'
 const url2 = 'https://cine-mates.herokuapp.com/API/AddUserToGroup'
+const url3 = 'https://cine-mates.herokuapp.com/API/ListGrpupMessages'
 
 const[token, setToken] = useState('')
 const[groupID, setGID] = useState('')
@@ -117,6 +122,21 @@ const[err, setErr] = useState('')
       }
   }
 
+  /*
+  async function listGroupMessages() {
+    try {
+      let response = await fetch(url3, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+        })
+      })
+    }
+  }
+  */
 
     return (
         <ImageBackground
@@ -128,6 +148,14 @@ const[err, setErr] = useState('')
           <Button title="Finder" onPress={() => findPerson(find)}/>
           <Text>Group Name: {name} Description: {description}</Text>
           <Text>{err}</Text>
+
+          <Card style={styles.inputContainer}>
+              <Text style={{fontWeight: 'bold', fontSize: 20, textAlign: 'center'}}>Chat</Text>
+              <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginRight: 30}}>
+                <TextInput style={{marginRight: 10}} placeholder="Write Your Message Here"/>
+                <Button title="Send"/>
+              </View>
+          </Card>
 
         </ImageBackground>
     );
@@ -148,7 +176,14 @@ const styles = StyleSheet.create({
         height: 39,
         alignItems: 'center',
         marginVertical: 3
-    }
+    },
+    inputContainer: {
+      alignItems: 'center',
+      flexDirection: 'column',
+      justifyContent: 'space-between',
+      padding: 10,
+      marginVertical: 7
+  },
 });
 
 export default IndividualGroupScreen;
