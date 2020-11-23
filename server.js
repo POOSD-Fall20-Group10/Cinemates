@@ -737,6 +737,39 @@ app.post('/API/GetMovies', async (req,res,next) =>
 
 );
 
+app.post('/API/GetMoviesPage', async (req,res,next) =>
+{
+  var error = '';
+
+   const { page } = req.body;
+
+   const db = client.db();
+   const results = await db.collection('movies').find().toArray();
+   var moviesList = results.slice((page-1)*10,page*10);
+
+   var ret = { movies: moviesList, error:error};
+
+   res.status(200).json(ret);
+}
+
+);
+
+app.post('/API/GetNumMoviePages', async (req,res,next) =>
+{
+  var error = '';
+
+   //const { page } = req.body;
+
+   const db = client.db();
+   const results = await db.collection('movies').find().toArray();
+   //var moviesList = results.slice((page-1)*10,page*10);
+
+   var ret = { num: Math.floor(results.length / 10) + 1, error:error};
+
+   res.status(200).json(ret);
+}
+
+);
 app.post('/API/MessageGroup', async (req, res, next) =>
 {
   var error = '';
