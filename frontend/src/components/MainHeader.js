@@ -81,9 +81,6 @@ function MainHeader()
                 <li className="nav-item">
                     <Link className="nav-link" onClick={doLogout}>Log Out</Link>
                 </li>
-                <li className="nav-item">
-                    <Link className="nav-link" onClick={updateMovies}>Update Movies</Link>
-                </li>
                 </ul>
             </div>
             </div>
