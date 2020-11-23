@@ -27,6 +27,9 @@ const MoviesScreen = ({ navigation }) => {
   const[response, setResponse] = useState('')
   const [modalVisible, setModalVisible] = useState(false)
   const [desc, setDesc] = useState('')
+  const [title, setTitle] = useState('')
+  const [date, setDate] = useState('')
+  const [score, setScore] = useState('')
 
   async function movieCall() {
     try {
@@ -75,11 +78,15 @@ const MoviesScreen = ({ navigation }) => {
             }}
         >
         <View style={styles.modalView}>
-            <Text>Description</Text>
+            <Text style={{fontWeight: 'bold'},{fontSize: 20}}>{title}</Text>
+            <Text style={{fontWeight: 'bold'}}>Description</Text>
             <Text>{desc}</Text>
+            <Text>Release Date: {date}</Text>
+            <Text>IMDB score: {score}</Text>
             <TouchableHighlight
                 onPress={() => {
                     setModalVisible(!modalVisible);
+                    setDesc('')
                 }}
             >
                 <Text>Close</Text>
@@ -93,7 +100,7 @@ const MoviesScreen = ({ navigation }) => {
              renderItem={({item}) =>
                <View style={{height: 160}}>
                  <Text onPress={() =>
-                   {setDesc(item.overview); setModalVisible(!modalVisible);}} style={{height: 25}, {textAlign: 'right'}}>{item.title}</Text>
+                   {setDesc(item.overview); setTitle(item.title); setDate(item.release_date); setScore(item.vote_average); setModalVisible(!modalVisible);}} style={{height: 25}, {textAlign: 'right'}}>{item.title}</Text>
                  <Image
                  style={{width: 90, height: 130}}
                  source={{uri: 'https://image.tmdb.org/t/p/w500' + item.poster_path}}
