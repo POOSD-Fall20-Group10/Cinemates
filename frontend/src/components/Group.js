@@ -2,7 +2,7 @@ import React from 'react';
 import GroupMoviesList from './GroupMoviesList'
 import {Helmet} from "react-helmet";
 import Card from "react-bootstrap/Card";
-import { Button } from 'reactstrap';
+import MainHeader from './MainHeader';
 import '../bootstrap.min.css';
 
 const app_name = 'cine-mates'
@@ -107,7 +107,7 @@ function createMemberList()
 
     let children = members.map((val, index) => {
       return (
-        React.createElement("button", {id: index, onClick: () =>openAccount(val)}, nameList[index])
+        React.createElement("button", {id: index, onClick: () =>openAccount(val), className: "btn btn-danger"}, nameList[index])
       )
     })
     // the div with children inside
@@ -142,14 +142,30 @@ function Group() {
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
             </Helmet>
 
+            <MainHeader></MainHeader>
+            <div>&nbsp;&nbsp;</div>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
             <div style={{display: 'flex',  justifyContent:'center', alignItems:'center', height: '100vh'}}>
             <Card style={{ width: '80rem' }}>
             <Card.Body>
-                <Card.Text>{groupName}</Card.Text>
-                <Card.Text>{groupDescription}</Card.Text>
             <div id="groupInfo">
                 <h1 id="groupName">{groupName}</h1>
-                <h3 id="groupDescription">{groupDescription}</h3>
+                <Card.Text>{groupDescription}</Card.Text>
                 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#form">
                     Edit Group
                 </button>
@@ -186,9 +202,7 @@ function Group() {
                         </div>
                     </div>
                 </div>
-                <div id="memberButtons">
-                    {MemberList}
-                </div>
+                <div>&nbsp;</div>
                 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#form2">
                     Add Member
                 </button>
@@ -219,6 +233,10 @@ function Group() {
                             </div>
                         </div>
                     </div>
+                </div>
+                <div>&nbsp;</div>
+                <div id="memberButtons">
+                    {MemberList}
                 </div>
             </div>
             <div id="groupMoviesDiv">
